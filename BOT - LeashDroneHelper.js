@@ -347,79 +347,6 @@ function WearEquip(Target, Equip, lockCode, refresh = true) {
         ChatRoomCharacterUpdate(sender);
     }
 }
-function removeClothes(sender, refresh = true, removeUnderwear = true, removeCosplay = false) {
-    InventoryRemove(sender, "Cloth")
-    InventoryRemove(sender, "ClothAccessory")
-    InventoryRemove(sender, "Necklace")
-    InventoryRemove(sender, "Suit")
-    InventoryRemove(sender, "ClothLower")
-    InventoryRemove(sender, "SuitLower")
-    InventoryRemove(sender, "AnkletRight")
-    InventoryRemove(sender, "AnkletLeft")
-    InventoryRemove(sender, "Shoes")
-    InventoryRemove(sender, "Hat")
-    InventoryRemove(sender, "Gloves")
-    InventoryRemove(sender, "HandAccessoryLeft")
-    InventoryRemove(sender, "HandAccessoryRight")
-    InventoryRemove(sender, "Bracelet")
-    InventoryRemove(sender, "Glasses")
-    InventoryRemove(sender, "Jewelry")
-    InventoryRemove(sender, "Mask")
-    if (removeUnderwear) {
-        InventoryRemove(sender, "Bra")
-        InventoryRemove(sender, "Corset")
-        InventoryRemove(sender, "Panties")
-        InventoryRemove(sender, "Socks")
-        InventoryRemove(sender, "SocksRight")
-        InventoryRemove(sender, "SocksLeft")
-        InventoryRemove(sender, "Garters")
-    }
-    if (removeCosplay) {
-        InventoryRemove(sender, "HairAccessory1")
-        InventoryRemove(sender, "HairAccessory2")
-        InventoryRemove(sender, "HairAccessory3")
-        InventoryRemove(sender, "TailStraps")
-        InventoryRemove(sender, "Wings")
-
-    }
-    if (refresh == true) {
-        CharacterLoadEffect(sender);
-        ChatRoomCharacterUpdate(sender);
-    }
-
-}
-//移除所有拘束
-function removeRestrains(sender, refresh = true) {
-
-    InventoryRemove(sender, "ItemFeet")
-    InventoryRemove(sender, "ItemLegs")
-    InventoryRemove(sender, "ItemVulva")
-    InventoryRemove(sender, "ItemVulvaPiercings")
-    InventoryRemove(sender, "ItemButt")
-    InventoryRemove(sender, "ItemPelvis")
-    InventoryRemove(sender, "ItemTorso")
-    InventoryRemove(sender, "ItemTorso2")
-    InventoryRemove(sender, "ItemNipples")
-    InventoryRemove(sender, "ItemNipplesPiercings")
-    InventoryRemove(sender, "ItemBreast")
-    InventoryRemove(sender, "ItemArms")
-    InventoryRemove(sender, "ItemHands")
-    InventoryRemove(sender, "ItemNeck")
-    InventoryRemove(sender, "ItemMouth")
-    InventoryRemove(sender, "ItemMouth2")
-    InventoryRemove(sender, "ItemMouth3")
-    InventoryRemove(sender, "ItemHead")
-    InventoryRemove(sender, "ItemNose")
-    InventoryRemove(sender, "ItemHood")
-    InventoryRemove(sender, "ItemEars")
-    InventoryRemove(sender, "ItemDevices")
-    InventoryRemove(sender, "ItemBoots")
-    InventoryRemove(sender, "ItemAddon")
-    if (refresh == true) {
-        CharacterLoadEffect(sender);
-        ChatRoomCharacterUpdate(sender);
-    }
-}
 
 function InitRoom() {
     const mapData = {
@@ -437,8 +364,8 @@ function TPSelf(Pos, DoEnterTile = true) {
     ServerSend("ChatRoomCharacterMapDataUpdate", Pos);
 }
 function InitBot() {
-    removeClothes(Player, false);
-    removeRestrains(Player, false)
+    RemoveClothes(Player, false);
+    RemoveRestrains(Player, false)
     WearEquips(Player, Equips,false);
     WearEquips(Player, EquipsHang);
 

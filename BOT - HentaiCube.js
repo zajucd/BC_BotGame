@@ -5,7 +5,7 @@ IsEasyMode = false;
 IsQuickEnding = false;
 
 //这部分是给bot穿的装备，不需要可以注释掉
-RemoveCloth(Player,null);
+RemoveClothes(Player,null);
 RemoveRestrains(Player,null);
 WearFullRestrains(Player,null);
 InventoryWear(Player, "TheDisplayFrame", "ItemDevices", "Default",80);
@@ -62,10 +62,6 @@ ChatRoomCharacterUpdate(Player);
 
 ChatRoomMessageAdditionDict["CursedRoom"] = function(sender, msg, data) {ChatRoomMessageCursedRoom(sender, msg, data)};
 
-// 延时函数 通过 await sleep(毫秒) 来调用
-function sleep(time){
-	return new Promise((resolve) => setTimeout(resolve, time));
-}
 
 //部署bot时执行的函数
 function activateStoryRoom() {
@@ -567,36 +563,6 @@ function commandHandler(sender, msg, data) {
 }
 
 
-//脱掉所有衣服
-function RemoveCloth(sender, msg) {
-	CharacterNaked(sender);
-	ChatRoomCharacterUpdate(sender);
-}
-
-//脱掉所有拘束
-function RemoveRestrains(sender, msg){
-	InventoryRemove(sender,"ItemVulva");
-	InventoryRemove(sender,"ItemVulvaPiercings");
-	InventoryRemove(sender,"ItemButt");
-	InventoryRemove(sender,"ItemArms");
-	InventoryRemove(sender,"ItemHands");
-	InventoryRemove(sender,"ItemNeck");
-	InventoryRemove(sender,"ItemMouth");
-	InventoryRemove(sender,"ItemMouth2");
-	InventoryRemove(sender,"ItemMouth3");
-	InventoryRemove(sender,"ItemTorso");
-	InventoryRemove(sender,"ItemBreast");
-	InventoryRemove(sender,"ItemLegs");
-	InventoryRemove(sender,"ItemFeet");
-	InventoryRemove(sender,"ItemBoots");
-	InventoryRemove(sender,"ItemNipples");
-	InventoryRemove(sender,"ItemNipplesPiercings");
-	InventoryRemove(sender,"ItemPelvis");
-	InventoryRemove(sender,"ItemHead");
-	InventoryRemove(sender,"ItemDevices");
-	InventoryRemove(sender,"ItemEars");
-	ChatRoomCharacterUpdate(sender);
-}
 
 //玩家准备后调用
 function EnterWaitingStack(sender, anotherSender, msg, isfast) {
@@ -611,7 +577,7 @@ function EnterWaitingStack(sender, anotherSender, msg, isfast) {
 	player = new PlayerStruct().NewPlayer(sender);
 	playerInWaiting.push(player);
 	RemoveRestrains(sender);
-	RemoveCloth(sender);
+	RemoveClothes(sender);
 
 	//装备运输舱
 	EquipList("运输舱").WearEquip(player);

@@ -121,8 +121,8 @@ class playerInfo {
         this.levelTimer = -1;
         this.leashTimer = -1;
 
-        removeRestrains(this.BCPlayer, false);
-        removeClothes(this.BCPlayer, false);
+        RemoveRestrains(this.BCPlayer, false);
+        RemoveClothes(this.BCPlayer, false);
 
 
         this.WearEquips(Equips);

@@ -775,8 +775,8 @@ async function WearFullRestrains(sender) {
     else {
         winLv = 0
     }
-    removeRestrains(sender, false);
-    removeClothes(sender, false);
+    RemoveRestrains(sender, false);
+    RemoveClothes(sender, false);
     try {
         ponyItemNeckAccessories.ItemProperty.Text = sender.MemberNumber.toString();
     }

@@ -51,41 +51,42 @@ function ChatRoomMapViewSyncMapAdd(data) {
     }
 }
 
-function removeClothes(sender, refresh = true, removeUnderwear = true, removeCosplay = false) {
-    InventoryRemove(sender, "Cloth")
-    InventoryRemove(sender, "ClothAccessory")
-    InventoryRemove(sender, "Necklace")
-    InventoryRemove(sender, "Suit")
-    InventoryRemove(sender, "ClothLower")
-    InventoryRemove(sender, "SuitLower")
-    InventoryRemove(sender, "AnkletRight")
-    InventoryRemove(sender, "AnkletLeft")
-    InventoryRemove(sender, "Shoes")
-    InventoryRemove(sender, "Hat")
-    InventoryRemove(sender, "Gloves")
-    InventoryRemove(sender, "HandAccessoryLeft")
-    InventoryRemove(sender, "HandAccessoryRight")
-    InventoryRemove(sender, "Bracelet")
-    InventoryRemove(sender, "Glasses")
-    InventoryRemove(sender, "Jewelry")
-    InventoryRemove(sender, "Mask")
-    if (removeUnderwear) {
-        InventoryRemove(sender, "Bra")
-        InventoryRemove(sender, "Corset")
-        InventoryRemove(sender, "Panties")
-        InventoryRemove(sender, "Socks")
-        InventoryRemove(sender, "SocksRight")
-        InventoryRemove(sender, "SocksLeft")
-        InventoryRemove(sender, "Garters")
-    }
-    if (removeCosplay) {
-        InventoryRemove(sender, "HairAccessory1")
-        InventoryRemove(sender, "HairAccessory2")
-        InventoryRemove(sender, "HairAccessory3")
-        InventoryRemove(sender, "TailStraps")
-        InventoryRemove(sender, "Wings")
+function RemoveClothes(sender, refresh = true, removeUnderwear = true, removeCosplay = false) {
+    CharacterNaked(sender)
+    //InventoryRemove(sender, "Cloth")
+    //InventoryRemove(sender, "ClothAccessory")
+    //InventoryRemove(sender, "Necklace")
+    //InventoryRemove(sender, "Suit")
+    //InventoryRemove(sender, "ClothLower")
+    //InventoryRemove(sender, "SuitLower")
+    //InventoryRemove(sender, "AnkletRight")
+    //InventoryRemove(sender, "AnkletLeft")
+    //InventoryRemove(sender, "Shoes")
+    //InventoryRemove(sender, "Hat")
+    //InventoryRemove(sender, "Gloves")
+    //InventoryRemove(sender, "HandAccessoryLeft")
+    //InventoryRemove(sender, "HandAccessoryRight")
+    //InventoryRemove(sender, "Bracelet")
+    //InventoryRemove(sender, "Glasses")
+    //InventoryRemove(sender, "Jewelry")
+    //InventoryRemove(sender, "Mask")
+    //if (removeUnderwear) {
+    //    InventoryRemove(sender, "Bra")
+    //    InventoryRemove(sender, "Corset")
+    //    InventoryRemove(sender, "Panties")
+    //    InventoryRemove(sender, "Socks")
+    //    InventoryRemove(sender, "SocksRight")
+    //    InventoryRemove(sender, "SocksLeft")
+    //    InventoryRemove(sender, "Garters")
+    //}
+    //if (removeCosplay) {
+    //    InventoryRemove(sender, "HairAccessory1")
+    //    InventoryRemove(sender, "HairAccessory2")
+    //    InventoryRemove(sender, "HairAccessory3")
+    //    InventoryRemove(sender, "TailStraps")
+    //    InventoryRemove(sender, "Wings")
 
-    }
+    //}
     if (refresh == true) {
         CharacterLoadEffect(sender);
         ChatRoomCharacterUpdate(sender);
@@ -93,7 +94,7 @@ function removeClothes(sender, refresh = true, removeUnderwear = true, removeCos
 
 }
 //ÒÆ³ýËùÓÐ¾ÐÊø
-function removeRestrains(sender, refresh = true) {
+function RemoveRestrains(sender, refresh = true) {
 
     InventoryRemove(sender, "ItemFeet")
     InventoryRemove(sender, "ItemLegs")
@@ -268,70 +269,14 @@ clothesLocationList = ["Cloth","ClothLower","ClothAccessory","Suit","SuitLower",
 
 function freeAll() {
 	for (var R = 0; R < ChatRoomCharacter.length; R++) {
-		removeRestrains(R)
+        RemoveRestrains(R)
 		reapplyClothing(ChatRoomCharacter[R])
 		ChatRoomCharacterUpdate(ChatRoomCharacter[R])
 	}
 	ServerSend("ChatRoomChat", { Content: "*Everyone has been freed.", Type: "Emote"} );
 }
 
-function removeRestrains(char){
-  target = getCharacterObject(char)
 
-	InventoryRemove(target,"ItemVulva")
-  InventoryRemove(target,"ItemVulvaPiercings")
-	InventoryRemove(target,"ItemButt")
-	InventoryRemove(target,"ItemArms")
-	InventoryRemove(target,"ItemHands")
-	InventoryRemove(target,"ItemNeck")
-	InventoryRemove(target,"ItemMouth")
-	InventoryRemove(target,"ItemMouth2")
-	InventoryRemove(target,"ItemMouth3")
-	InventoryRemove(target,"ItemTorso")
-	InventoryRemove(target,"ItemBreast")
-	InventoryRemove(target,"ItemLegs")
-	InventoryRemove(target,"ItemFeet")
-	InventoryRemove(target,"ItemBoots")
-	InventoryRemove(target,"ItemNipples")
-	InventoryRemove(target,"ItemNipplesPiercings")
-	InventoryRemove(target,"ItemPelvis")
-	InventoryRemove(target,"ItemHead")
-	InventoryRemove(target,"ItemDevices")
-	InventoryRemove(target,"ItemEars")
-	InventoryRemove(target,"ItemHood")
-}
-
-function removeClothes(char, removeUnderwear = true, removeCosplay = false){
-  target = getCharacterObject(char)
-	InventoryRemove(target,"Cloth")
-	InventoryRemove(target,"ClothLower")
-	InventoryRemove(target,"ClothAccessory")
-	InventoryRemove(target,"Suit")
-	InventoryRemove(target,"SuitLower")
-	InventoryRemove(target,"Gloves")
-	InventoryRemove(target,"Shoes")
-	InventoryRemove(target,"Hat")
-	InventoryRemove(target,"Necklace")
-	InventoryRemove(target,"RightAnklet")
-	InventoryRemove(target,"LeftAnklet")
-  InventoryRemove(target,"Mask")
-	if (removeUnderwear) {
-		InventoryRemove(target,"Socks")
-		InventoryRemove(target,"Bra")
-		InventoryRemove(target,"Panties")
-  	InventoryRemove(target,"Corset")
-	}
-  if (removeCosplay) {
-    // Hair accessory 1: Ears & Accessories
-	  // Hair accessory 2: Ears only
-	  // Hair accessory 3: Accessories only
-    InventoryRemove(target,"HairAccessory1")
-    InventoryRemove(target,"HairAccessory2")
-    InventoryRemove(target,"HairAccessory3")
-    InventoryRemove(target,"TailStraps")
-    InventoryRemove(target,"Wings")
-  }
-}
 
 function dollify(char, mustKneel=false, mustStand = false) {
   target = getCharacterObject(char)
@@ -350,9 +295,9 @@ function dressLike(char, dress = "doll", dressColor = "default", removeUnderwear
   target = getCharacterObject(char)
 
 	// remove all previous restrains
-	removeRestrains(target)
+    RemoveRestrains(target)
 	memorizeClothing(target)
-	removeClothes(target, removeUnderwear, removeCosplay)
+    RemoveClothes(target, removeUnderwear, removeCosplay)
 
 	// Get the hair color
 	if (dressColor == "hair" || dress == "doll" || dress == "talkingDoll") {
@@ -528,7 +473,7 @@ function dressLike(char, dress = "doll", dressColor = "default", removeUnderwear
 function free(char, update = true, reapplyCloth = true) {
   target = getCharacterObject(char)
 	//punishList.splice( punishList.indexOf(targetMemberNumber), 1 );
-	removeRestrains(target)
+    RemoveRestrains(target)
 	if (reapplyCloth) {reapplyClothing(target)}
 	if (update) { ChatRoomCharacterUpdate(target) }
 	//ServerSend("ChatRoomChat", { Content: "*" + ChatRoomCharacter[R].Name + ", your punishment is over. From now on, try to behave like a good girl.", Type: "Emote", Target: ChatRoomCharacter[R].MemberNumber} );
@@ -586,8 +531,8 @@ function pasteDress(char, color = "original"){
   target = getCharacterObject(char)
 
 
-  removeRestrains(target)
-  removeClothes(target)
+    RemoveRestrains(target)
+    RemoveClothes(target)
 
 
   dressColor = false

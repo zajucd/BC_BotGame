@@ -301,58 +301,6 @@ function TimeEvent(sender, msg) {
 
 }
 
-//脱掉所有衣服
-function RemoveCloth(sender, msg) {
-	InventoryRemove(sender,"Cloth");
-	InventoryRemove(sender,"ClothLower");
-	InventoryRemove(sender,"ClothAccessory");
-	InventoryRemove(sender,"Suit");
-	InventoryRemove(sender,"SuitLower");
-	InventoryRemove(sender,"Gloves");
-	InventoryRemove(sender,"Shoes");
-	InventoryRemove(sender,"Hat");
-	InventoryRemove(sender,"Necklace");
-	InventoryRemove(sender,"RightAnklet");
-	InventoryRemove(sender,"LeftAnklet");
-	InventoryRemove(sender,"Mask");
-	InventoryRemove(sender,"Socks");
-	InventoryRemove(sender,"Bra");
-	InventoryRemove(sender,"Panties");
-	InventoryRemove(sender,"Corset");
-	InventoryRemove(sender,"HairAccessory1")
-	InventoryRemove(sender,"HairAccessory2")
-	InventoryRemove(sender,"HairAccessory3")
-	InventoryRemove(sender,"TailStraps")
-	InventoryRemove(sender,"Wings")
-	ChatRoomCharacterUpdate(sender);
-}
-
-//脱掉所有装备
-function RemoveRestrains(sender, msg){
-
-	InventoryRemove(sender,"ItemVulva")
-	InventoryRemove(sender,"ItemVulvaPiercings")
-	InventoryRemove(sender,"ItemButt")
-	InventoryRemove(sender,"ItemArms")
-	InventoryRemove(sender,"ItemHands")
-	InventoryRemove(sender,"ItemNeck")
-	InventoryRemove(sender,"ItemMouth")
-	InventoryRemove(sender,"ItemMouth2")
-	InventoryRemove(sender,"ItemMouth3")
-	InventoryRemove(sender,"ItemTorso")
-	InventoryRemove(sender,"ItemBreast")
-	InventoryRemove(sender,"ItemLegs")
-	InventoryRemove(sender,"ItemFeet")
-	InventoryRemove(sender,"ItemBoots")
-	InventoryRemove(sender,"ItemNipples")
-	InventoryRemove(sender,"ItemNipplesPiercings")
-	InventoryRemove(sender,"ItemPelvis")
-	InventoryRemove(sender,"ItemHead")
-	InventoryRemove(sender,"ItemDevices")
-	InventoryRemove(sender,"ItemEars")
-	ChatRoomCharacterUpdate(sender);
-}
-
 //游戏开始，穿上女仆装
 function GameStart(sender, msg){
 	ServerSend("ChatRoomChat", { Content: "*你来到了那栋别墅，女仆长似乎是预料到了你来一般在大门外等着.", Type: "Emote"} );
@@ -370,7 +318,7 @@ function GameStart(sender, msg){
 
 //穿上女仆装
 function WearMiadCloth(sender, msg){
-	RemoveCloth(sender,msg);
+	RemoveClothes(sender,msg);
 	PlayerEquip.push("女仆装");
 	InventoryWear(sender, "MaidOutfit1", "Cloth", null,80);
 	InventoryWear(sender, "FrillyApron", "ClothAccessory", null,80);
@@ -508,7 +456,7 @@ function wearRings(sender, msg) {
 }
 
 function WearSleepCloth(sender, msg) {
-	RemoveCloth(sender,msg);
+	RemoveClothes(sender,msg);
 	PlayerEquip.push("侍寝套装");
 	if (PlayerEquip.includes("女仆装")){
 		PlayerEquip.splice(PlayerEquip.indexOf("女仆装"),1);
@@ -1582,7 +1530,7 @@ function end(sender, msg, endType) {
 
 function WearEndA(sender, msg) {
 	RemoveRestrains(sender, msg);
-	RemoveCloth(sender, msg);
+	RemoveClothes(sender, msg);
 
 	InventoryWear(sender, "HighSecurityCollar", "ItemNeck", "Default",80,0,{
 		"Item": "HighSecurityCollar",
@@ -1678,7 +1626,7 @@ function WearEndA(sender, msg) {
 
 function WearEndB(sender, msg) {
 	RemoveRestrains(sender, msg);
-	RemoveCloth(sender, msg);
+	RemoveClothes(sender, msg);
 
 	InventoryWear(sender, "BodyTowel1", "Cloth", "Default",80);
 	ChatRoomCharacterUpdate(sender);
@@ -1686,7 +1634,7 @@ function WearEndB(sender, msg) {
 
 function WearEndC(sender, msg) {
 	RemoveRestrains(sender, msg);
-	RemoveCloth(sender, msg);
+	RemoveClothes(sender, msg);
 
 	InventoryWear(sender, "DuctTape", "ItemLegs", "Default",80,0,{
 		"Item": "DuctTape",
@@ -1852,7 +1800,7 @@ function WearEndC(sender, msg) {
 
 function WearEndD(sender, msg) {
 	RemoveRestrains(sender, msg);
-	RemoveCloth(sender, msg);
+	RemoveClothes(sender, msg);
 
 	InventoryWear(sender, "DroneMask", "ItemHead", "Default",80,0,{
 		"Item": "DroneMask",
@@ -1889,7 +1837,7 @@ function WearEndD(sender, msg) {
 
 function WearEndE(sender, msg) {
 	RemoveRestrains(sender, msg);
-	RemoveCloth(sender, msg);
+	RemoveClothes(sender, msg);
 
 	InventoryWear(sender, "HempRope", "ItemArms", "Default",80);
 	InventoryGet(sender, "ItemArms").Property = {
@@ -1927,7 +1875,7 @@ function WearEndE(sender, msg) {
 
 function WearEndF(sender, msg) {
 	RemoveRestrains(sender, msg);
-	RemoveCloth(sender, msg);
+	RemoveClothes(sender, msg);
 
 	InventoryWear(sender, "SteelPostureCollar", "ItemNeck", "Default",80);
 
@@ -1972,7 +1920,7 @@ function WearEndF(sender, msg) {
 
 function WearEndG(sender, msg) {
 	RemoveRestrains(sender, msg);
-	RemoveCloth(sender, msg);
+	RemoveClothes(sender, msg);
 
 	InventoryWear(sender, "PaddedBlindfold", "ItemHead", "Default",80,0,{
 		"Item": "PaddedBlindfold",

@@ -1,7 +1,7 @@
 ﻿
 let retryCount = 0;
 activateStoryRoom();
-RemoveCloth(Player, null);
+RemoveClothes(Player, null);
 RemoveRestrains(Player, null);
 
 InventoryWear(Player, "NurseUniform", "Cloth", null, 80);
@@ -52,56 +52,6 @@ function deactivateStoryRoom() {
 	storyActive = false
 }
 
-function RemoveCloth(sender, msg) {
-	InventoryRemove(sender, "Cloth");
-	InventoryRemove(sender, "ClothLower");
-	InventoryRemove(sender, "ClothAccessory");
-	InventoryRemove(sender, "Suit");
-	InventoryRemove(sender, "SuitLower");
-	InventoryRemove(sender, "Gloves");
-	InventoryRemove(sender, "Shoes");
-	InventoryRemove(sender, "Hat");
-	InventoryRemove(sender, "Necklace");
-	InventoryRemove(sender, "RightAnklet");
-	InventoryRemove(sender, "LeftAnklet");
-	InventoryRemove(sender, "Mask");
-	InventoryRemove(sender, "Socks");
-	InventoryRemove(sender, "Bra");
-	InventoryRemove(sender, "Panties");
-	InventoryRemove(sender, "Corset");
-	InventoryRemove(sender, "HairAccessory1")
-	InventoryRemove(sender, "HairAccessory2")
-	InventoryRemove(sender, "HairAccessory3")
-	InventoryRemove(sender, "TailStraps")
-	InventoryRemove(sender, "Wings")
-	ChatRoomCharacterUpdate(sender);
-}
-
-//脱掉所有装备
-function RemoveRestrains(sender, msg) {
-
-	InventoryRemove(sender, "ItemVulva")
-	InventoryRemove(sender, "ItemVulvaPiercings")
-	InventoryRemove(sender, "ItemButt")
-	InventoryRemove(sender, "ItemArms")
-	InventoryRemove(sender, "ItemHands")
-	InventoryRemove(sender, "ItemNeck")
-	InventoryRemove(sender, "ItemMouth")
-	InventoryRemove(sender, "ItemMouth2")
-	InventoryRemove(sender, "ItemMouth3")
-	InventoryRemove(sender, "ItemTorso")
-	InventoryRemove(sender, "ItemBreast")
-	InventoryRemove(sender, "ItemLegs")
-	InventoryRemove(sender, "ItemFeet")
-	InventoryRemove(sender, "ItemBoots")
-	InventoryRemove(sender, "ItemNipples")
-	InventoryRemove(sender, "ItemNipplesPiercings")
-	InventoryRemove(sender, "ItemPelvis")
-	InventoryRemove(sender, "ItemHead")
-	InventoryRemove(sender, "ItemDevices")
-	InventoryRemove(sender, "ItemEars")
-	ChatRoomCharacterUpdate(sender);
-}
 
 ChatRoomMessageAdditionDict["HypnosisHospital"] = function (SenderCharacter, msg, data) {ChatRoomMessageHypnosisHospital(SenderCharacter, msg, data)}
 ChatRoomSyncMapDataeAdditionDict["HypnosisHospital"] = function (SenderCharacter) { PlayerMoved(SenderCharacter) }
@@ -216,9 +166,6 @@ function wearLeash(sender) {
 	ChatRoomCharacterUpdate(sender);
 }
 
-function sleep(time) {
-	return new Promise((resolve) => setTimeout(resolve, time));
-}
 
 
 function commandHandler(sender, msg) {
@@ -462,8 +409,8 @@ async function DayEnd(sender) {
 }
 
 async function WearRestrainsByDay(sender) {
-	removeRestrains(sender);
-	removeClothes(sender);
+	RemoveRestrains(sender);
+	RemoveClothes(sender);
 	InventoryWear(sender, "FuturisticCollar", "ItemNeck", "Default", 80);
 	InventoryLock(sender, InventoryGet(sender, "ItemNeck"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock") }, Player.MemberNumber);
 	InventoryGet(sender, "ItemNeck").Property.CombinationNumber = lockCode;
