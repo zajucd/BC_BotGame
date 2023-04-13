@@ -1349,7 +1349,7 @@ function resetRoom() {
 
 		// Update room
 	var UpdatedRoom = {
-		Name: "Escape Game CursedRoom",
+		Name: "Escape Game Vol.1",
 		Description: "[BOT]密室逃生第一部  被诅咒的项圈",
 		Background: "VaultCorridor",
 		Limit: (2).toString(),
