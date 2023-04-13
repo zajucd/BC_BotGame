@@ -2,7 +2,7 @@
 ## 该botgame原型: https://github.com/keykey5/BC-BOT-repository
 ### 使用方法：
 
-1.从上面的地址中复制CommonBotAssets.js内全部内容
+1.复制CommonBotAssets.js内全部内容
 
 2.在BondageClub中创建一个聊天室
 
