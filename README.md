@@ -1,5 +1,5 @@
 # BC_BotGame
-## 该botgame原型: https://github.com/keykey5/BC-BOT-repository\n
+## 该botgame原型: https://github.com/keykey5/BC-BOT-repository
 ### 使用方法：
 
 1.从上面的地址中复制CommonBotAssets.js内全部内容
