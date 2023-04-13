@@ -144,7 +144,7 @@ function resetRoom() {
 
 	// Update room 在这里修改房间信息
 	var UpdatedRoom = {
-		Name: "Escape Game Vol2",
+		Name: ChatRoomData.Name,
 		Description: "[BOT]密室逃生第二部 恶灵洋馆",
 		Background: "Pandora/Second/Entrance",
 		Limit: (2).toString(),
