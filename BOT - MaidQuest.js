@@ -144,7 +144,7 @@ function resetRoom() {
 
 	// Update room 在这里修改房间信息
 	var UpdatedRoom = {
-		Name: "Escape Game MaidQuest",
+		Name: "Escape Game Vol.2",
 		Description: "[BOT]密室逃生第二部 恶灵洋馆",
 		Background: "Pandora/Second/Entrance",
 		Limit: (2).toString(),
