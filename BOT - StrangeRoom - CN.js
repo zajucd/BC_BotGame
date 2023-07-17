@@ -1025,7 +1025,7 @@ function resetRoom() {
 		Limit: (3 + imprisonedList.length).toString(),
 		Admin: ChatRoomData.Admin,
 		Ban: ChatRoomData.Ban,
-		Private: true,
+		Private: false,
 		Locked: false
 	};
 	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
