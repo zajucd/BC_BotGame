@@ -230,7 +230,7 @@ function resetRoom(type) {
 			Limit: (3 + playerInpunish.length).toString(),
 			Admin: ChatRoomData.Admin,
 			Ban: ChatRoomData.Ban,
-			Private: false,
+			Private: ChatRoomData.Private,
 			Locked: false
 		};
 		ServerSend("ChatRoomAdmin", {MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update"});
@@ -245,7 +245,7 @@ function resetRoom(type) {
 			Limit: (3 + playerInpunish.length).toString(),
 			Admin: ChatRoomData.Admin,
 			Ban: ChatRoomData.Ban,
-			Private: false,
+			Private: ChatRoomData.Private,
 			Locked: false
 		};
 		ServerSend("ChatRoomAdmin", {MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update"});
@@ -296,7 +296,7 @@ function ResetGame() {
 	maxFloorOfEachProcess = [0,3,4,5,0];
 	maxMovementCountOfEachProcess = [0,5,6,8,0];
 	coinRequireOfEachProcess = [0,200,500,1000,0];
-	remainedCoinOfEachFloor = [100,100,100,100,0,0];
+	remainedCoinOfEachFloor = [150,150,150,150,0,0];
 
 	coinSubmited = 0;
 	submitTimes = 0;
@@ -412,33 +412,34 @@ function commandHandler(sender, msg, data) {
 					else  if(msg.includes("提取金币")){
 						if (commandPlayer !== null){
 							if(commandPlayer.EndingEquipCount === 6){
-								if (commandPlayer.currentQuest !== null && commandPlayer.movementCount < maxMovementCountOfEachProcess[gameProcess]){
+
 									//commandPlayer.currentQuest.DoQuest(commandPlayer);
-									ServerSend("ChatRoomChat", { Content: "*面板下方伸出一条机械触手，连接在了你的贞操带上", Type: "Emote", Target: player.character.MemberNumber} );
-									ServerSend("ChatRoomChat", { Content: "*随着获得金币时清脆的 ‘叮’ 的一声，你毫无征兆的高潮了", Type: "Emote", Target: player.character.MemberNumber} );
-									ServerSend("ChatRoomChat", { Content: "*每 ‘叮’ 一声，你都高潮了一次，无论时挣扎还是求饶，高潮仍旧机械般的冲击着你", Type: "Emote", Target: player.character.MemberNumber} );
-									if(remainedCoinOfEachFloor[parseInt(player.location.replace(/[^\d]/g, " "))] >= 200){
-										ServerSend("ChatRoomChat", { Content: "*获得" + 200 + "金币", Type: "Emote", Target: player.character.MemberNumber} );
+									ServerSend("ChatRoomChat", { Content: "*面板下方伸出一条机械触手，连接在了你的贞操带上", Type: "Emote", Target: commandPlayer.character.MemberNumber} );
+									ServerSend("ChatRoomChat", { Content: "*随着获得金币时清脆的 ‘叮’ 的一声，你毫无征兆的高潮了", Type: "Emote", Target: commandPlayer.character.MemberNumber} );
+									ServerSend("ChatRoomChat", { Content: "*每 ‘叮’ 一声，你都高潮了一次，无论时挣扎还是求饶，高潮仍旧机械般的冲击着你", Type: "Emote", Target: commandPlayer.character.MemberNumber} );
+									if(remainedCoinOfEachFloor[parseInt(commandPlayer.location.replace(/[^\d]/g, " "))] >= 200){
+										ServerSend("ChatRoomChat", { Content: "*获得" + 200 + "金币", Type: "Emote", Target: commandPlayer.character.MemberNumber} );
 										commandPlayer.coin += 200;
-										remainedCoinOfEachFloor[parseInt(player.location.replace(/[^\d]/g, " "))] -= 200;
+										remainedCoinOfEachFloor[parseInt(commandPlayer.location.replace(/[^\d]/g, " "))] -= 200;
 									}
 									else {
-										ServerSend("ChatRoomChat", { Content: "*获得" + remainedCoinOfEachFloor[parseInt(player.location.replace(/[^\d]/g, " "))] + "金币", Type: "Emote", Target: player.character.MemberNumber} );
-										commandPlayer.coin += remainedCoinOfEachFloor[parseInt(player.location.replace(/[^\d]/g, " "))];
-										remainedCoinOfEachFloor[parseInt(player.location.replace(/[^\d]/g, " "))] = 0;
+										ServerSend("ChatRoomChat", { Content: "*获得" + remainedCoinOfEachFloor[parseInt(commandPlayer.location.replace(/[^\d]/g, " "))] + "金币", Type: "Emote", Target: commandPlayer.character.MemberNumber} );
+										commandPlayer.coin += remainedCoinOfEachFloor[parseInt(commandPlayer.location.replace(/[^\d]/g, " "))];
+										remainedCoinOfEachFloor[parseInt(commandPlayer.location.replace(/[^\d]/g, " "))] = 0;
 									}
 									commandPlayer.movementCount +=1;
 									PlayerMovementCountAdded(commandPlayer);
-								}
-								else {
-									ServerSend("ChatRoomChat", { Content: "*没有对应的任务.", Type: "Emote", Target: sender.MemberNumber} );
-								}
+
+
 							}
-							ServerSend("ChatRoomChat", { Content: "*面板显示：未检测到全套管理员拘束器，启动防卫模式", Type: "Emote", Target: player.character.MemberNumber} );
-							QuestList(14).QuestFail(commandPlayer);
-							ServerSend("ChatRoomChat", { Content: "*你失去了意识，再次醒来时，发现自己被完全拘束住了", Type: "Emote", Target: player.character.MemberNumber} );
-							commandPlayer.movementCount = maxMovementCountOfEachProcess[gameProcess];
-							PlayerMovementCountAdded(commandPlayer);
+							else{
+								ServerSend("ChatRoomChat", { Content: "*面板显示：未检测到全套管理员拘束器，启动防卫模式", Type: "Emote", Target: commandPlayer.character.MemberNumber} );
+								QuestList(14).QuestFail(commandPlayer);
+								ServerSend("ChatRoomChat", { Content: "*你失去了意识，再次醒来时，发现自己被完全拘束住了", Type: "Emote", Target: commandPlayer.character.MemberNumber} );
+								commandPlayer.movementCount = maxMovementCountOfEachProcess[gameProcess];
+								PlayerMovementCountAdded(commandPlayer);
+							}
+
 						}
 					}
 				}
@@ -462,6 +463,9 @@ function commandHandler(sender, msg, data) {
 							}
 						}
 
+					}
+					else if(msg.includes("跳过")){
+						GotoEnd(commandPlayer,0);
 					}
 				}
 				//购物阶段
@@ -708,10 +712,16 @@ function Think(player) {
 	}
 	ServerSend("ChatRoomChat", { Content: "*可用指令:", Type: "Emote", Target: player.character.MemberNumber} );
 	if(gamePhase === 0){
-		ServerSend("ChatRoomChat", { Content: "*(打开门)来探索随机一个房间以获取任务", Type: "Emote", Target: player.character.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*(检查)来触发一些随机事件", Type: "Emote", Target: player.character.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*(移动至 X) [X 应为 0~"+ maxFloorOfEachProcess[gameProcess]+"间整数] 来改变楼层", Type: "Emote", Target: player.character.MemberNumber} );
-	}
+		if (player.slots[6] !== null){
+			if (player.slots[6].name === "运输舱"){
+				ServerSend("ChatRoomChat", { Content: "*这个舱室狭小且不透光，但是隐约能在舱壁上看到一行字：“齐集全套”", Type: "Emote", Target: player.character.MemberNumber} );
+			}
+		}
+		else {
+			ServerSend("ChatRoomChat", { Content: "*(打开门)来探索随机一个房间以获取任务", Type: "Emote", Target: player.character.MemberNumber} );
+			ServerSend("ChatRoomChat", { Content: "*(检查)来触发一些随机事件", Type: "Emote", Target: player.character.MemberNumber} );
+			ServerSend("ChatRoomChat", { Content: "*(移动至 X) [X 应为 0~"+ maxFloorOfEachProcess[gameProcess]+"间整数] 来改变楼层", Type: "Emote", Target: player.character.MemberNumber} );
+		}}
 	else if(gamePhase === 1){
 		SServerSend("ChatRoomChat", { Content: "*(提交 X) [X 应为整数] 来提交金币", Type: "Emote", Target: player.character.MemberNumber} );
 	}
@@ -1026,10 +1036,10 @@ async function GotoPhase1(player) {
 			ServerSend("ChatRoomChat", { Content: "*而且你发现，你可以走在墙上甚至是天花板上.", Type: "Emote", Target: anotherPlayer.character.MemberNumber} );
 
 		}
-		playerInGame[0].slots[6].RemoveEquip(playerInGame[0]);
-		playerInGame[1].slots[6].RemoveEquip(playerInGame[1]);
-		playerInGame[0].location = "0";
-		playerInGame[1].location = "0";
+	    player.slots[6].RemoveEquip(player);
+		anotherPlayer.slots[6].RemoveEquip(anotherPlayer);
+	    player.location = "0";
+	    anotherPlayerlocation = "0";
 		gamePhase = 0;
 		isControlable = true;
 
@@ -1073,13 +1083,13 @@ async function GotoEnd(player, type) {
 		ServerSend("ChatRoomChat", { Content: "*安宝：箱子的合上了盖子，只留下在同时处于天国于地狱的你留在里面‬.", Type: "Emote", Target: player.character.MemberNumber} );
 		ServerSend("ChatRoomChat", { Content: "*安宝：箱子的合上了盖子，只留下在同时处于天国于地狱的你留在里面‬.", Type: "Emote", Target: anotherPlayer.character.MemberNumber} );
 		await sleep(2000);
-		ServerSend("ChatRoomChat", { Content: "*结局：永劫.[提示：有注意到每个区域的每层的金币储量是有限的吗？最好即使切换楼层哦].", Type: "Chat"} );
-		ServerSend("ChatRoomChat", { Content: "*[其实只需要等15分钟就可以获得密码了，随时(排出)可以直接离开，当然没有密码的话就算再进来也没法给哦].", Type: "Chat"} );
 		IsGameStart = false;
 		End1(player, anotherPlayer);
 		ResetGame();
 	}
 	else{
+		player.slots[6].RemoveEquip(player);
+		player.slots[6].RemoveEquip(anotherPlayer);
 		await sleep(1000);
 		ServerSend("ChatRoomChat", { Content: "*运输舱移动了似乎十分漫长的时间.", Type: "Emote", Target: player.character.MemberNumber} );
 		ServerSend("ChatRoomChat", { Content: "*运输舱移动了似乎十分漫长的时间.", Type: "Emote", Target: anotherPlayer.character.MemberNumber} );
@@ -1112,45 +1122,88 @@ async function GotoEnd(player, type) {
 				End3(anotherPlayer);
 			}
 		}
-
+		resetRoom(2);
 
 
 
 
 	}
-	resetRoom(2);
+
 }
 
 //
 function End1(player1, player2) {
-
 	playerInpunish.push(player1);
 	playerInpunish.push(player2);
 	playerInGame.splice(playerInGame.indexOf(player1),1);
 	playerInGame.splice(playerInGame.indexOf(player2),1);
-	//穿上对应装备
-	//InventoryRemove(player.character, "ItemDevices", true);
-	QuestList(14).QuestFail(player1);
-	QuestList(14).QuestFail(player2);
-	InventoryWear(player1.character, "CryoCapsule","ItemDevices");
-	InventoryWear(player2.character, "CryoCapsule","ItemDevices");
-	InventoryLock(player1.character, InventoryGet(player1.character, "ItemDevices"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
-	InventoryLock(player2.character, InventoryGet(player2.character, "ItemDevices"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+	setTimeout(function () {
+		InventoryRemove(player1.character, "ItemDevices", true);
+		InventoryWear(player1.character, "CryoCapsule","ItemDevices");
+		InventoryLock(player1.character, InventoryGet(player1.character, "ItemDevices"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+		InventoryGet(player1.character,"ItemDevices").Property.CombinationNumber = player1.lockcode;
+		InventoryGet(player1.character,"ItemDevices").Property.Type = "Closed";
+		ChatRoomCharacterUpdate(player1.character);
+		QuestList(14).QuestFail(player1);
+	}, 2 * 1000);
 
-	InventoryGet(player1.character,"ItemDevices").Property.CombinationNumber = player1.lockcode;
-	InventoryGet(player2.character,"ItemDevices").Property.CombinationNumber = player2.lockcode;
-	InventoryGet(player1.character,"ItemDevices").Property.Type = "Closed";
-	InventoryGet(player2.character,"ItemDevices").Property.Type = "Closed";
-	ChatRoomCharacterUpdate(player1.character);
-	ChatRoomCharacterUpdate(player2.character);
+	setTimeout(function () {
+		InventoryRemove(player2.character, "ItemDevices", true);
+		InventoryWear(player2.character, "CryoCapsule","ItemDevices");
+		InventoryLock(player2.character, InventoryGet(player2.character, "ItemDevices"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+		InventoryGet(player2.character,"ItemDevices").Property.CombinationNumber = player2.lockcode;
+		InventoryGet(player2.character,"ItemDevices").Property.Type = "Closed";
+		ChatRoomCharacterUpdate(player2.character);
+		QuestList(14).QuestFail(player2);
+	}, 6 * 1000);
+
+	setTimeout(function () {
+		player1.slots[7].GetInventorys(player1)[1].Property.Text = "CELL";
+		player2.slots[7].GetInventorys(player2)[1].Property.Text = "CELL";
+		ServerSend("ChatRoomChat", { Content: "*结局：永劫.[提示：有注意到每个区域的每层的金币储量是有限的吗？最好即使切换楼层哦].", Type: "Chat"} );
+		ServerSend("ChatRoomChat", { Content: "*[其实只需要等15分钟就可以获得密码了，随时(排出)可以直接离开，当然没有密码的话就算再进来也没法给哦].", Type: "Chat"} );
+		resetRoom(2);
+	}, 12 * 1000);
 
 
 	setTimeout(function () {
-		player1.slots[7].GetInventorys(player1)[1].Property.Text = player1.lockcode.toString();
-		ChatRoomCharacterUpdate(playe1r.character);
+		player1.slots[7].GetInventorys(player1)[1].Property.Text = "80%";
+		ChatRoomCharacterUpdate(player1.character);
+
+		player2.slots[7].GetInventorys(player2)[1].Property.Text = "80%";
+		ChatRoomCharacterUpdate(player2.character);
+	}, 180 * 1000);
+
+	setTimeout(function () {
+		player1.slots[7].GetInventorys(player1)[1].Property.Text = "60%";
+		ChatRoomCharacterUpdate(player1.character);
+
+		player2.slots[7].GetInventorys(player2)[1].Property.Text = "60%";
+		ChatRoomCharacterUpdate(player2.character);
+	}, 360 * 1000);
+
+	setTimeout(function () {
+		player1.slots[7].GetInventorys(player1)[1].Property.Text = "40%";
+		ChatRoomCharacterUpdate(player1.character);
+
+		player2.slots[7].GetInventorys(player2)[1].Property.Text = "40%";
+		ChatRoomCharacterUpdate(player2.character);
+	}, 540 * 1000);
+
+	setTimeout(function () {
+		player1.slots[7].GetInventorys(player1)[1].Property.Text = "20%";
+		ChatRoomCharacterUpdate(player1.character);
+
+		player2.slots[7].GetInventorys(player2)[1].Property.Text = "20%";
+		ChatRoomCharacterUpdate(player2.character);
+	}, 720 * 1000);
+
+	setTimeout(function () {
+		player1.slots[7].GetInventorys(player1)[1].Property.Text = player1.lockcode;
+		ChatRoomCharacterUpdate(player1.character);
 		ServerSend("ChatRoomChat", { Content: "*已在项圈上显示密码", Type: "Emote", Target: player1.character.MemberNumber} );
 
-		player2.slots[7].GetInventorys(player2)[1].Property.Text = player2.lockcode.toString();
+		player2.slots[7].GetInventorys(player2)[1].Property.Text = player2.lockcode;
 		ChatRoomCharacterUpdate(player2.character);
 		ServerSend("ChatRoomChat", { Content: "*已在项圈上显示密码", Type: "Emote", Target: player2.character.MemberNumber} );
 	}, 900 * 1000);
@@ -1162,6 +1215,8 @@ function End1(player1, player2) {
 
 function End2(player) {
 	var time = 5000;
+	playerInpunish.push(player);
+	playerInGame.splice(playerInGame.indexOf(player),1);
 	ServerSend("ChatRoomChat", { Content: "*安宝：您身上的是...难道...", Type: "Emote", Target: player.character.MemberNumber} );
 	if(player.EndingEquipCount === 6){
 		ServerSend("ChatRoomChat", { Content: "*安宝：啊啊...您集齐了...", Type: "Emote", Target: player.character.MemberNumber} );
@@ -1194,8 +1249,7 @@ function End2(player) {
 			time);
 		player.slots[6].RemoveEquip(player);
 	}
-	playerInpunish.push(player);
-	playerInGame.splice(playerInGame.indexOf(player),1);
+
 	setTimeout(function (player) {
 		ChatRoomAdminChatAction("Kick", player.MemberNumber.toString())
 	}, time + 30 * 1000, player.character)
@@ -1204,7 +1258,9 @@ function End2(player) {
 }
 
 function End3(player) {
-	player.slots[6].RemoveEquip(player);
+
+	playerInpunish.push(player);
+	playerInGame.splice(playerInGame.indexOf(player),1);
 	ServerSend("ChatRoomChat", { Content: "*安宝：那么请您支付500金币以获得拘束器的密码", Type: "Emote", Target: player.character.MemberNumber} );
 	if(player.coin >= 500){
 		ServerSend("ChatRoomChat", { Content: "*安宝：非常感谢您的配合，这就将密码提供给您", Type: "Emote", Target: player.character.MemberNumber} );
@@ -1217,8 +1273,7 @@ function End3(player) {
 		ServerSend("ChatRoomChat", { Content: "*安宝：真是遗憾，您只能在这套束缚里离开了，如果参加下一场游戏并提供500金币的话，还是可以将密码提供给您的.", Type: "Emote", Target: player.character.MemberNumber} );
 		ServerSend("ChatRoomChat", { Content: "*"+player.character.Name+"达成结局：再来[提示：试着抢先拿到更多金币吧，30秒后送走].", Type: "Chat"} );
 	}
-	playerInpunish.push(player);
-	playerInGame.splice(playerInGame.indexOf(player),1);
+
 
 	setTimeout(function (player) {
 		ChatRoomAdminChatAction("Kick", player.MemberNumber.toString())
@@ -1229,7 +1284,22 @@ function End3(player) {
 }
 
 function End4(player1, player2) {
-	var time = 5000;
+	var time = 10000;
+	playerInpunish.push(player1);
+	playerInpunish.push(player2);
+	playerInGame.splice(playerInGame.indexOf(player1),1);
+	playerInGame.splice(playerInGame.indexOf(player2),1);
+
+	InventoryRemove(player1.character, "ItemDevices", true);
+	InventoryWear(player1, "TheDisplayFrame", "ItemDevices", "Default",80);
+	player1.slots[7].GetInventorys(player1)[1].Property.Text = player.lockcode.toString();
+	ChatRoomCharacterUpdate(player1.character);
+
+	InventoryRemove(player2.character, "ItemDevices", true);
+	InventoryWear(player2, "TheDisplayFrame", "ItemDevices", "Default",80);
+	player2.slots[7].GetInventorys(player2)[1].Property.Text = player.lockcode.toString();
+	ChatRoomCharacterUpdate(player2.character);
+
 	ServerSend("ChatRoomChat", { Content: "*安宝：两人...竟然能同时...", Type: "Emote", Target: player1.character.MemberNumber} );
 	ServerSend("ChatRoomChat", { Content: "*安宝：两人...竟然能同时...", Type: "Emote", Target: player2.character.MemberNumber} );
 
@@ -1245,35 +1315,25 @@ function End4(player1, player2) {
 	ServerSend("ChatRoomChat", { Content: "*脑！袋！要！炸！了！", Type: "Emote", Target: player1.character.MemberNumber} );
 	ServerSend("ChatRoomChat", { Content: "*脑！袋！要！炸！了！", Type: "Emote", Target: player2.character.MemberNumber} );
 
-	setTimeout(function (){
-		player1.slots[6].RemoveEquip(player1);
-		InventoryWear(player1, "TheDisplayFrame", "ItemDevices", "Default",80);
-		player1.slots[7].GetInventorys(player1)[1].Property.Text = player.lockcode.toString();
-		ChatRoomCharacterUpdate(player1.character);
 
-		player2.slots[6].RemoveEquip(player2);
-		InventoryWear(player2, "TheDisplayFrame", "ItemDevices", "Default",80);
-		player2.slots[7].GetInventorys(player2)[1].Property.Text = player.lockcode.toString();
-		ChatRoomCharacterUpdate(player2.character);
-	}, time);
-	time +=1000;
+
 
 
 	setTimeout(ServerSend("ChatRoomChat", { Content: "*循环终究还是没能被打破，现在你和你的搭档被固定在柱子里，全身的肌肉早已因为长年没有进行活动而早已萎缩.", Type: "Emote", Target: player1.character.MemberNumber} ),
 		time);
 	setTimeout(ServerSend("ChatRoomChat", { Content: "*循环终究还是没能被打破，现在你和你的搭档被固定在柱子里，全身的肌肉早已因为长年没有进行活动而早已萎缩.", Type: "Emote", Target: player2.character.MemberNumber} ),
 		time);
-	time +=1000;
+	time +=2000;
 	setTimeout(ServerSend("ChatRoomChat", { Content: "*你们会共享彼此的快感，已经记不清是谁最先高潮的，但一方的高潮会传递至另一方，随后更强的高潮又会传递回来.", Type: "Emote", Target: player1.character.MemberNumber} ),
 		time);
 	setTimeout(ServerSend("ChatRoomChat", { Content: "*你们会共享彼此的快感，已经记不清是谁最先高潮的，但一方的高潮会传递至另一方，随后更强的高潮又会传递回来.", Type: "Emote", Target: player2.character.MemberNumber} ),
 		time);
-	time +=1000;
+	time +=2000;
 	setTimeout(ServerSend("ChatRoomChat", { Content: "*你的精神扩张到了整个设施的范围，你能感到这个游戏正在随着你们不断的高潮而不断的扩张与丰富.", Type: "Emote", Target: player1.character.MemberNumber} ),
 		time);
 	setTimeout(ServerSend("ChatRoomChat", { Content: "*你的精神扩张到了整个设施的范围，你能感到这个游戏正在随着你们不断的高潮而不断的扩张与丰富.", Type: "Emote", Target: player2.character.MemberNumber} ),
 		time);
-	time +=1000;
+	time +=2000;
 	setTimeout(ServerSend("ChatRoomChat", { Content: "*而接下来的来访者，将会体验由你们二人完善至极致的，游戏这一概念的顶点.", Type: "Emote", Target: player1.character.MemberNumber} ),
 		time);
 	setTimeout(ServerSend("ChatRoomChat", { Content: "*而接下来的来访者，将会体验由你们二人完善至极致的，游戏这一概念的顶点.", Type: "Emote", Target: player2.character.MemberNumber} ),
@@ -1917,7 +1977,7 @@ function QuestStruct() {
 				modfiyState += player.slots[i].state.GetState(this.stateRequire);
 			}
 		}
-		randomState = Math.floor(Math.random() * 5 - 2); //-2~+2
+		randomState = Math.floor(Math.random() * 4 - 1); //-1~+2
 		ServerSend("ChatRoomChat", { Content: "*判定出目: (基础：" + plystate.toString() + "+装备："+ modfiyState.toString()+ "+乱数："+ randomState.toString()+")/目标："+ this.valueRequire, Type: "Emote", Target: player.character.MemberNumber} );
 		if ((plystate + modfiyState + randomState) >= this.valueRequire){
 			ServerSend("ChatRoomChat", { Content: "*成功.", Type: "Emote", Target: player.character.MemberNumber} );
@@ -1937,7 +1997,10 @@ function QuestStruct() {
 			player.coin += coin;
 			remainedCoinOfEachFloor[parseInt(player.location.replace(/[^\d]/g, " "))] -= coin;
 		}
-		else {
+		else if(remainedCoinOfEachFloor[parseInt(player.location.replace(/[^\d]/g, " "))] === 0){
+			erverSend("ChatRoomChat", { Content: "*当前层无金币剩余", Type: "Emote", Target: player.character.MemberNumber} );
+		}
+		else{
 			ServerSend("ChatRoomChat", { Content: "*获得" + remainedCoinOfEachFloor[parseInt(player.location.replace(/[^\d]/g, " "))] + "金币", Type: "Emote", Target: player.character.MemberNumber} );
 			player.coin += remainedCoinOfEachFloor[parseInt(player.location.replace(/[^\d]/g, " "))];
 			remainedCoinOfEachFloor[parseInt(player.location.replace(/[^\d]/g, " "))] = 0;
@@ -1976,7 +2039,7 @@ function QuestList(indexOrName) {
 			quest.SetQuest("房间里是一滩活动着的粘液，进入后有个标牌写着“任务：击败史莱姆[str 4]”,可以选择(执行)任务[消耗行动]，或(不执行)以返回",
 							"史莱姆被你一脚踢爆了，它无力地摊在地上.[掉落：史莱姆{腿部，str+2，agi-3}可以选择(穿戴)]",
 							"你踢了史莱姆，但是它反而缠在了你的脚上.[强制装备：史莱姆{腿部，str+2，agi-3}]",
-							0,4,50,[EquipList("史莱姆")],false,[EquipList("史莱姆")],[]);
+							0,4,75,[EquipList("史莱姆")],false,[EquipList("史莱姆")],[]);
 			return quest;
 		}
 
@@ -1984,7 +2047,7 @@ function QuestList(indexOrName) {
 			quest.SetQuest("房间里房间里满地都是想蛇一样扭动的绳子，进入后有个标牌写着“任务：按下房间深处按钮[agi 4]”,可以选择(执行)任务[消耗行动]，或(不执行)以返回",
 				"你灵活地绕开了所有绳子，到达了房间深处.[掉落：后手缚{手臂，str-3，agi+2}可以选择(穿戴)]",
 				"你踩在了一条绳子上，绳子立马弹起来把你绑住了.[强制装备：后手缚{手臂，str-3，agi+2}]",
-				1,4,50,[EquipList("后手缚")],false,[EquipList("后手缚")],[]);
+				1,4,75,[EquipList("后手缚")],false,[EquipList("后手缚")],[]);
 			return quest;
 		}
 
@@ -1992,7 +2055,7 @@ function QuestList(indexOrName) {
 			quest.SetQuest("房间里有张桌子，上面有纸笔，进入后有个标牌写着“任务：答出卷子上的题目[int 4]”,可以选择(执行)任务[消耗行动]，或(不执行)以返回",
 				"题目十分简单，你三下五除二就得出了7.5的答案.[掉落：眼罩{头部，int+2，mnd-3}可以选择(穿戴)]",
 				"题目十分简单，但是交卷时你忘了写名字.[强制装备：眼罩{头部，int+2，mnd-3}]",
-				2,4,50,[EquipList("眼罩")],false,[EquipList("眼罩")],[]);
+				2,4,75,[EquipList("眼罩")],false,[EquipList("眼罩")],[]);
 			return quest;
 		}
 
@@ -2000,7 +2063,7 @@ function QuestList(indexOrName) {
 			quest.SetQuest("房间里矗立着一根震动棒，进入后有个标牌写着“任务：坐在震动棒上坚持5分钟不高潮[mnd 4]”,可以选择(执行)任务[消耗行动]，或(不执行)以返回",
 				"你忍住了高潮，颤抖着把身体挪了出来.[掉落：贞操带{身体，int-3，mnd+2}可以选择(穿戴)]",
 				"你高潮了，地上伸出贞操带把震动棒锁在了体内.[强制装备：贞操带与震动棒{身体，int-3，mnd-1}]",
-				3,4,50,[EquipList("贞操带")],false,[EquipList("贞操带与震动棒")],[]);
+				3,4,75,[EquipList("贞操带")],false,[EquipList("贞操带与震动棒")],[]);
 			return quest;
 		}
 
@@ -2008,7 +2071,7 @@ function QuestList(indexOrName) {
 			quest.SetQuest("房间里的一个台座上有一个红色的按钮，进入后有个标牌写着“任务：按下按钮后穿上出现的衣服[luk 5]”,可以选择(执行)任务[消耗行动]，或(不执行)以返回",
 				"你穿上了出现的紧身衣，异常的合身.[强制装备：电子紧身衣{衣服，all+1}]",
 				"机器臂把你抓住装进出现的触手服中，千万根细小的触手抚摸着你每一寸身体.[强制装备：触手服{衣服，all-1}]",
-				4,5,10,[EquipList("电子紧身衣")],true,[EquipList("触手服")],[]);
+				4,5,75,[EquipList("电子紧身衣")],true,[EquipList("触手服")],[]);
 			return quest;
 		}
 
@@ -2049,7 +2112,7 @@ function QuestList(indexOrName) {
 			quest.SetQuest("房间里的一个台座上有一个红色的按钮，进入后有个标牌写着“任务：按下按钮后穿上出现的鞋子[luk 6]”,可以选择(执行)任务[消耗行动]，或(不执行)以返回",
 				"你穿上了出现的高跟鞋和腿铐，身高暴涨15厘米.[强制装备：电子腿铐{腿脚，agi+2}]",
 				"机器臂把你的脚塞进了挠痒靴中，里面的滚轮和刷头让你笑得几乎窒息.[强制装备：挠痒靴{腿脚，agi-2}]",
-				4,6,10,[EquipList("电子腿铐")],true,[EquipList("挠痒靴")],[]);
+				4,6,100,[EquipList("电子腿铐")],true,[EquipList("挠痒靴")],[]);
 			return quest;
 		}
 
