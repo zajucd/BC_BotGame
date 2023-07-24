@@ -564,6 +564,10 @@ function EnterWaitingStack(sender, anotherSender, msg, isfast) {
 		ServerSend("ChatRoomChat", { Content: "*提示音：正在接受惩罚，无法进入.", Type: "Emote", Target: sender.MemberNumber} );
 		return;
 	}
+	if(GetPlayerFromCharacter(playerInWaiting, sender) !== "null"){
+		ServerSend("ChatRoomChat", { Content: "*提示音：等待中，无法重复进入.", Type: "Emote", Target: sender.MemberNumber} );
+		return;
+	}
 	player = new PlayerStruct().NewPlayer(sender);
 	playerInWaiting.push(player);
 	RemoveRestrains(sender);
