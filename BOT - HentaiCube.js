@@ -216,6 +216,7 @@ function ShowUnplayableMessage(sender ,msg, isPlayable) {
 				Type: "Emote",
 				Target: sender.MemberNumber
 			});
+			console.log("玩家束缚错误")
 		}
 		break;
 
@@ -225,12 +226,13 @@ function ShowUnplayableMessage(sender ,msg, isPlayable) {
 				Type: "Emote",
 				Target: sender.MemberNumber
 			});
+			console.log("玩家权限错误")
 		}
 		break;
 
 		case 3:{
 			ServerSend("ChatRoomChat", { Content: "*[需要 组合密码锁“COMBINATION PADLOCK”的权限. 请调整后再输入该指令.]", Type: "Emote", Target: sender.MemberNumber} );
-
+			console.log("玩家密码锁权限错误")
 		}
 		break;
 
