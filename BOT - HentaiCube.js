@@ -843,7 +843,7 @@ function MoveTo(player , floor) {
 		player.location = floor.toString();
 	}
 	else {
-		player.location = maxFloorOfEachProcess[gameProcess];
+		player.location = maxFloorOfEachProcess[gameProcess].toString();
 	}
 	ServerSend("ChatRoomChat", { Content: "*你移动到了"+player.location+"层", Type: "Emote", Target: player.character.MemberNumber} );
 }
