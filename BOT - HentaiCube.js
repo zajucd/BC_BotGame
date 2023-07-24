@@ -744,7 +744,7 @@ function Think(player) {
 			ServerSend("ChatRoomChat", { Content: "*(移动至 X) [X 应为 0~"+ maxFloorOfEachProcess[gameProcess]+"间整数] 来改变楼层", Type: "Emote", Target: player.character.MemberNumber} );
 		}}
 	else if(gamePhase === 1){
-		SServerSend("ChatRoomChat", { Content: "*(提交 X) [X 应为整数] 来提交金币", Type: "Emote", Target: player.character.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*(提交 X) [X 应为整数] 来提交金币", Type: "Emote", Target: player.character.MemberNumber} );
 	}
 	else if(gamePhase === 2){
 		ServerSend("ChatRoomChat", { Content: "*(列表)显示可购买的商品", Type: "Emote", Target: player.character.MemberNumber} );
