@@ -1157,11 +1157,7 @@ function progress3End(sender, msg){
 
 //通用送出
 function end(sender, msg) {
-	clearTimeout(t1);
-	clearTimeout(t2);
-	clearTimeout(t3);
-	clearTimeout(t4);
-	clearTimeout(t5);
+
 	if(storyProgress == 3 && !toEnd){
 		ServerSend("ChatRoomChat", { Content: "*似乎过了一天，一周，还是一个月或一年，甚至有可能是一个世纪.", Type: "Emote"} );
 		ServerSend("ChatRoomChat", { Content: "*毫无征兆的你达到了高潮，其剧烈程度超出了你此前人生中任何一次高潮的数百倍.", Type: "Emote"} );
@@ -1346,7 +1342,11 @@ function resetRoom() {
 	isGameOver = false;
 	enableProgress3End =false;
 
-
+	clearTimeout(t1);
+	clearTimeout(t2);
+	clearTimeout(t3);
+	clearTimeout(t4);
+	clearTimeout(t5);
 
 	// Update room
 	var UpdatedRoom = {
