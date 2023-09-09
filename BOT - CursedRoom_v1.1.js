@@ -64,8 +64,8 @@ function ChatRoomMessageCursedRoom(SenderCharacter, msg, data) {
 		if (data.Type != null) {
 			if (msg.toLowerCase().includes("1145141919810") && charList.includes(SenderCharacter.MemberNumber)) {
 				ServerSend("ChatRoomChat", { Content: "运输程序启动，30秒后进行运输", Type: "Chat"} );
-				ServerSend("ChatRoomChat", { Content: "*舱室开始晃动，看来你即将被运送走.", Type: "Emote", Target: SenderCharacter.MemberNumber} );
-				ServerSend("ChatRoomChat", { Content: "*在被运送走前，你看看见了一行数字：" + lockCode + " ，你意识到你必须得记住这行数字.", Type: "Emote", Target: SenderCharacter.MemberNumber} );
+				ServerSend("ChatRoomChat", { Content: "*舱室开始晃动，看来你即将被运送走.", Type: "Emote"} );
+				ServerSend("ChatRoomChat", { Content: "*在被运送走前，你看看见了一行数字：" + lockCode + " ，你意识到你必须得记住这行数字.", Type: "Emote"} );
 				setTimeout(function (SenderCharacter) {
 					console.log("? kick");
 					ChatRoomAdminChatAction("Kick", SenderCharacter.MemberNumber.toString())
@@ -73,7 +73,7 @@ function ChatRoomMessageCursedRoom(SenderCharacter, msg, data) {
 				resetRoom()
 			}else if ((data.Type == "Emote") || (data.Type == "Action") || (data.Type == "Hidden" && msg.startsWith("ChatRoomBot"))) {
 				if(isDeviceOn && SenderCharacter.MemberNumber != Player.MemberNumber){
-					ServerSend("ChatRoomChat", { Content: "*你小跳步移动.", Type: "Emote", Target: SenderCharacter.MemberNumber} );
+					ServerSend("ChatRoomChat", { Content: "*你小跳步移动.", Type: "Emote"} );
 					setTimeout(function (SenderCharacter) {
 						commandHandler(SenderCharacter,msg);
 					}, 2 * 1000, SenderCharacter)
@@ -1257,8 +1257,7 @@ function storyStart(sender) {
 		if (isExposed(sender) || sender.IsRestrained() || sender.IsChaste() || sender.IsShackled() || sender.IsBlind() || !sender.CanTalk() || sender.IsEnclose() || sender.IsMounted() || sender.IsEgged() || sender.IsDeaf()) {
 			ServerSend("ChatRoomChat", {
 				Content: "*[需要 穿着衣服且不被束缚 才能游玩. 二十秒后踢出房间. 想玩的话脱掉装备后再来哦.]",
-				Type: "Emote",
-				Target: sender.MemberNumber
+				Type: "Emote"
 			});
 			setTimeout(function (sender) {
 				console.log("error kick");
@@ -1268,8 +1267,7 @@ function storyStart(sender) {
 		} else if (sender.ItemPermission > 2) {
 			ServerSend("ChatRoomChat", {
 				Content: "*[需要调低 玩家权限 才能游玩. 二十秒后踢出房间. 想玩的话修改权限后再来哦.设置位置在角色档案内选择第三项后选择第一项.]",
-				Type: "Emote",
-				Target: sender.MemberNumber
+				Type: "Emote"
 			});
 			setTimeout(function (sender) {
 				ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
@@ -1280,8 +1278,7 @@ function storyStart(sender) {
 		} else if (InventoryBlockedOrLimitedCustomized(sender, AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock"))) {
 			ServerSend("ChatRoomChat", {
 				Content: "**[需要 组合密码锁（COMBINATION PADLOCK）的权限. 二十秒后踢出房间. 想玩的话修改权限后再来哦.]",
-				Type: "Emote",
-				Target: sender.MemberNumber
+				Type: "Emote"
 			});
 			setTimeout(function (sender) {
 				console.log("error kick");
@@ -1291,23 +1288,19 @@ function storyStart(sender) {
 		} else {
 			ServerSend("ChatRoomChat", {
 				Content: "*This is a Chinese room,make sure you can read Chinese before start.",
-				Type: "Emote",
-				Target: sender.MemberNumber
+				Type: "Emote"
 			});
 			ServerSend("ChatRoomChat", {
 				Content: "*[现在不清楚当前版本对脚本的支持程度如何，条件允许的话请打开公开脚本限权.在 设置-> 脚本 中].",
-				Type: "Emote",
-				Target: sender.MemberNumber
+				Type: "Emote"
 			});
 			ServerSend("ChatRoomChat", {
 				Content: "*[求求你千万不要自己解除装备，不然bot怎么炸的都不知道].",
-				Type: "Emote",
-				Target: sender.MemberNumber
+				Type: "Emote"
 			});
 			ServerSend("ChatRoomChat", {
 				Content: "*你进入了一个奇怪的房间，你的面前有一个台子，上面有一个又大又红的按钮(button)，诱惑着你按下它或者你可以观察(explore)一下周围.[NOTE:通过发送 *单词 来行动（例：*button）.]",
-				Type: "Emote",
-				Target: sender.MemberNumber
+				Type: "Emote"
 			});
 		}
 	}
