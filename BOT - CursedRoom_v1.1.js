@@ -343,7 +343,7 @@ function box(sender, msg) {
 
 						if(cardCount == 2){
 							isBoxOpenStop = false;
-							setTimeout(function (SenderCharacter) {
+							t5 = setTimeout(function (SenderCharacter) {
 								if (!isBoxOpenStop){
 									ServerSend("ChatRoomChat", {Content: "*盒子终于打开了，你取出了一个认证卡.", Type: "Emote"} );
 									cardCount++;
@@ -1161,6 +1161,7 @@ function end(sender, msg) {
 	clearTimeout(t2);
 	clearTimeout(t3);
 	clearTimeout(t4);
+	clearTimeout(t5);
 	if(storyProgress == 3 && !toEnd){
 		ServerSend("ChatRoomChat", { Content: "*似乎过了一天，一周，还是一个月或一年，甚至有可能是一个世纪.", Type: "Emote"} );
 		ServerSend("ChatRoomChat", { Content: "*毫无征兆的你达到了高潮，其剧烈程度超出了你此前人生中任何一次高潮的数百倍.", Type: "Emote"} );
