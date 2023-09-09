@@ -90,70 +90,71 @@ function ChatRoomMessageCursedRoom(SenderCharacter, msg, data) {
 }
 
 function commandHandler(sender, msg) {
-	if(sender.MemberNumber != Player.MemberNumber){
+	if(sender.MemberNumber !== Player.MemberNumber){
 		isGagOffStop = true;
 		isBoxOpenStop = true;
-	}
-	if (isGameOver && sender.MemberNumber != Player.MemberNumber){
-		ServerSend("ChatRoomChat", { Content: "*在这个狭小的舱室中你对一切都无能为力.", Type: "Emote"} );
-	}
-	else {
-		if (msg.toLowerCase().includes("explore")) {
-			ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 探索房间.", Type: "Emote"} );
-			explore(sender, msg)
+		if (isGameOver ){
+			ServerSend("ChatRoomChat", { Content: "*在这个狭小的舱室中你对一切都无能为力.", Type: "Emote"} );
 		}
-		else if (msg.toLowerCase().includes("wall")) {
-			ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看墙壁.", Type: "Emote"} );
-			wall(sender, msg)
-		}
-		else if (msg.toLowerCase().includes("button")) {
-			ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看按钮.", Type: "Emote"} );
-			button(sender, msg)
-		}
-		else if (msg.toLowerCase().includes("box")) {
-			ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看盒子.", Type: "Emote"} );
-			box(sender, msg)
-		}
-		else if (msg.toLowerCase().includes("light")) {
-			ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看指示灯.", Type: "Emote"} );
-			light(sender, msg)
-		}
-		else if (msg.toLowerCase().includes("wear")) {
-			wear(sender, msg)
-		}
-		else if (msg.toLowerCase().includes("struggle")) {
-			ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 尝试挣扎.", Type: "Emote"} );
-			struggle(sender, msg)
-		}
-		else if (msg.toLowerCase().includes("cell")) {
-			ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看舱室.", Type: "Emote"} );
-			cell(sender, msg)
-		}
-		else if (msg.toLowerCase().includes("get into it")) {
-			ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 进入舱室.", Type: "Emote"} );
-			enter(sender, msg)
-		}
-		else if (msg.toLowerCase().includes("corner")) {
-			ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看角落.", Type: "Emote"} );
-			corner(sender, msg)
-		}
+		else {
+			if (msg.toLowerCase().includes("explore")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 探索房间.", Type: "Emote"} );
+				explore(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("wall")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看墙壁.", Type: "Emote"} );
+				wall(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("button")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看按钮.", Type: "Emote"} );
+				button(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("box")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看盒子.", Type: "Emote"} );
+				box(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("light")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看指示灯.", Type: "Emote"} );
+				light(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("wear")) {
+				wear(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("struggle")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 尝试挣扎.", Type: "Emote"} );
+				struggle(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("cell")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看舱室.", Type: "Emote"} );
+				cell(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("get into it")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 进入舱室.", Type: "Emote"} );
+				enter(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("corner")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看角落.", Type: "Emote"} );
+				corner(sender, msg)
+			}
 
-		else if (msg.toLowerCase().includes("device")) {
-			ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看面板.", Type: "Emote"} );
-			device(sender, msg)
-		}
-		else if (msg.toLowerCase().includes("skip")) {
-			ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 跳过.", Type: "Emote"} );
-			progressTo2(sender, msg);
-			isSuccess = true;
-		}
-		else if (msg.toLowerCase().includes("wait")) {
-			ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 等待.", Type: "Emote"} );
-			if (storyProgress == 3){
-				progress3End(sender, msg);
+			else if (msg.toLowerCase().includes("device")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看面板.", Type: "Emote"} );
+				device(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("skip")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 跳过.", Type: "Emote"} );
+				progressTo2(sender, msg);
+				isSuccess = true;
+			}
+			else if (msg.toLowerCase().includes("wait")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 等待.", Type: "Emote"} );
+				if (storyProgress == 3){
+					progress3End(sender, msg);
+				}
 			}
 		}
 	}
+	
 
 
 }
