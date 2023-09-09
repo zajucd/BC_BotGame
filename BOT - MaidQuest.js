@@ -205,12 +205,12 @@ function storyStart(sender) {
 }
 
 function commandHandler(sender, msg) {
-	if (msg.toLowerCase().includes("exit")){
-		setTimeout(function (sender) {
-			ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
-		}, 2 * 1000, sender)
-	}
 	if(sender.MemberNumber !== Player.MemberNumber){
+		if (msg.toLowerCase().includes("exit")){
+			setTimeout(function (sender) {
+				ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
+			}, 2 * 1000, sender)
+		}
 		ServerSend("ChatRoomChat", { Content: "* ", Type: "Emote"} );
 		if(!isGameOver){
 			if (msg.toLowerCase().includes("accept")) {
