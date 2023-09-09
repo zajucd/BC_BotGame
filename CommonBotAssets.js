@@ -150,7 +150,8 @@ function removeRestrains(char){
 	InventoryRemove(target,"ItemPelvis")
 	InventoryRemove(target,"ItemHead")
 	InventoryRemove(target,"ItemDevices")
-  InventoryRemove(target,"ItemEars")
+	InventoryRemove(target,"ItemEars")
+	InventoryRemove(target,"ItemHood")
 }
 
 function removeClothes(char, removeUnderwear = true, removeCosplay = false){
