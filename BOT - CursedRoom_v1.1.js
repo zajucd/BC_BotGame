@@ -210,64 +210,64 @@ function RemoveRestrains(sender, msg){
 }
 
 function explore(sender, msg) {
-	ServerSend("ChatRoomChat", { Content: "*你环视了房间，面前的台子上有又红又大的按钮(button),侧面有一堵墙(wall)，", Type: "Emote", Target: sender.MemberNumber} );
+	ServerSend("ChatRoomChat", { Content: "*你环视了房间，面前的台子上有又红又大的按钮(button),侧面有一堵墙(wall)，", Type: "Emote"} );
 	if (storyProgress == 0) {
-		ServerSend("ChatRoomChat", { Content: "*门没有上锁，现在还可以离开.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*门没有上锁，现在还可以离开.", Type: "Emote"} );
 	}else if (storyProgress == 1){
-		ServerSend("ChatRoomChat", { Content: "*面前有一排有编号的盒子(box)，前方的墙上有三盏指示灯(light)，门没有上锁，现在还可以离开.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*面前有一排有编号的盒子(box)，前方的墙上有三盏指示灯(light)，门没有上锁，现在还可以离开.", Type: "Emote"} );
 	}else if (storyProgress == 2){
-		ServerSend("ChatRoomChat", { Content: "*现在墙上的一个格子伸了出来，是一个舱室(cell)，等待着你的进入.门上锁了，已经无法离开", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*现在墙上的一个格子伸了出来，是一个舱室(cell)，等待着你的进入.门上锁了，已经无法离开", Type: "Emote"} );
 	}else {//storyProgress == 3
-		ServerSend("ChatRoomChat", { Content: "*面前有一排有编号的盒子(box)，前方的墙上有三盏指示灯(light).", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*按钮(button)的台子上现在多出了一个操作面板(device).", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*舱室(cell)随时等待着你的进入,你剩下的时间不多了.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*角落(corner)似乎有一些划痕.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*面前有一排有编号的盒子(box)，前方的墙上有三盏指示灯(light).", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*按钮(button)的台子上现在多出了一个操作面板(device).", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*舱室(cell)随时等待着你的进入,你剩下的时间不多了.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*角落(corner)似乎有一些划痕.", Type: "Emote"} );
 	}
 }
 
 //墙 进度1：无 进度2：显示cell 进度3：提示cell
 function wall(sender, msg) {
-	ServerSend("ChatRoomChat", { Content: "*这堵墙上的缝隙将它分成了一个又一个的格子,你靠近仔细听，似乎有喘息声与呜咽声，", Type: "Emote", Target: sender.MemberNumber} );
+	ServerSend("ChatRoomChat", { Content: "*这堵墙上的缝隙将它分成了一个又一个的格子,你靠近仔细听，似乎有喘息声与呜咽声，", Type: "Emote"} );
 	if (storyProgress <= 1) {
-		ServerSend("ChatRoomChat", { Content: "*你不敢往后想，于是退开了.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*你不敢往后想，于是退开了.", Type: "Emote"} );
 	}else if (storyProgress == 2){
-		ServerSend("ChatRoomChat", { Content: "*现在墙上的一个格子伸了出来，是一个舱室(cell),你理解了墙壁内的声音都来自于被装在舱室里收纳进去的人，而你也将加入她们.一种难以言喻的感觉自你内心升起.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*现在墙上的一个格子伸了出来，是一个舱室(cell),你理解了墙壁内的声音都来自于被装在舱室里收纳进去的人，而你也将加入她们.一种难以言喻的感觉自你内心升起.", Type: "Emote"} );
 	}
 	else{// storyProgress == 2
-		ServerSend("ChatRoomChat", { Content: "*舱室(cell)仍在那里，你的眼罩上显示着：进入！.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*舱室(cell)仍在那里，你的眼罩上显示着：进入！.", Type: "Emote"} );
 	}
 }
 
 //按钮 进度1：progressTo1函数 进度2：无 进度3：buttoninish函数
 function button(sender, msg) {
 	//console.log("button")
-	ServerSend("ChatRoomChat", { Content: "*你按下了按钮，", Type: "Emote", Target: sender.MemberNumber} );
+	ServerSend("ChatRoomChat", { Content: "*你按下了按钮，", Type: "Emote"} );
 	if (storyProgress == 0) {
 		progressTo1(sender, msg);
 		}
 
 	else if(storyProgress <=2 ){
-		ServerSend("ChatRoomChat", { Content: "*没有任何反应.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*没有任何反应.", Type: "Emote"} );
 	}
 
 
 	//进度3
 	else{
 		if(buttonCount == 3){
-			ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote", Target: sender.MemberNumber} );
+			ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote"} );
 			setTimeout(function (sender) {
-				ServerSend("ChatRoomChat", { Content: "*是不是机器没识别到这一下", Type: "Emote", Target: sender.MemberNumber} );
+				ServerSend("ChatRoomChat", { Content: "*是不是机器没识别到这一下", Type: "Emote"} );
 			}, 2 * 1000, sender);
 
 		}
 		else if(buttonCount == 4){
-			ServerSend("ChatRoomChat", { Content: "*滴.", Type: "Emote", Target: sender.MemberNumber} );
+			ServerSend("ChatRoomChat", { Content: "*滴.", Type: "Emote"} );
 			setTimeout(function (sender) {
 				buttonFinish(sender, msg)
 			}, 10 * 1000, sender);
 		}
 		else{
-			ServerSend("ChatRoomChat", { Content: "*滴.", Type: "Emote", Target: sender.MemberNumber} );
+			ServerSend("ChatRoomChat", { Content: "*滴.", Type: "Emote"} );
 		}
 			buttonCount++;
 
@@ -279,11 +279,11 @@ function button(sender, msg) {
 //盒子 进度1：wear函数 进度3：取认证卡，
 function box(sender, msg) {
 	if (storyProgress == 0) {
-		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣，不是吗.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣，不是吗.", Type: "Emote"} );
 	}else if (storyProgress == 1){
-		ServerSend("ChatRoomChat", { Content: "*九个盒子一字排开，上面分别写着1至9的编号，看起来你可以试着打开其中一个.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*还有个显示屏，上面写着："+boxText[restrainCount]+".", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*[NOTE:通过发送 *box 数字 来打开盒子（例：*box 2）.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*九个盒子一字排开，上面分别写着1至9的编号，看起来你可以试着打开其中一个.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*还有个显示屏，上面写着："+boxText[restrainCount]+".", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*[NOTE:通过发送 *box 数字 来打开盒子（例：*box 2）.", Type: "Emote"} );
 		if(msg.toLowerCase().includes("1")||
 			msg.toLowerCase().includes("2")||
 			msg.toLowerCase().includes("3")||
@@ -293,17 +293,17 @@ function box(sender, msg) {
 			msg.toLowerCase().includes("7")||
 			msg.toLowerCase().includes("8")||
 			msg.toLowerCase().includes("9")){//是否含数字
-			ServerSend("ChatRoomChat", { Content: "*你试着打开一个盒子.", Type: "Emote", Target: sender.MemberNumber} );
+			ServerSend("ChatRoomChat", { Content: "*你试着打开一个盒子.", Type: "Emote"} );
 			if(msg.toLowerCase().includes(boxNum[restrainCount])){
 				isWareable = true;
-				ServerSend("ChatRoomChat", { Content: "*盒子打开了，里面是"+restrainText[restrainCount]+",盒子内壁刻着:穿上(wear)它.", Type: "Emote", Target: sender.MemberNumber} );
+				ServerSend("ChatRoomChat", { Content: "*盒子打开了，里面是"+restrainText[restrainCount]+",盒子内壁刻着:穿上(wear)它.", Type: "Emote"} );
 				if(restrainCount == 4){
-					ServerSend("ChatRoomChat", { Content: "*你下意识的看了一眼来时的门，目前还没有上锁.", Type: "Emote", Target: sender.MemberNumber} );
+					ServerSend("ChatRoomChat", { Content: "*你下意识的看了一眼来时的门，目前还没有上锁.", Type: "Emote"} );
 				}
 			}
 			else {
 				life--;
-				ServerSend("ChatRoomChat", { Content: "*指示灯熄灭了一盏，你有种不详的预感.", Type: "Emote", Target: sender.MemberNumber} );
+				ServerSend("ChatRoomChat", { Content: "*指示灯熄灭了一盏，你有种不详的预感.", Type: "Emote"} );
 				if(life == 0){
 					progressTo2(sender, msg);
 				}
@@ -312,22 +312,22 @@ function box(sender, msg) {
 		}
 	}
 	else if(storyProgress == 2){
-		ServerSend("ChatRoomChat", { Content: "*无论你对盒子做什么，它都没有一点反应，你能做的事只有一件.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*无论你对盒子做什么，它都没有一点反应，你能做的事只有一件.", Type: "Emote"} );
 	}
 	else {// storyProgress == 3
 		if(isDeviceOn && cardCount<=2){
 			if(isGagOff){
-				ServerSend("ChatRoomChat", { Content: "*九个盒子一字排开，上面分别写着1至9的编号，现在你可以用嘴把认证卡叼出来了.", Type: "Emote", Target: sender.MemberNumber} );
-				ServerSend("ChatRoomChat", { Content: "*还有个显示屏，上面写着："+boxText2[cardCount]+".", Type: "Emote", Target: sender.MemberNumber} );
+				ServerSend("ChatRoomChat", { Content: "*九个盒子一字排开，上面分别写着1至9的编号，现在你可以用嘴把认证卡叼出来了.", Type: "Emote"} );
+				ServerSend("ChatRoomChat", { Content: "*还有个显示屏，上面写着："+boxText2[cardCount]+".", Type: "Emote"} );
 				if(cardCount == 1){
-					ServerSend("ChatRoomChat", { Content: "*"+boxText20[0]+"", Type: "Emote", Target: sender.MemberNumber} );
-					ServerSend("ChatRoomChat", { Content: "*"+boxText20[1]+"", Type: "Emote", Target: sender.MemberNumber} );
-					ServerSend("ChatRoomChat", { Content: "*"+boxText20[2]+"", Type: "Emote", Target: sender.MemberNumber} );
-					ServerSend("ChatRoomChat", { Content: "*"+boxText20[3]+"", Type: "Emote", Target: sender.MemberNumber} );
-					ServerSend("ChatRoomChat", { Content: "*"+boxText20[4]+"", Type: "Emote", Target: sender.MemberNumber} );
-					ServerSend("ChatRoomChat", { Content: "*"+boxText20[5]+"", Type: "Emote", Target: sender.MemberNumber} );
+					ServerSend("ChatRoomChat", { Content: "*"+boxText20[0]+"", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*"+boxText20[1]+"", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*"+boxText20[2]+"", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*"+boxText20[3]+"", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*"+boxText20[4]+"", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*"+boxText20[5]+"", Type: "Emote"} );
 				}
-				ServerSend("ChatRoomChat", { Content: "*[NOTE:通过发送 *box 数字 来打开盒子（例：*box 2）.", Type: "Emote", Target: sender.MemberNumber} );
+				ServerSend("ChatRoomChat", { Content: "*[NOTE:通过发送 *box 数字 来打开盒子（例：*box 2）.", Type: "Emote"} );
 				if(msg.toLowerCase().includes("1")||
 					msg.toLowerCase().includes("2")||
 					msg.toLowerCase().includes("3")||
@@ -337,40 +337,40 @@ function box(sender, msg) {
 					msg.toLowerCase().includes("7")||
 					msg.toLowerCase().includes("8")||
 					msg.toLowerCase().includes("9")){//是否含数字
-					ServerSend("ChatRoomChat", { Content: "*你试着打开一个盒子.", Type: "Emote", Target: sender.MemberNumber} );
+					ServerSend("ChatRoomChat", { Content: "*你试着打开一个盒子.", Type: "Emote"} );
 					if(msg.toLowerCase().includes(boxNum2[cardCount])){
 
 						if(cardCount == 2){
 							isBoxOpenStop = false;
 							setTimeout(function (SenderCharacter) {
 								if (!isBoxOpenStop){
-									ServerSend("ChatRoomChat", {Content: "*盒子终于打开了，你取出了一个认证卡.", Type: "Emote", Target: sender.MemberNumber} );
+									ServerSend("ChatRoomChat", {Content: "*盒子终于打开了，你取出了一个认证卡.", Type: "Emote"} );
 									cardCount++;
 								}
 								else{
-									ServerSend("ChatRoomChat", {Content: "*盒子那边滴了一声，看来你得待在那里.", Type: "Emote", Target: sender.MemberNumber} );
+									ServerSend("ChatRoomChat", {Content: "*盒子那边滴了一声，看来你得待在那里.", Type: "Emote"} );
 								}
 							}, 30 * 1000, sender)
 						}
 						else {
-							ServerSend("ChatRoomChat", { Content: "*你取出了一个认证卡.", Type: "Emote", Target: sender.MemberNumber} );
+							ServerSend("ChatRoomChat", { Content: "*你取出了一个认证卡.", Type: "Emote"} );
 							cardCount++;
 						}
 
 					}
 					else {
 						setTimeout(function (SenderCharacter) {
-							ServerSend("ChatRoomChat", { Content: "*盒子打不开，你浪费了一些时间.", Type: "Emote", Target: sender.MemberNumber} );
+							ServerSend("ChatRoomChat", { Content: "*盒子打不开，你浪费了一些时间.", Type: "Emote"} );
 						}, 5 * 1000, sender)
 					}
 				}
 			}
 			else{
-				ServerSend("ChatRoomChat", { Content: "*九个盒子一字排开，上面分别写着1至9的编号，你意识到以你现在的状态即使里面有东西也没法拿出来.", Type: "Emote", Target: sender.MemberNumber} );
+				ServerSend("ChatRoomChat", { Content: "*九个盒子一字排开，上面分别写着1至9的编号，你意识到以你现在的状态即使里面有东西也没法拿出来.", Type: "Emote"} );
 			}
 		}
 		else {
-			ServerSend("ChatRoomChat", { Content: "*九个盒子一字排开，上面分别写着1至9的编号，看上去里面没有东西.", Type: "Emote", Target: sender.MemberNumber} );
+			ServerSend("ChatRoomChat", { Content: "*九个盒子一字排开，上面分别写着1至9的编号，看上去里面没有东西.", Type: "Emote"} );
 		}
 	}
 }
@@ -378,16 +378,16 @@ function box(sender, msg) {
 //指示灯 进度1：显示生命 进度2：无 进度3：显示101,5
 function light(sender, msg) {
 	if (storyProgress == 0) {
-		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote"} );
 	}
 	else if (storyProgress == 1){
-		ServerSend("ChatRoomChat", { Content: "*有三盏指示灯，其中"+(life)+"盏是亮着的.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*有三盏指示灯，其中"+(life)+"盏是亮着的.", Type: "Emote"} );
 	}
 	else if(storyProgress == 2){
-		ServerSend("ChatRoomChat", { Content: "*现在所有指示灯都熄灭了，你能做的事只有一件.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*现在所有指示灯都熄灭了，你能做的事只有一件.", Type: "Emote"} );
 	}
 	else {// storyProgress == 3
-		ServerSend("ChatRoomChat", { Content: "*三盏灯中左右两盏是亮着的，中间是熄灭的.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*三盏灯中左右两盏是亮着的，中间是熄灭的.", Type: "Emote"} );
 		//101 == 5
 	}
 }
@@ -395,7 +395,7 @@ function light(sender, msg) {
 //穿 进度1 根据装备数穿装备与progressTo2函数 进度2：无 进度3：无
 function wear(sender, msg) {
 	if (storyProgress == 0) {
-		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote"} );
 	}else if (storyProgress == 1){
 		if(isWareable){
 			switch (restrainCount) {
@@ -428,8 +428,8 @@ function wear(sender, msg) {
 					ChatRoomCharacterUpdate(sender);
 					isWareable = false;
 					restrainCount ++;
-					ServerSend("ChatRoomChat", { Content: "*你穿上了它们，令人感到诡异的合身，只是你现在光是想站稳都得费尽心神.", Type: "Emote", Target: sender.MemberNumber} );
-					ServerSend("ChatRoomChat", { Content: "*盒子关上了，里面传出了机械声，似乎里面的东西不一样了.", Type: "Emote", Target: sender.MemberNumber} );
+					ServerSend("ChatRoomChat", { Content: "*你穿上了它们，令人感到诡异的合身，只是你现在光是想站稳都得费尽心神.", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*盒子关上了，里面传出了机械声，似乎里面的东西不一样了.", Type: "Emote"} );
 					break;
 				case 1:
 					//胸罩
@@ -448,8 +448,8 @@ function wear(sender, msg) {
 					ChatRoomCharacterUpdate(sender);
 					isWareable = false;
 					restrainCount ++;
-					ServerSend("ChatRoomChat", { Content: "*你穿上了它们，现在你确信这些东西是为你量身定做的了，你试着触摸私处，但是刺激完全被挡在了贞操带外.", Type: "Emote", Target: sender.MemberNumber} );
-					ServerSend("ChatRoomChat", { Content: "*盒子关上了，里面传出了机械声，似乎里面的东西不一样了.", Type: "Emote", Target: sender.MemberNumber} );
+					ServerSend("ChatRoomChat", { Content: "*你穿上了它们，现在你确信这些东西是为你量身定做的了，你试着触摸私处，但是刺激完全被挡在了贞操带外.", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*盒子关上了，里面传出了机械声，似乎里面的东西不一样了.", Type: "Emote"} );
 					break;
 				case 2:
 					//眼罩
@@ -464,8 +464,8 @@ function wear(sender, msg) {
 					ChatRoomCharacterUpdate(sender);
 					isWareable = false;
 					restrainCount ++;
-					ServerSend("ChatRoomChat", { Content: "*你穿上了它们，你的脸完全被挡住了，而且有什么东西伸进了你的嘴里，奇怪的是你仍然能看见东西.", Type: "Emote", Target: sender.MemberNumber} );
-					ServerSend("ChatRoomChat", { Content: "*盒子关上了，里面传出了机械声，似乎里面的东西不一样了.", Type: "Emote", Target: sender.MemberNumber} );
+					ServerSend("ChatRoomChat", { Content: "*你穿上了它们，你的脸完全被挡住了，而且有什么东西伸进了你的嘴里，奇怪的是你仍然能看见东西.", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*盒子关上了，里面传出了机械声，似乎里面的东西不一样了.", Type: "Emote"} );
 					break;
 				case 3:
 					InventoryWear(sender, "FuturisticCuffs", "ItemArms", "Default",80);
@@ -479,8 +479,8 @@ function wear(sender, msg) {
 					ChatRoomCharacterUpdate(sender);
 					isWareable = false;
 					restrainCount ++;
-					ServerSend("ChatRoomChat", { Content: "*你穿上了它们，你的手被迫握成了拳头.", Type: "Emote", Target: sender.MemberNumber} );
-					ServerSend("ChatRoomChat", { Content: "*盒子关上了，里面传出了机械声，似乎里面的东西不一样了.", Type: "Emote", Target: sender.MemberNumber} );
+					ServerSend("ChatRoomChat", { Content: "*你穿上了它们，你的手被迫握成了拳头.", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*盒子关上了，里面传出了机械声，似乎里面的东西不一样了.", Type: "Emote"} );
 					break;
 				case 4:
 					InventoryRemove(sender,"ItemArms");
@@ -492,7 +492,7 @@ function wear(sender, msg) {
 					ChatRoomCharacterUpdate(sender);
 					isWareable = false;
 					restrainCount ++;
-					ServerSend("ChatRoomChat", { Content: "*机械臂亲切地伸出来帮你穿上了它，现在你被完美的束缚住了.", Type: "Emote", Target: sender.MemberNumber} );
+					ServerSend("ChatRoomChat", { Content: "*机械臂亲切地伸出来帮你穿上了它，现在你被完美的束缚住了.", Type: "Emote"} );
 					break;
 			}
 			if(restrainCount ==5){
@@ -503,21 +503,21 @@ function wear(sender, msg) {
 
 
 	}else {// storyProgress == 2
-		ServerSend("ChatRoomChat", { Content: "*已经没有可以给你穿的东西了，你能做的事只有一件.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*已经没有可以给你穿的东西了，你能做的事只有一件.", Type: "Emote"} );
 	}
 }
 
 //角落 进度1：无 进度2：无 进度3：提示button
 function corner(sender, msg){
 	if(storyProgress <=2){
-		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote"} );
 	}
 	else {
-		ServerSend("ChatRoomChat", { Content: "*你仔细检测了划痕，从旁边的金属片来看，是上一个人在同样被全身束缚的情况下留下的文字.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*毕竟哪怕有一根手指能动都不至于这么难以辨识.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*划痕写着：火丁 白勺 2jinzhi 扌安丑 次 deng1会!", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*口宀 面片反 15.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*你试了试用金属片划你的束缚，但是现代工业岂是区区金属片可以撼动的.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*你仔细检测了划痕，从旁边的金属片来看，是上一个人在同样被全身束缚的情况下留下的文字.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*毕竟哪怕有一根手指能动都不至于这么难以辨识.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*划痕写着：火丁 白勺 2jinzhi 扌安丑 次 deng1会!", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*口宀 面片反 15.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你试了试用金属片划你的束缚，但是现代工业岂是区区金属片可以撼动的.", Type: "Emote"} );
 
 	}
 
@@ -526,15 +526,15 @@ function corner(sender, msg){
 //面板 进度3：提示box与button 三次认证卡后调查结局
 function device(sender, msg){
 	if (storyProgress <=2 ) {
-		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote"} );
 	}
 	else {
 		if (isDeviceOn){
 			if(!isSuccess2){
-				ServerSend("ChatRoomChat", { Content: "*面板显示：调试模式，如需获取解除密钥，请从盒子(box)中取出三个认证卡后再次访问.", Type: "Emote", Target: sender.MemberNumber} );
+				ServerSend("ChatRoomChat", { Content: "*面板显示：调试模式，如需获取解除密钥，请从盒子(box)中取出三个认证卡后再次访问.", Type: "Emote"} );
 			}
 			else {
-				ServerSend("ChatRoomChat", { Content: "*面板又关闭了.", Type: "Emote", Target: sender.MemberNumber} );
+				ServerSend("ChatRoomChat", { Content: "*面板又关闭了.", Type: "Emote"} );
 			}
 
 			if(!isGagOff){
@@ -585,14 +585,14 @@ function device(sender, msg){
 				//刷新角色
 				ChatRoomCharacterUpdate(sender);
 
-				ServerSend("ChatRoomChat", { Content: "*面板显示：解除密钥已显示在项圈上，调试模式关闭，恢复束缚中.", Type: "Emote", Target: sender.MemberNumber} );
-				ServerSend("ChatRoomChat", { Content: "*虽然情况也没有好转甚至更坏了，至少你还有个没法自己用的密钥.", Type: "Emote", Target: sender.MemberNumber} );
+				ServerSend("ChatRoomChat", { Content: "*面板显示：解除密钥已显示在项圈上，调试模式关闭，恢复束缚中.", Type: "Emote"} );
+				ServerSend("ChatRoomChat", { Content: "*虽然情况也没有好转甚至更坏了，至少你还有个没法自己用的密钥.", Type: "Emote"} );
 			}
 
 
 		}
 		else {
-			ServerSend("ChatRoomChat", { Content: "*你动了动面板，似乎没有什么反应.", Type: "Emote", Target: sender.MemberNumber} );
+			ServerSend("ChatRoomChat", { Content: "*你动了动面板，似乎没有什么反应.", Type: "Emote"} );
 		}
 	}
 }
@@ -721,40 +721,40 @@ function buttonFinish(sender, msg){
 		InventoryRemove(sender,"ItemBoots");
 		//刷新角色
 		ChatRoomCharacterUpdate(sender);
-		ServerSend("ChatRoomChat", { Content: "*叮咚.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*提示音：调试模式已启动，调整束缚中.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*强大的磁力将你的腿铐与足铐紧紧的吸在一起，你的手臂在短暂的从单手套解放出来后又被装进了拘束衣内.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*口塞上又粗又长的东西一口气顶到了你的喉咙，眼罩的视觉也被关上了，只留下显示在上面的倒计时.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*至少你的鞋子被脱下来了.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*提示音：调试模式启动完成，操作面板(device)已解锁.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*叮咚.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*提示音：调试模式已启动，调整束缚中.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*强大的磁力将你的腿铐与足铐紧紧的吸在一起，你的手臂在短暂的从单手套解放出来后又被装进了拘束衣内.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*口塞上又粗又长的东西一口气顶到了你的喉咙，眼罩的视觉也被关上了，只留下显示在上面的倒计时.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*至少你的鞋子被脱下来了.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*提示音：调试模式启动完成，操作面板(device)已解锁.", Type: "Emote"} );
 	}
 	else {
-		ServerSend("ChatRoomChat", { Content: "*调试模式指令输入错误，共输入"+buttonCount+"次，1000秒内无法再次尝试进入调试模式.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*看来你已经失去了最后的机会.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*调试模式指令输入错误，共输入"+buttonCount+"次，1000秒内无法再次尝试进入调试模式.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*看来你已经失去了最后的机会.", Type: "Emote"} );
 	}
 }
 
 //检测是否移动 取下口塞
 function gagOff(sender, msg){
 	if (isGagOffStop){
-		ServerSend("ChatRoomChat", { Content: "*面板那边嗡了一声.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*面板那边嗡了一声.", Type: "Emote"} );
 	}
 	else{
 		InventoryRemove(sender,"ItemMouth");
 		//刷新角色
 		ChatRoomCharacterUpdate(sender);
 		isGagOff = true;
-		ServerSend("ChatRoomChat", { Content: "*嗡！", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*从面板上产生一股磁力，猛地将你的口塞吸了上去，你直接倒在了面板上", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*你发现口塞上的锁解开了，你尝试恢复平衡并通过后退来取下口塞，最后从你喉咙里拉出一根长的离谱的假阳具.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*现在你的嘴自由了，你试着呼救，在嗓子发哑后你觉得这个房间是用隔音材料制作的。.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*嗡！", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*从面板上产生一股磁力，猛地将你的口塞吸了上去，你直接倒在了面板上", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你发现口塞上的锁解开了，你尝试恢复平衡并通过后退来取下口塞，最后从你喉咙里拉出一根长的离谱的假阳具.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*现在你的嘴自由了，你试着呼救，在嗓子发哑后你觉得这个房间是用隔音材料制作的。.", Type: "Emote"} );
 	}
 }
 
 //推进至1
 function progressTo1(sender, msg){
 	storyProgress =1;
-	ServerSend("ChatRoomChat", { Content: "*按钮是通电的，于是你触电晕了过去.", Type: "Emote", Target: sender.MemberNumber} );
+	ServerSend("ChatRoomChat", { Content: "*按钮是通电的，于是你触电晕了过去.", Type: "Emote"} );
 	//项圈
 	InventoryWear(sender, "FuturisticCollar", "ItemNeck", "Default",80);
 	InventoryLock(sender, InventoryGet(sender, "ItemNeck"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
@@ -774,7 +774,7 @@ function progressTo1(sender, msg){
 	InventoryWear(sender, "Catsuit", "Gloves", "#2B408B",80);
 	//刷新角色
 	ChatRoomCharacterUpdate(sender)
-	ServerSend("ChatRoomChat", { Content: "*醒来后你发现自己被穿上了奇怪的紧身衣，而且感到脖子有些异样，你伸手一摸，有个项圈被锁了上去，现在你得找办法解开它，或许你可以试试探索(explore)这里.", Type: "Emote", Target: sender.MemberNumber} );
+	ServerSend("ChatRoomChat", { Content: "*醒来后你发现自己被穿上了奇怪的紧身衣，而且感到脖子有些异样，你伸手一摸，有个项圈被锁了上去，现在你得找办法解开它，或许你可以试试探索(explore)这里.", Type: "Emote"} );
 
 }
 
@@ -856,7 +856,7 @@ function progressTo2(sender, msg){
 		}
 		//刷新角色
 		ChatRoomCharacterUpdate(sender);
-		ServerSend("ChatRoomChat", { Content: "*随着最后一盏指示灯的熄灭，你意识到你的机会用完了，机械臂伸出来把你层层束缚.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*随着最后一盏指示灯的熄灭，你意识到你的机会用完了，机械臂伸出来把你层层束缚.", Type: "Emote"} );
 	}
 
 	var UpdatedRoom = {
@@ -871,25 +871,25 @@ function progressTo2(sender, msg){
 	};
 	ServerSend("ChatRoomAdmin", {MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update"});
 	ChatAdminMessage = "UpdatingRoom";
-	ServerSend("ChatRoomChat", { Content: "*听见咯塔一声后你看向你进来的门，它被锁住了，你之前一直有离开的机会，现在没有了.", Type: "Emote", Target: sender.MemberNumber} );
-	ServerSend("ChatRoomChat", { Content: "*墙(wall)边有什么响动，或许可以检查一下，如果你还没死心，可以试着挣扎(struggle)一下.", Type: "Emote", Target: sender.MemberNumber} );
+	ServerSend("ChatRoomChat", { Content: "*听见咯塔一声后你看向你进来的门，它被锁住了，你之前一直有离开的机会，现在没有了.", Type: "Emote"} );
+	ServerSend("ChatRoomChat", { Content: "*墙(wall)边有什么响动，或许可以检查一下，如果你还没死心，可以试着挣扎(struggle)一下.", Type: "Emote"} );
 }
 
 //推进至3 progress3End函数计时
 function progressTo3(sender, msg){
 	storyProgress = 3;
 	enableProgress3End = true;
-	ServerSend("ChatRoomChat", { Content: "*不知多久后你恢复了意识，浑身的疼痛令你意识到你保持这个样子很久了.你看了一眼门，依旧是锁着的.", Type: "Emote", Target: sender.MemberNumber} );
-	ServerSend("ChatRoomChat", { Content: "*你的眼罩上显示了一行字：检测到反抗行为，完全调教程序将在373秒后准备完成并启动，在程序启动前进入舱室(cell)可终止程序.", Type: "Emote", Target: sender.MemberNumber} );
-	ServerSend("ChatRoomChat", { Content: "*看来想要出去的话必须得在程序启动前找到办法，试着探索(explore)一下吧.", Type: "Emote", Target: sender.MemberNumber} );
+	ServerSend("ChatRoomChat", { Content: "*不知多久后你恢复了意识，浑身的疼痛令你意识到你保持这个样子很久了.你看了一眼门，依旧是锁着的.", Type: "Emote"} );
+	ServerSend("ChatRoomChat", { Content: "*你的眼罩上显示了一行字：检测到反抗行为，完全调教程序将在373秒后准备完成并启动，在程序启动前进入舱室(cell)可终止程序.", Type: "Emote"} );
+	ServerSend("ChatRoomChat", { Content: "*看来想要出去的话必须得在程序启动前找到办法，试着探索(explore)一下吧.", Type: "Emote"} );
 	setTimeout(function (sender) {
-		ServerSend("ChatRoomChat", { Content: "*眼罩显示：检测到反抗行为，完全调教程序将在300秒后准备完成并启动，在程序启动前进入舱室(cell)可终止程序.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*眼罩显示：检测到反抗行为，完全调教程序将在300秒后准备完成并启动，在程序启动前进入舱室(cell)可终止程序.", Type: "Emote"} );
 	}, 73 * 1000, sender);
 	setTimeout(function (sender) {
-		ServerSend("ChatRoomChat", { Content: "*眼罩显示：检测到反抗行为，完全调教程序将在200秒后准备完成并启动，在程序启动前进入舱室(cell)可终止程序.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*眼罩显示：检测到反抗行为，完全调教程序将在200秒后准备完成并启动，在程序启动前进入舱室(cell)可终止程序.", Type: "Emote"} );
 	}, 173 * 1000, sender);
 	setTimeout(function (sender) {
-		ServerSend("ChatRoomChat", { Content: "*眼罩显示：检测到反抗行为，完全调教程序将在100秒后准备完成并启动，在程序启动前进入舱室(cell)可终止程序.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*眼罩显示：检测到反抗行为，完全调教程序将在100秒后准备完成并启动，在程序启动前进入舱室(cell)可终止程序.", Type: "Emote"} );
 	}, 273 * 1000, sender);
 	setTimeout(function (sender) {
 		progress3End(sender, msg)
@@ -898,17 +898,17 @@ function progressTo3(sender, msg){
 
 //挣扎 3次通向progressTo3函数或progress2End函数
 function struggle(sender, msg) {
-	ServerSend("ChatRoomChat", { Content: "*你拼了命的挣扎，到筋疲力尽为止，你身上的束缚没有松动分毫.", Type: "Emote", Target: sender.MemberNumber} );
+	ServerSend("ChatRoomChat", { Content: "*你拼了命的挣扎，到筋疲力尽为止，你身上的束缚没有松动分毫.", Type: "Emote"} );
 	if(struggleCouont == 0){
-		ServerSend("ChatRoomChat", { Content: "*现代工业，小子.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*现代工业，小子.", Type: "Emote"} );
 		struggleCouont++;
 	}
 	else if(storyProgress ==2){
 		if(struggleCouont == 1){
-			ServerSend("ChatRoomChat", { Content: "*你仍未死心，或许再努努力会有什么转机?", Type: "Emote", Target: sender.MemberNumber} );
+			ServerSend("ChatRoomChat", { Content: "*你仍未死心，或许再努努力会有什么转机?", Type: "Emote"} );
 		}
 		else if (struggleCouont == 2){
-			ServerSend("ChatRoomChat", { Content: "*你受到了来自项圈的强力电击，你又昏了过去", Type: "Emote", Target: sender.MemberNumber} );
+			ServerSend("ChatRoomChat", { Content: "*你受到了来自项圈的强力电击，你又昏了过去", Type: "Emote"} );
 			wait(sender, msg);
 			if (isSuccess){
 				setTimeout(function (sender) {
@@ -932,9 +932,9 @@ function struggle(sender, msg) {
 //舱室 提示enter（get into it）
 function cell(sender, msg) {
 	if (storyProgress <= 1) {
-		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote"} );
 	}else {// storyProgress == 2
-		ServerSend("ChatRoomChat", { Content: "*舱室十分狭小，你若是进去连活动的空间都没有，它正等待着你的进入(get into it)，你别无他法.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*舱室十分狭小，你若是进去连活动的空间都没有，它正等待着你的进入(get into it)，你别无他法.", Type: "Emote"} );
 	}
 }
 
@@ -942,15 +942,15 @@ function cell(sender, msg) {
 function enter(sender, msg) {
 
 	if (storyProgress <= 1) {
-		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote"} );
 	}else {// storyProgress == 2
 		toEnd = true;
 		isGameOver = true;
 		if(storyProgress == 3)
 		{
-			ServerSend("ChatRoomChat", { Content: "*你还是接受了你的命运.", Type: "Emote", Target: sender.MemberNumber} );
+			ServerSend("ChatRoomChat", { Content: "*你还是接受了你的命运.", Type: "Emote"} );
 		}
-		ServerSend("ChatRoomChat", { Content: "*随着你的踏入，舱室门在你身后关上了.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*随着你的踏入，舱室门在你身后关上了.", Type: "Emote"} );
 
 		InventoryRemove(sender,"ItemLegs");
 		InventoryWear(sender, "FuturisticLegCuffs", "ItemLegs", "Default",80);
@@ -994,10 +994,10 @@ function enter(sender, msg) {
 				"Spread"
 			]
 		};
-		ServerSend("ChatRoomChat", { Content: "*你被迫站在这个狭小的舱室内，连弯曲膝盖都做不到.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*你感觉到软管接在你的口塞和后庭上，有什么东西顺着软管流了进来.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*有什么异物顶入了你的私处，暴力的抽插着.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*在强烈的刺激之下，你失去了意识.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*你被迫站在这个狭小的舱室内，连弯曲膝盖都做不到.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你感觉到软管接在你的口塞和后庭上，有什么东西顺着软管流了进来.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*有什么异物顶入了你的私处，暴力的抽插着.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*在强烈的刺激之下，你失去了意识.", Type: "Emote"} );
 		if(storyProgress == 2){
 			ServerSend("ChatRoomChat", { Content: "*结局：来的太早，走的太晚。提示：当初多挣扎几下的话", Type: "Chat"} );
 		}
@@ -1068,11 +1068,11 @@ function progress2End(sender, msg){
 			"Spread"
 		]
 	};
-	ServerSend("ChatRoomChat", { Content: "*你醒来后发现自己被关在了舱室内.", Type: "Emote", Target: sender.MemberNumber} );
-	ServerSend("ChatRoomChat", { Content: "*你被迫站在这个狭小的舱室内，连弯曲膝盖都做不到.", Type: "Emote", Target: sender.MemberNumber} );
-	ServerSend("ChatRoomChat", { Content: "*你感觉到软管接在你的口塞和后庭上，有什么东西顺着软管流了进来.", Type: "Emote", Target: sender.MemberNumber} );
-	ServerSend("ChatRoomChat", { Content: "*有什么异物顶入了你的私处，暴力的抽插着.", Type: "Emote", Target: sender.MemberNumber} );
-	ServerSend("ChatRoomChat", { Content: "*在强烈的刺激之下，你失去了意识.", Type: "Emote", Target: sender.MemberNumber} );
+	ServerSend("ChatRoomChat", { Content: "*你醒来后发现自己被关在了舱室内.", Type: "Emote"} );
+	ServerSend("ChatRoomChat", { Content: "*你被迫站在这个狭小的舱室内，连弯曲膝盖都做不到.", Type: "Emote"} );
+	ServerSend("ChatRoomChat", { Content: "*你感觉到软管接在你的口塞和后庭上，有什么东西顺着软管流了进来.", Type: "Emote"} );
+	ServerSend("ChatRoomChat", { Content: "*有什么异物顶入了你的私处，暴力的抽插着.", Type: "Emote"} );
+	ServerSend("ChatRoomChat", { Content: "*在强烈的刺激之下，你失去了意识.", Type: "Emote"} );
 	ServerSend("ChatRoomChat", { Content: "*结局：已成定局。提示：如果束缚都是自己穿上的话", Type: "Chat"} );
 	//刷新角色
 	ChatRoomCharacterUpdate(sender);
@@ -1129,13 +1129,13 @@ function progress3End(sender, msg){
 				"Spread"
 			]
 		};
-		ServerSend("ChatRoomChat", { Content: "*眼罩显示：倒计时结束，调教程序启动.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*你被机械臂强行拖入了舱室内.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*极其粗壮的巨物直接捅入了你的私处并猛烈震动与抽插，你觉得私处要被摧毁了，但你的悲鸣声被口塞里巨大的假阳具压在了喉咙里.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*某种流体大量的顺着口部与后庭的软管被泵入，你清晰的感觉到身体仿佛要烧起来一样热，但是狭窄的舱室没法散走一丝一毫的热量.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*剧烈的痛苦逐渐转为令人疯狂的快感，你本来觉得自己要高潮了，但是刺激在刹那间停止了，待你稍冷静后刺激又开始了，似乎高潮永远无法到来.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*你几乎失去了意识，但是来自项圈的电击使你立马清醒了过来.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*调教还在继续，渐渐的你失去了时间观念.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*眼罩显示：倒计时结束，调教程序启动.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你被机械臂强行拖入了舱室内.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*极其粗壮的巨物直接捅入了你的私处并猛烈震动与抽插，你觉得私处要被摧毁了，但你的悲鸣声被口塞里巨大的假阳具压在了喉咙里.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*某种流体大量的顺着口部与后庭的软管被泵入，你清晰的感觉到身体仿佛要烧起来一样热，但是狭窄的舱室没法散走一丝一毫的热量.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*剧烈的痛苦逐渐转为令人疯狂的快感，你本来觉得自己要高潮了，但是刺激在刹那间停止了，待你稍冷静后刺激又开始了，似乎高潮永远无法到来.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你几乎失去了意识，但是来自项圈的电击使你立马清醒了过来.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*调教还在继续，渐渐的你失去了时间观念.", Type: "Emote"} );
 		if(isSuccess2){
 			ServerSend("ChatRoomChat", { Content: "*真结局：最后一刻。自门锁上的那一刻你的命运就已经注定了", Type: "Chat"} );
 		}
@@ -1156,17 +1156,17 @@ function progress3End(sender, msg){
 //通用送出
 function end(sender, msg) {
 	if(storyProgress == 3 && !toEnd){
-			ServerSend("ChatRoomChat", { Content: "*似乎过了一天，一周，还是一个月或一年，甚至有可能是一个世纪.", Type: "Emote", Target: sender.MemberNumber} );
-			ServerSend("ChatRoomChat", { Content: "*毫无征兆的你达到了高潮，其剧烈程度超出了你此前人生中任何一次高潮的数百倍.", Type: "Emote", Target: sender.MemberNumber} );
-			ServerSend("ChatRoomChat", { Content: "*终于迎来了求之不得的高潮，在余韵中你的大脑除了幸福别无他物.", Type: "Emote", Target: sender.MemberNumber} );
-			ServerSend("ChatRoomChat", { Content: "*你听见提示音:运输程序启动，30秒后进行运输.", Type: "Emote", Target: sender.MemberNumber} );
-			ServerSend("ChatRoomChat", { Content: "*你感到舱室有些晃动，似乎正在移动.", Type: "Emote", Target: sender.MemberNumber} );
-			ServerSend("ChatRoomChat", { Content: "*你看看见了一行数字：" + lockCode + " ，你意识到你必须得记住这行数字.", Type: "Emote", Target: sender.MemberNumber} );
+			ServerSend("ChatRoomChat", { Content: "*似乎过了一天，一周，还是一个月或一年，甚至有可能是一个世纪.", Type: "Emote"} );
+			ServerSend("ChatRoomChat", { Content: "*毫无征兆的你达到了高潮，其剧烈程度超出了你此前人生中任何一次高潮的数百倍.", Type: "Emote"} );
+			ServerSend("ChatRoomChat", { Content: "*终于迎来了求之不得的高潮，在余韵中你的大脑除了幸福别无他物.", Type: "Emote"} );
+			ServerSend("ChatRoomChat", { Content: "*你听见提示音:运输程序启动，30秒后进行运输.", Type: "Emote"} );
+			ServerSend("ChatRoomChat", { Content: "*你感到舱室有些晃动，似乎正在移动.", Type: "Emote"} );
+			ServerSend("ChatRoomChat", { Content: "*你看看见了一行数字：" + lockCode + " ，你意识到你必须得记住这行数字.", Type: "Emote"} );
 			if(isSuccess2){
-				ServerSend("ChatRoomChat", { Content: "*[恭喜，这就是真结局了，努力后发现于事无补的情况真的很绝望呢，]", Type: "Emote", Target: sender.MemberNumber} );
+				ServerSend("ChatRoomChat", { Content: "*[恭喜，这就是真结局了，努力后发现于事无补的情况真的很绝望呢，]", Type: "Emote"} );
 			}
 			else{
-				ServerSend("ChatRoomChat", { Content: "*[再尝试尝试挑战真结局吧]", Type: "Emote", Target: sender.MemberNumber} );
+				ServerSend("ChatRoomChat", { Content: "*[再尝试尝试挑战真结局吧]", Type: "Emote"} );
 			}
 
 
@@ -1183,20 +1183,20 @@ function end(sender, msg) {
 
 	}
 	else if(isSuccess){
-		ServerSend("ChatRoomChat", { Content: "*恍惚间，你恢复了意识.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*你听见提示音:运输程序启动，30秒后进行运输.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*你感到舱室有些晃动，似乎正在移动.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*你看看见了一行数字：" + lockCode + " ，你意识到你必须得记住这行数字.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*恍惚间，你恢复了意识.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你听见提示音:运输程序启动，30秒后进行运输.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你感到舱室有些晃动，似乎正在移动.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你看看见了一行数字：" + lockCode + " ，你意识到你必须得记住这行数字.", Type: "Emote"} );
 		if(storyProgress == 3){
 			if(isSuccess2){
-				ServerSend("ChatRoomChat", { Content: "*[恭喜，这就是真结局了，努力后发现于事无补的情况真的很绝望呢，]", Type: "Emote", Target: sender.MemberNumber} );
+				ServerSend("ChatRoomChat", { Content: "*[恭喜，这就是真结局了，努力后发现于事无补的情况真的很绝望呢，]", Type: "Emote"} );
 			}
 			else{
-				ServerSend("ChatRoomChat", { Content: "*[再尝试尝试挑战真结局吧]", Type: "Emote", Target: sender.MemberNumber} );
+				ServerSend("ChatRoomChat", { Content: "*[再尝试尝试挑战真结局吧]", Type: "Emote"} );
 			}
 		}
 		else{
-			ServerSend("ChatRoomChat", { Content: "*[干的不错，你靠自己就把自己绑的严严实实，做为奖励就帮你跳过本来300秒的等待时间吧,]", Type: "Emote", Target: sender.MemberNumber} );
+			ServerSend("ChatRoomChat", { Content: "*[干的不错，你靠自己就把自己绑的严严实实，做为奖励就帮你跳过本来300秒的等待时间吧,]", Type: "Emote"} );
 
 		}
 		InventoryGet(sender, "ItemNeckAccessories").Property = {Effect: Array(0), Text: lockCode};
@@ -1210,10 +1210,10 @@ function end(sender, msg) {
 
 	}
 	else {
-		ServerSend("ChatRoomChat", { Content: "*恍惚间，你恢复了意识.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*你听见提示音:运输程序启动，300秒后进行运输.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*你感到舱室有些晃动，似乎正在移动.", Type: "Emote", Target: sender.MemberNumber} );
-		ServerSend("ChatRoomChat", { Content: "*你看看见了一行数字：" + lockCode + " ，你意识到你必须得记住这行数字.", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*恍惚间，你恢复了意识.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你听见提示音:运输程序启动，300秒后进行运输.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你感到舱室有些晃动，似乎正在移动.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你看看见了一行数字：" + lockCode + " ，你意识到你必须得记住这行数字.", Type: "Emote"} );
 		InventoryGet(sender, "ItemNeckAccessories").Property = {Effect: Array(0), Text: lockCode};
 		//刷新角色
 		ChatRoomCharacterUpdate(sender);
@@ -1229,19 +1229,19 @@ function end(sender, msg) {
 //通用等待 后一个函数延时15s
 function wait(sender, msg) {
 	setTimeout(function (sender) {
-		ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote"} );
 	}, 5 * 1000, sender);
 	setTimeout(function (sender) {
-		ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote"} );
 	}, 7 * 1000, sender);
 	setTimeout(function (sender) {
-		ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote"} );
 	}, 9 * 1000, sender);
 	setTimeout(function (sender) {
-		ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote"} );
 	}, 11 * 1000, sender);
 	setTimeout(function (sender) {
-		ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote"} );
 	}, 13 * 1000, sender);
 
 }
@@ -1249,7 +1249,7 @@ function wait(sender, msg) {
 
 function storyStart(sender) {
 
-		ServerSend("ChatRoomChat", { Content: "*该bot现已发布至 https://github.com/zajucd/BC_BotGame ", Type: "Emote", Target: sender.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*该bot现已发布至 https://github.com/zajucd/BC_BotGame ", Type: "Emote"} );
 
 
 	// check if all imprisoned people are in room. Sometimes they are not. Don't know why.
@@ -1349,13 +1349,13 @@ function resetRoom() {
 
 		// Update room
 	var UpdatedRoom = {
-		Name: ChatRoomData.Name,
+		Name: "Escape Game CursedRoom",
 		Description: "[BOT]密室逃生第一部  被诅咒的项圈",
 		Background: "VaultCorridor",
 		Limit: (2).toString(),
 		Admin: ChatRoomData.Admin,
 		Ban: ChatRoomData.Ban,
-		Private: false,
+		Private: true,
 		Locked: false
 	};
 		ServerSend("ChatRoomAdmin", {MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update"});
