@@ -154,7 +154,7 @@ function commandHandler(sender, msg) {
 			}
 		}
 	}
-	
+
 
 
 }
@@ -245,7 +245,7 @@ function button(sender, msg) {
 	ServerSend("ChatRoomChat", { Content: "*你按下了按钮，", Type: "Emote"} );
 	if (storyProgress == 0) {
 		progressTo1(sender, msg);
-		}
+	}
 
 	else if(storyProgress <=2 ){
 		ServerSend("ChatRoomChat", { Content: "*没有任何反应.", Type: "Emote"} );
@@ -270,7 +270,7 @@ function button(sender, msg) {
 		else{
 			ServerSend("ChatRoomChat", { Content: "*滴.", Type: "Emote"} );
 		}
-			buttonCount++;
+		buttonCount++;
 
 	}
 	//console.log(InventoryGet(sender, "ItemNeckAccessories"))
@@ -611,29 +611,29 @@ function buttonFinish(sender, msg){
 			"Type": "cl0co1np1vp1a0",
 			"Difficulty": 0,
 			"Block": [
-			"ItemNipples",
-			"ItemNipplesPiercings",
-			"ItemVulva",
-			"ItemVulvaPiercings",
-			"ItemButt",
-			"ItemHands"
-		],
+				"ItemNipples",
+				"ItemNipplesPiercings",
+				"ItemVulva",
+				"ItemVulvaPiercings",
+				"ItemButt",
+				"ItemHands"
+			],
 			"Effect": [
-			"Block",
-			"Prone",
-			"Lock"
-		],
+				"Block",
+				"Prone",
+				"Lock"
+			],
 			"Hide": [
-			"Cloth",
-			"ItemNipplesPiercings",
-			"ItemVulvaPiercings",
-			"ItemVulva",
-			"ItemVulvaPiercings",
-			"ItemNipples"
-		],
+				"Cloth",
+				"ItemNipplesPiercings",
+				"ItemVulvaPiercings",
+				"ItemVulva",
+				"ItemVulvaPiercings",
+				"ItemNipples"
+			],
 			"HideItem": [
-			"ItemButtAnalBeads2"
-		],
+				"ItemButtAnalBeads2"
+			],
 			"AllowActivity": [],
 			"Attribute": [],
 			"LockedBy": "CombinationPadlock",
@@ -667,17 +667,17 @@ function buttonFinish(sender, msg){
 			"CombinationNumber": lockCode,
 			"Type": "Closed",
 			"Effect": [
-			"Prone",
-			"Freeze",
-			"Lock"
-		],
+				"Prone",
+				"Freeze",
+				"Lock"
+			],
 			"SetPose": [
-			"LegsClosed"
-		],
+				"LegsClosed"
+			],
 			"Difficulty": 6,
 			"FreezeActivePose": [
-			"BodyLower"
-		]
+				"BodyLower"
+			]
 		};
 		InventoryGet(sender, "ItemMouth").Property ={
 			"AutoPunish": 0,
@@ -867,7 +867,7 @@ function progressTo2(sender, msg){
 		Limit: (2).toString(),
 		Admin: ChatRoomData.Admin,
 		Ban: ChatRoomData.Ban,
-		Private: false,
+		Private: ChatRoomData.Private,
 		Locked: true
 	};
 	ServerSend("ChatRoomAdmin", {MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update"});
@@ -878,21 +878,22 @@ function progressTo2(sender, msg){
 
 //推进至3 progress3End函数计时
 function progressTo3(sender, msg){
+	stopTimeOut = false;
 	storyProgress = 3;
 	enableProgress3End = true;
 	ServerSend("ChatRoomChat", { Content: "*不知多久后你恢复了意识，浑身的疼痛令你意识到你保持这个样子很久了.你看了一眼门，依旧是锁着的.", Type: "Emote"} );
 	ServerSend("ChatRoomChat", { Content: "*你的眼罩上显示了一行字：检测到反抗行为，完全调教程序将在373秒后准备完成并启动，在程序启动前进入舱室(cell)可终止程序.", Type: "Emote"} );
 	ServerSend("ChatRoomChat", { Content: "*看来想要出去的话必须得在程序启动前找到办法，试着探索(explore)一下吧.", Type: "Emote"} );
-	setTimeout(function (sender) {
+	t1 = setTimeout(function (sender) {
 		ServerSend("ChatRoomChat", { Content: "*眼罩显示：检测到反抗行为，完全调教程序将在300秒后准备完成并启动，在程序启动前进入舱室(cell)可终止程序.", Type: "Emote"} );
 	}, 73 * 1000, sender);
-	setTimeout(function (sender) {
+	t2 = setTimeout(function (sender) {
 		ServerSend("ChatRoomChat", { Content: "*眼罩显示：检测到反抗行为，完全调教程序将在200秒后准备完成并启动，在程序启动前进入舱室(cell)可终止程序.", Type: "Emote"} );
 	}, 173 * 1000, sender);
-	setTimeout(function (sender) {
+	t3 = setTimeout(function (sender) {
 		ServerSend("ChatRoomChat", { Content: "*眼罩显示：检测到反抗行为，完全调教程序将在100秒后准备完成并启动，在程序启动前进入舱室(cell)可终止程序.", Type: "Emote"} );
 	}, 273 * 1000, sender);
-	setTimeout(function (sender) {
+	t4 = setTimeout(function (sender) {
 		progress3End(sender, msg)
 	}, 373 * 1000, sender);
 }
@@ -1156,29 +1157,33 @@ function progress3End(sender, msg){
 
 //通用送出
 function end(sender, msg) {
+	clearTimeout(t1);
+	clearTimeout(t2);
+	clearTimeout(t3);
+	clearTimeout(t4);
 	if(storyProgress == 3 && !toEnd){
-			ServerSend("ChatRoomChat", { Content: "*似乎过了一天，一周，还是一个月或一年，甚至有可能是一个世纪.", Type: "Emote"} );
-			ServerSend("ChatRoomChat", { Content: "*毫无征兆的你达到了高潮，其剧烈程度超出了你此前人生中任何一次高潮的数百倍.", Type: "Emote"} );
-			ServerSend("ChatRoomChat", { Content: "*终于迎来了求之不得的高潮，在余韵中你的大脑除了幸福别无他物.", Type: "Emote"} );
-			ServerSend("ChatRoomChat", { Content: "*你听见提示音:运输程序启动，30秒后进行运输.", Type: "Emote"} );
-			ServerSend("ChatRoomChat", { Content: "*你感到舱室有些晃动，似乎正在移动.", Type: "Emote"} );
-			ServerSend("ChatRoomChat", { Content: "*你看看见了一行数字：" + lockCode + " ，你意识到你必须得记住这行数字.", Type: "Emote"} );
-			if(isSuccess2){
-				ServerSend("ChatRoomChat", { Content: "*[恭喜，这就是真结局了，努力后发现于事无补的情况真的很绝望呢，]", Type: "Emote"} );
-			}
-			else{
-				ServerSend("ChatRoomChat", { Content: "*[再尝试尝试挑战真结局吧]", Type: "Emote"} );
-			}
+		ServerSend("ChatRoomChat", { Content: "*似乎过了一天，一周，还是一个月或一年，甚至有可能是一个世纪.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*毫无征兆的你达到了高潮，其剧烈程度超出了你此前人生中任何一次高潮的数百倍.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*终于迎来了求之不得的高潮，在余韵中你的大脑除了幸福别无他物.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你听见提示音:运输程序启动，30秒后进行运输.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你感到舱室有些晃动，似乎正在移动.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你看看见了一行数字：" + lockCode + " ，你意识到你必须得记住这行数字.", Type: "Emote"} );
+		if(isSuccess2){
+			ServerSend("ChatRoomChat", { Content: "*[恭喜，这就是真结局了，努力后发现于事无补的情况真的很绝望呢，]", Type: "Emote"} );
+		}
+		else{
+			ServerSend("ChatRoomChat", { Content: "*[再尝试尝试挑战真结局吧]", Type: "Emote"} );
+		}
 
 
-			InventoryGet(sender, "ItemNeckAccessories").Property = {Effect: Array(0), Text: lockCode};
-			//刷新角色
-			ChatRoomCharacterUpdate(sender);
-			setTimeout(function (sender) {
-				console.log("end kick");
-				ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
-				//resetRoom()
-			}, 30 * 1000, sender);
+		InventoryGet(sender, "ItemNeckAccessories").Property = {Effect: Array(0), Text: lockCode};
+		//刷新角色
+		ChatRoomCharacterUpdate(sender);
+		setTimeout(function (sender) {
+			console.log("end kick");
+			ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
+			resetRoom()
+		}, 30 * 1000, sender);
 
 
 
@@ -1206,7 +1211,7 @@ function end(sender, msg) {
 		setTimeout(function (sender) {
 			console.log("end kick");
 			ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
-			//resetRoom()
+			resetRoom()
 		}, 30 * 1000, sender);
 
 	}
@@ -1221,7 +1226,7 @@ function end(sender, msg) {
 		setTimeout(function (sender) {
 			console.log("end kick");
 			ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
-			//resetRoom()
+			resetRoom()
 		}, 300 * 1000, sender);
 
 	}
@@ -1250,110 +1255,111 @@ function wait(sender, msg) {
 
 function storyStart(sender) {
 
-		ServerSend("ChatRoomChat", { Content: "*该bot现已发布至 https://github.com/zajucd/BC_BotGame ", Type: "Emote"} );
+	ServerSend("ChatRoomChat", { Content: "*该bot现已发布至 https://github.com/zajucd/BC_BotGame ", Type: "Emote"} );
 
 
 	// check if all imprisoned people are in room. Sometimes they are not. Don't know why.
 
-		if (isExposed(sender) || sender.IsRestrained() || sender.IsChaste() || sender.IsShackled() || sender.IsBlind() || !sender.CanTalk() || sender.IsEnclose() || sender.IsMounted() || sender.IsEgged() || sender.IsDeaf()) {
-			ServerSend("ChatRoomChat", {
-				Content: "*[需要 穿着衣服且不被束缚 才能游玩. 二十秒后踢出房间. 想玩的话脱掉装备后再来哦.]",
-				Type: "Emote"
-			});
-			setTimeout(function (sender) {
-				console.log("error kick");
-				ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
-			}, 10 * 1000, sender)
-			//imprisonedList.push(sender.MemberNumber)
-		} else if (sender.ItemPermission > 2) {
-			ServerSend("ChatRoomChat", {
-				Content: "*[需要调低 玩家权限 才能游玩. 二十秒后踢出房间. 想玩的话修改权限后再来哦.设置位置在角色档案内选择第三项后选择第一项.]",
-				Type: "Emote"
-			});
-			setTimeout(function (sender) {
-				ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
-			}, 20 * 1000, sender)
-			// setTimeout(resetRoom(), 20*1000, sender)
+	if (isExposed(sender) || sender.IsRestrained() || sender.IsChaste() || sender.IsShackled() || sender.IsBlind() || !sender.CanTalk() || sender.IsEnclose() || sender.IsMounted() || sender.IsEgged() || sender.IsDeaf()) {
+		ServerSend("ChatRoomChat", {
+			Content: "*[需要 穿着衣服且不被束缚 才能游玩. 二十秒后踢出房间. 想玩的话脱掉装备后再来哦.]",
+			Type: "Emote"
+		});
+		setTimeout(function (sender) {
+			console.log("error kick");
+			ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
+		}, 10 * 1000, sender)
+		//imprisonedList.push(sender.MemberNumber)
+	} else if (sender.ItemPermission > 2) {
+		ServerSend("ChatRoomChat", {
+			Content: "*[需要调低 玩家权限 才能游玩. 二十秒后踢出房间. 想玩的话修改权限后再来哦.设置位置在角色档案内选择第三项后选择第一项.]",
+			Type: "Emote"
+		});
+		setTimeout(function (sender) {
+			ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
+		}, 20 * 1000, sender)
+		// setTimeout(resetRoom(), 20*1000, sender)
 
-			//imprisonedList.push(sender.MemberNumber)
-		} else if (InventoryBlockedOrLimitedCustomized(sender, AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock"))) {
-			ServerSend("ChatRoomChat", {
-				Content: "**[需要 组合密码锁（COMBINATION PADLOCK）的权限. 二十秒后踢出房间. 想玩的话修改权限后再来哦.]",
-				Type: "Emote"
-			});
-			setTimeout(function (sender) {
-				console.log("error kick");
-				ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
-			}, 20 * 1000, sender)
-			// setTimeout(resetRoom(), 20*1000, sender)
-		} else {
-			ServerSend("ChatRoomChat", {
-				Content: "*This is a Chinese room,make sure you can read Chinese before start.",
-				Type: "Emote"
-			});
-			ServerSend("ChatRoomChat", {
-				Content: "*[现在不清楚当前版本对脚本的支持程度如何，条件允许的话请打开公开脚本限权.在 设置-> 脚本 中].",
-				Type: "Emote"
-			});
-			ServerSend("ChatRoomChat", {
-				Content: "*[求求你千万不要自己解除装备，不然bot怎么炸的都不知道].",
-				Type: "Emote"
-			});
-			ServerSend("ChatRoomChat", {
-				Content: "*你进入了一个奇怪的房间，你的面前有一个台子，上面有一个又大又红的按钮(button)，诱惑着你按下它或者你可以观察(explore)一下周围.[NOTE:通过发送 *单词 来行动（例：*button）.]",
-				Type: "Emote"
-			});
-		}
+		//imprisonedList.push(sender.MemberNumber)
+	} else if (InventoryBlockedOrLimitedCustomized(sender, AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock"))) {
+		ServerSend("ChatRoomChat", {
+			Content: "**[需要 组合密码锁（COMBINATION PADLOCK）的权限. 二十秒后踢出房间. 想玩的话修改权限后再来哦.]",
+			Type: "Emote"
+		});
+		setTimeout(function (sender) {
+			console.log("error kick");
+			ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
+		}, 20 * 1000, sender)
+		// setTimeout(resetRoom(), 20*1000, sender)
+	} else {
+		ServerSend("ChatRoomChat", {
+			Content: "*This is a Chinese room,make sure you can read Chinese before start.",
+			Type: "Emote"
+		});
+		ServerSend("ChatRoomChat", {
+			Content: "*[现在不清楚当前版本对脚本的支持程度如何，条件允许的话请打开公开脚本限权.在 设置-> 脚本 中].",
+			Type: "Emote"
+		});
+		ServerSend("ChatRoomChat", {
+			Content: "*[求求你千万不要自己解除装备，不然bot怎么炸的都不知道].",
+			Type: "Emote"
+		});
+		ServerSend("ChatRoomChat", {
+			Content: "*你进入了一个奇怪的房间，你的面前有一个台子，上面有一个又大又红的按钮(button)，诱惑着你按下它或者你可以观察(explore)一下周围.[NOTE:通过发送 *单词 来行动（例：*button）.]",
+			Type: "Emote"
+		});
 	}
+}
 
 
 function resetRoom() {
-		console.log("reset");
-		// check if all imprisoned people are in room. Sometimes they are not. Don't know why.
-		storyProgress = 0;
-		life = 3;
-		restrainCount = 0;
-		cardCount = 0;
-		struggleCouont = 0;
-		buttonCount = 0;
-		lockCode = Math.floor(Math.random() * 9000+1000).toString();
-		restrainText = ["两对腿铐和一双高跟鞋","一条贞操胸罩和一条贞操带，还有一套束带","一个口塞与一个眼罩","两对臂铐与一双手套","一条单手套"];
-		boxText = ["1+1=?","3*2=?","PI的小数点后第5位为?","半径为2的圆面积为?PI","lim x→0 sinx/x = ?"];
-		boxText2 = ["目前为止你穿过?次盒子里的装备","下图中最多符号在键盘上对应的数字为?","打开9号盒子并等待30秒"];
-		boxText20 =[" @$@##$%$%$ ",
-					" #@#%$##$%% ",
-					" #@$%#@$%#@ ",
-					" @#$$$%%%$$ ",
-					" #$%%%$%$$@ ",
-					" @@@#%$#@@% "];
-		boxNum = ["2","6","9","4","1"];
-		boxNum2 = ["5","4","9"];
-		isWareable = false;
-		isSuccess = true;
-		isSuccess2 = false;
-		isDeviceOn = false;
-		isGagOff = false;
-		isGagOffStop = false;
-		toEnd = false;
-		isBoxOpenStop = false;
-		isGameOver = false;
-		enableProgress3End =false;
+	console.log("reset");
+	// check if all imprisoned people are in room. Sometimes they are not. Don't know why.
+	stopTimeOut = true;
+	storyProgress = 0;
+	life = 3;
+	restrainCount = 0;
+	cardCount = 0;
+	struggleCouont = 0;
+	buttonCount = 0;
+	lockCode = Math.floor(Math.random() * 9000+1000).toString();
+	restrainText = ["两对腿铐和一双高跟鞋","一条贞操胸罩和一条贞操带，还有一套束带","一个口塞与一个眼罩","两对臂铐与一双手套","一条单手套"];
+	boxText = ["1+1=?","3*2=?","PI的小数点后第5位为?","半径为2的圆面积为?PI","lim x→0 sinx/x = ?"];
+	boxText2 = ["目前为止你穿过?次盒子里的装备","下图中最多符号在键盘上对应的数字为?","打开9号盒子并等待30秒"];
+	boxText20 =[" @$@##$%$%$ ",
+		" #@#%$##$%% ",
+		" #@$%#@$%#@ ",
+		" @#$$$%%%$$ ",
+		" #$%%%$%$$@ ",
+		" @@@#%$#@@% "];
+	boxNum = ["2","6","9","4","1"];
+	boxNum2 = ["5","4","9"];
+	isWareable = false;
+	isSuccess = true;
+	isSuccess2 = false;
+	isDeviceOn = false;
+	isGagOff = false;
+	isGagOffStop = false;
+	toEnd = false;
+	isBoxOpenStop = false;
+	isGameOver = false;
+	enableProgress3End =false;
 
 
 
-		// Update room
+	// Update room
 	var UpdatedRoom = {
-		Name: "Escape Game CursedRoom",
-		Description: "[BOT]密室逃生第一部  被诅咒的项圈",
+		Name: ChatRoomData.Name,
+		Description: ChatRoomData.Description,
 		Background: "VaultCorridor",
 		Limit: (2).toString(),
 		Admin: ChatRoomData.Admin,
 		Ban: ChatRoomData.Ban,
-		Private: true,
+		Private: ChatRoomData.Private,
 		Locked: false
 	};
-		ServerSend("ChatRoomAdmin", {MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update"});
-		ChatAdminMessage = "UpdatingRoom";
+	ServerSend("ChatRoomAdmin", {MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update"});
+	ChatAdminMessage = "UpdatingRoom";
 
 }
 
