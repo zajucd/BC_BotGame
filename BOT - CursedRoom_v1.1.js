@@ -1307,7 +1307,11 @@ function storyStart(sender) {
 		});
 	}
 }
-
+var t1 = 0;
+var t2 = 0;
+var t3 = 0;
+var t4 = 0;
+var t5 = 0;
 
 function resetRoom() {
 	console.log("reset");
