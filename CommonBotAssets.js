@@ -1,547 +1,1374 @@
-ServerSocket.on("ChatRoomMessage", function (data) { ChatRoomMessageAdd(data); });
+activateStoryRoom();
 
-if (typeof ChatRoomMessageAdditionDict === 'undefined') {
-  ChatRoomMessageAdditionDict = {}
+RemoveCloth(Player,null);
+RemoveRestrains(Player,null);
+WearFullRestrains(Player,null);
+InventoryWear(Player, "TheDisplayFrame", "ItemDevices", "Default",80);
+
+
+
+Player.Description = `
+
+BOT game：CursedRoom V1.1
+更新了新的路线与结局
+作者: zajucd(7092)
+原型: https://github.com/keykey5/BC-BOT-repository
+发布地址: https://github.com/zajucd/BC_BotGame
+
+灵感来源:上古卷轴5mod 被诅咒的战利品
+缅怀我一哥们   配了三年的老滚，随着硬盘一起化为了飞灰
+门没有上锁，但是会在某些事发生后锁上
+下面是数学题的答案，答不出来再往下翻
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 2，6，9，4，1
+ 101(二进制)=5(十进制)
+ 5，4，9
+` // end of description
+ServerSend("AccountUpdate", { Description: Player.Description });
+ChatRoomCharacterUpdate(Player)
+
+
+function activateStoryRoom() {
+	resetRoom()
+	storyActive = true
 }
 
-function ChatRoomMessageAdd(data) {
+function deactivateStoryRoom() {
+	resetRoom()
+	storyActive = false
+}
 
-	// Make sure the message is valid (needs a Sender and Content)
-	if ((data != null) && (typeof data === "object") && (data.Content != null) && (typeof data.Content === "string") && (data.Content != "") && (data.Sender != null) && (typeof data.Sender === "number")) {
+ChatRoomMessageAdditionDict["CursedRoom"] = function(SenderCharacter, msg, data) {ChatRoomMessageCursedRoom(SenderCharacter, msg, data)}
 
-		// Make sure the sender is in the room
-		var SenderCharacter = null;
-		for (var C = 0; C < ChatRoomCharacter.length; C++)
-			if (ChatRoomCharacter[C].MemberNumber == data.Sender) {
-				SenderCharacter = ChatRoomCharacter[C]
-				break;
+function ChatRoomMessageCursedRoom(SenderCharacter, msg, data) {
+
+	if (storyActive) {
+		if ((data.Type == "Action") && (msg.startsWith("ServerEnter"))) {
+			setTimeout(storyStart(SenderCharacter), 300, SenderCharacter)
+		} else if ((msg.startsWith("ServerLeave")) || (msg.startsWith("ServerDisconnect")) || (msg.startsWith("ServerBan")) || (msg.startsWith("ServerKick"))) {
+			resetRoom()
+		}
+		if (data.Type != null) {
+			if (msg.toLowerCase().includes("1145141919810") && charList.includes(SenderCharacter.MemberNumber)) {
+				ServerSend("ChatRoomChat", { Content: "运输程序启动，30秒后进行运输", Type: "Chat"} );
+				ServerSend("ChatRoomChat", { Content: "*舱室开始晃动，看来你即将被运送走.", Type: "Emote"} );
+				ServerSend("ChatRoomChat", { Content: "*在被运送走前，你看看见了一行数字：" + lockCode + " ，你意识到你必须得记住这行数字.", Type: "Emote"} );
+				setTimeout(function (SenderCharacter) {
+					console.log("? kick");
+					ChatRoomAdminChatAction("Kick", SenderCharacter.MemberNumber.toString())
+				}, 30 * 1000, SenderCharacter);
+				resetRoom()
+			}else if ((data.Type == "Emote") || (data.Type == "Action") || (data.Type == "Hidden" && msg.startsWith("ChatRoomBot"))) {
+				if(isDeviceOn && SenderCharacter.MemberNumber != Player.MemberNumber){
+					ServerSend("ChatRoomChat", { Content: "*你小跳步移动.", Type: "Emote"} );
+					setTimeout(function (SenderCharacter) {
+						commandHandler(SenderCharacter,msg);
+					}, 2 * 1000, SenderCharacter)
+				}
+				else {
+					commandHandler(SenderCharacter,msg);
+				}
+
 			}
 
-		// If we found the sender
-		if (SenderCharacter != null) {
 
-			// Replace < and > characters to prevent HTML injections
-			var msg = data.Content;
-			while (msg.indexOf("<") > -1) msg = msg.replace("<", "&lt;");
-			while (msg.indexOf(">") > -1) msg = msg.replace(">", "&gt;");
-
-
-      // This part is to append code react to certain message
-      for (var key in ChatRoomMessageAdditionDict) {
-        ChatRoomMessageAdditionDict[key](SenderCharacter, msg, data)
-      }
-    }
-  }
-}
-
-// -----------------------------------------------------------------------------------------------
-
-ChatRoomMessageAdditionDict["Ungarble"] = function(SenderCharacter, msg, data) {ChatRoomMessageUngarble(SenderCharacter, msg, data)}
-
-function ChatRoomMessageUngarble(SenderCharacter, msg, data) {
-  // This part is to display a chat message that shows the ungarbled message when someone is gagged.
-  if (data.Type != null) {
-    if ((data.Type == "Chat")) { // && (SenderCharacter.MemberNumber != Player.MemberNumber)) {
-
-      var GagEffect = 0;
-      GagEffect += SpeechGetGagLevel(SenderCharacter, "ItemMouth");
-      GagEffect += SpeechGetGagLevel(SenderCharacter, "ItemMouth2");
-      GagEffect += SpeechGetGagLevel(SenderCharacter, "ItemMouth3");
-      GagEffect += SpeechGetGagLevel(SenderCharacter, "ItemHead");
-      GagEffect += SpeechGetGagLevel(SenderCharacter, "ItemMouth");
-      GagEffect += SpeechGetGagLevel(SenderCharacter, "ItemDevices");
-
-      if (GagEffect>0) {
-        msg = '<span class="ChatMessageName" style="color:' + (SenderCharacter.LabelColor || 'gray') + ';">' + SenderCharacter.Name + ':</span> ' + msg  //<span style="font-size: 0.5em;"> (gagged) ' + msg + '</span>'
-
-        // Adds the message and scrolls down unless the user has scrolled up
-        var enterLeave = "";
-
-  // END OF CUSTOM CODE --------------------------------------------
-
-        var div = document.createElement("div");
-        div.setAttribute('class', 'ChatMessage ChatMessage' + data.Type + enterLeave);
-        div.setAttribute('data-enterleave','smaller')
-        //div.setAttribute('data-time', ChatRoomCurrentTime());
-        //div.setAttribute('data-sender', data.Sender);
-        div.setAttribute('style', 'padding-left: 0.8em; font-size: 0.6em; background-color:' + ChatRoomGetTransparentColor(SenderCharacter.LabelColor) + ';');
-        div.innerHTML = msg;
-
-        var Refocus = document.activeElement.id == "InputChat";
-        var ShouldScrollDown = ElementIsScrolledToEnd("TextAreaChatLog");
-        if (document.getElementById("TextAreaChatLog") != null) {
-          document.getElementById("TextAreaChatLog").appendChild(div);
-          if (ShouldScrollDown) ElementScrollToEnd("TextAreaChatLog");
-          if (Refocus) ElementFocus("InputChat");
-        }
-      }
-    }
-  }
-}
-
-// -----------------------------------------------------------------------------------------------
-
-class personMagicData {
-  name = ''
-  role = ''
-	//rules = [] only present in prototypes
-	points = 0
-  totalPointsGained = 0
-	lockCode = Math.floor(Math.random() * 9000+1000).toString()
-	beingPunished = false
-	strike = 0
-	orgasmResisted = 0
-	vulvaIntensity = 3
-	buttIntensity = 1
-  lastActivity = Date.now()
-  allowedOrgasmNum = 0
-}
-if (personMagicData.prototype.rules == null) {
-  personMagicData.prototype.rules = []
-}
-
-if (typeof customerList === 'undefined') {
-  resetCustomerList()
-}
-
-function resetCustomerList() {
-	customerList = {}
-  customerList[Player.MemberNumber] = new personMagicData()
-  customerList[Player.MemberNumber].role = "Bot"
-  customerList[Player.MemberNumber].rules = []
-}
-
-// -----------------------------------------------------------------------------------------------
-
-restrainsLocationList = ["ItemVulva","ItemVulvaPiercings","ItemButt","ItemArms","ItemHands","ItemNeck","ItemMouth","ItemMouth2","ItemMouth3","ItemTorso","ItemBreast","ItemLegs",
-  "ItemFeet","ItemBoots","ItemNipples","ItemNipplesPiercings","ItemPelvis","ItemHead","ItemDevices","ItemEars"]
-
-clothesLocationList = ["Cloth","ClothLower","ClothAccessory","Suit","SuitLower","Corset","Gloves","Shoes","Hat","Socks","Bra","Panties","Necklace","RightAnklet","LeftAnklet","Mask","HairAccessory1",
-  "HairAccessory2","HairAccessory3"]
-
-function freeAll() {
-	for (var R = 0; R < ChatRoomCharacter.length; R++) {
-		removeRestrains(R)
-		reapplyClothing(ChatRoomCharacter[R])
-		ChatRoomCharacterUpdate(ChatRoomCharacter[R])
+		}
 	}
-	ServerSend("ChatRoomChat", { Content: "*Everyone has been freed.", Type: "Emote"} );
 }
 
-function removeRestrains(char){
-  target = getCharacterObject(char)
+function commandHandler(sender, msg) {
+	if(sender.MemberNumber !== Player.MemberNumber){
+		isGagOffStop = true;
+		isBoxOpenStop = true;
+		if (isGameOver ){
+			ServerSend("ChatRoomChat", { Content: "*在这个狭小的舱室中你对一切都无能为力.", Type: "Emote"} );
+		}
+		else {
+			if (msg.toLowerCase().includes("explore")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 探索房间.", Type: "Emote"} );
+				explore(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("wall")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看墙壁.", Type: "Emote"} );
+				wall(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("button")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看按钮.", Type: "Emote"} );
+				button(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("box")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看盒子.", Type: "Emote"} );
+				box(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("light")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看指示灯.", Type: "Emote"} );
+				light(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("wear")) {
+				wear(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("struggle")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 尝试挣扎.", Type: "Emote"} );
+				struggle(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("cell")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看舱室.", Type: "Emote"} );
+				cell(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("get into it")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 进入舱室.", Type: "Emote"} );
+				enter(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("corner")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看角落.", Type: "Emote"} );
+				corner(sender, msg)
+			}
 
-	InventoryRemove(target,"ItemVulva")
-  InventoryRemove(target,"ItemVulvaPiercings")
-	InventoryRemove(target,"ItemButt")
-	InventoryRemove(target,"ItemArms")
-	InventoryRemove(target,"ItemHands")
-	InventoryRemove(target,"ItemNeck")
-	InventoryRemove(target,"ItemMouth")
-	InventoryRemove(target,"ItemMouth2")
-	InventoryRemove(target,"ItemMouth3")
-	InventoryRemove(target,"ItemTorso")
-	InventoryRemove(target,"ItemBreast")
-	InventoryRemove(target,"ItemLegs")
-	InventoryRemove(target,"ItemFeet")
-	InventoryRemove(target,"ItemBoots")
-	InventoryRemove(target,"ItemNipples")
-	InventoryRemove(target,"ItemNipplesPiercings")
-	InventoryRemove(target,"ItemPelvis")
-	InventoryRemove(target,"ItemHead")
-	InventoryRemove(target,"ItemDevices")
-	InventoryRemove(target,"ItemEars")
-	InventoryRemove(target,"ItemHood")
-}
-
-function removeClothes(char, removeUnderwear = true, removeCosplay = false){
-  target = getCharacterObject(char)
-	InventoryRemove(target,"Cloth")
-	InventoryRemove(target,"ClothLower")
-	InventoryRemove(target,"ClothAccessory")
-	InventoryRemove(target,"Suit")
-	InventoryRemove(target,"SuitLower")
-	InventoryRemove(target,"Gloves")
-	InventoryRemove(target,"Shoes")
-	InventoryRemove(target,"Hat")
-	InventoryRemove(target,"Necklace")
-	InventoryRemove(target,"RightAnklet")
-	InventoryRemove(target,"LeftAnklet")
-  InventoryRemove(target,"Mask")
-	if (removeUnderwear) {
-		InventoryRemove(target,"Socks")
-		InventoryRemove(target,"Bra")
-		InventoryRemove(target,"Panties")
-  	InventoryRemove(target,"Corset")
-	}
-  if (removeCosplay) {
-    // Hair accessory 1: Ears & Accessories
-	  // Hair accessory 2: Ears only
-	  // Hair accessory 3: Accessories only
-    InventoryRemove(target,"HairAccessory1")
-    InventoryRemove(target,"HairAccessory2")
-    InventoryRemove(target,"HairAccessory3")
-    InventoryRemove(target,"TailStraps")
-    InventoryRemove(target,"Wings")
-  }
-}
-
-function dollify(char, mustKneel=false, mustStand = false) {
-  target = getCharacterObject(char)
-	dressLike(target, dress="doll")
-	// Pose
-	if (mustKneel) {CharacterSetActivePose(target,"Kneel")}
-	if (mustStand) {CharacterSetActivePose(target,null)}
-	//InventoryWear(ChatRoomCharacter[R], "OneBarPrison","ItemDevices",hairColor)
-
-	// Update Restrain to server
-	ChatRoomCharacterUpdate(target)
-}
-
-
-function dressLike(char, dress = "doll", dressColor = "default", removeUnderwear = true, removeCosplay = false, update = true) {
-  target = getCharacterObject(char)
-
-	// remove all previous restrains
-	removeRestrains(target)
-	memorizeClothing(target)
-	removeClothes(target, removeUnderwear, removeCosplay)
-
-	// Get the hair color
-	if (dressColor == "hair" || dress == "doll" || dress == "talkingDoll") {
-		for (var ii = 0; ii < target.Appearance.length; ii++) {
-			if (target.Appearance[ii].Asset.Group.Name == 'HairFront') {
-				dressColor = target.Appearance[ii].Color
-        if (!(typeof dressColor === 'string')) {
-            dressColor = dressColor[0];
-        }
-				break;
+			else if (msg.toLowerCase().includes("device")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 查看面板.", Type: "Emote"} );
+				device(sender, msg)
+			}
+			else if (msg.toLowerCase().includes("skip")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 跳过.", Type: "Emote"} );
+				progressTo2(sender, msg);
+				isSuccess = true;
+			}
+			else if (msg.toLowerCase().includes("wait")) {
+				ServerSend("ChatRoomChat", { Content: "*" + sender.Name + " 等待.", Type: "Emote"} );
+				if (storyProgress == 3){
+					progress3End(sender, msg);
+				}
 			}
 		}
-	} else if (!dressColor.startsWith("#")) {
-		dressColor = "default"
 	}
 
-  if (dress == "doll") {
 
-    InventoryWear(target, "Irish8Cuffs","ItemFeet",dressColor,24)
-    //{"Group":"ItemLegs","Name":"SeamlessHobbleSkirt","Color":"#222222","Difficulty":24
-    InventoryWear(target, "SeamlessHobbleSkirt","ItemLegs",dressColor,24)
-    //{"Group":"ItemBoots","Name":"BalletWedges","Color":"Default","Difficulty":16
-    InventoryWear(target, "BalletWedges","ItemBoots",dressColor,16)
-    //{"Group":"ItemMouth","Name":"DeepthroatGag","Color":"#404040","Difficulty":15
-    InventoryWear(target, "DeepthroatGag","ItemMouth",dressColor,15)
-    //{"Group":"ItemMouth2","Name":"HarnessPanelGag","Color":"#404040","Difficulty":16
-    InventoryWear(target, "HarnessPanelGag","ItemMouth2",dressColor,16)
-    //{"Group":"ItemMouth3","Name":"StitchedMuzzleGag","Color":"Default","Difficulty":15
-    InventoryWear(target, "StitchedMuzzleGag","ItemMouth3",dressColor,15)
-    //{"Group":"ItemArms","Name":"ArmbinderJacket","Color":["#B23E46","#0A0A0A","Default"],"Difficulty":22
-    InventoryWear(target, "ArmbinderJacket","ItemArms",[dressColor,"#0A0A0A","Default"],22)
-    //console.log(target.MemberNumber + " - Arms - " + InventoryGet(target, "ItemArms").Color)
-    //{"Group":"ItemHood","Name":"KirugumiMask","Color":["#9A7F76","Default","Default","#cc33cc"],"Difficulty":25,"Property":{"Type":"e2m3b1br0op2ms0","Difficulty":15,"Block":["ItemMouth","ItemMouth2","ItemMouth3","ItemHead","ItemNose","ItemEars"],"Effect":["BlindHeavy","Prone","BlockMouth"],"Hide":["Glasses","ItemMouth","ItemMouth2","ItemMouth3","Mask","ItemHead"],"HideItem":["ItemHeadSnorkel"]}}]
-    InventoryWear(target, "KirugumiMask","ItemHood",["#9A7F76","Default","Default",dressColor],25)
-    //console.log(target.MemberNumber + " - Hood - " + InventoryGet(target, "ItemHood").Color)
-    InventoryGet(target, "ItemHood").Property = {"Type":"e2m3b1br0op2ms0","Difficulty":15,"Effect":["BlindHeavy","Prone","BlockMouth"],"Hide":["Glasses","ItemMouth","ItemMouth2","ItemMouth3","Mask","ItemHead"],"HideItem":["ItemHeadSnorkel"]}
-
-
-  } else if (dress == "doll2" || dress == "talkingDoll") {
-
-		// Restrain
-		//InventoryWear(target, "LatexSkirt2","BodyLower",dressColor) //ass
-		//InventoryWear(target, "Catsuit","Suit",baseBlack)
-		//InventoryWear(target, "Catsuit","SuitLower",baseBlack)
-		//InventoryWear(target, "LatexSkirt2","BodyLower",dressColor) // nipple
-		InventoryWear(target, "LatexSocks1","Socks",dressColor)
-		InventoryWear(target, "LatexCorset1","ItemTorso",dressColor)
-		InventoryWear(target, "ThighHighLatexHeels","ItemBoots",dressColor)
-		//InventoryWear(target, "Catsuit","Gloves",dressColor)
-		InventoryWear(target, "BoxTieArmbinder","ItemArms",dressColor,100)
-		//InventoryWear(target, "LatexSkirt2","BodyLower",dressColor) //ItemHands
-    if (dress != "talkingDoll") {
-			InventoryWear(target, "ClothStuffing","ItemMouth",dressColor)
-			InventoryWear(target, "HarnessPanelGag","ItemMouth2",dressColor)
-			InventoryWear(target, "LatexPostureCollar","ItemMouth3",dressColor)
-    }
-		InventoryWear(target, "LatexBlindfold","ItemHead",dressColor)
-		InventoryWear(target, "LatexSkirt1","ClothLower",dressColor)
-
-		InventoryWear(target, "SpreaderMetal","ItemFeet",dressColor)
-		//InventoryWear(target, "LeatherLegCuffs","ItemFeet",dressColor)
-
-
-	} else if (dress == "maid") {
-		InventoryWear(target, "Socks5","Socks","#d2d2d2")
-		InventoryWear(target, "Shoes4","Shoes")
-		InventoryWear(target, "MaidOutfit1","Cloth")
-		InventoryWear(target, "FrillyApron","ClothAccessory")
-		InventoryWear(target, "MaidHairband1","Hat")
-		InventoryWear(target, "MaidCollar","ItemNeck")
-
-
-	} else if (dress == "cow") {
-    //InventoryWear(target, "CowPrintedBra","Bra")
-    InventoryWear(target, "CowPrintedPanties","Panties")
-		InventoryWear(target, "CowHorns","HairAccessory1")
-		InventoryWear(target, "BoxTieArmbinder","ItemArms","default", 50)
-		InventoryWear(target, "PonyBoots","Shoes")
-		InventoryWear(target, "CowPrintedSocks","Socks")
-		InventoryWear(target, "CowPrintedGloves","Gloves")
-		InventoryWear(target, "Cowtail","ItemButt")
-		InventoryWear(target, "LeatherStrapHarness","ItemTorso")
-		//InventoryGet(target, "ItemArms").Property = {Type: "Strap", Difficulty: 3}
-
-	} else if (dress == "pony") {
-		InventoryWear(target, "HorsetailPlug","ItemButt",dressColor) //HorsetailPlug1
-		InventoryWear(target, "LeatherArmbinder","ItemArms",dressColor,50)
-		InventoryWear(target, "HarnessPonyBits","ItemMouth",dressColor)
-		InventoryWear(target, "PonyBoots","Shoes",dressColor)
-		InventoryWear(target, "LeatherHarness","ItemTorso",dressColor)
-
-  } else if (dress == "pony elegant") {
-		InventoryWear(target, "HorsetailPlug","ItemButt",dressColor) //HorsetailPlug1
-		InventoryWear(target, "LeatherArmbinder","ItemArms",dressColor,50)
-		InventoryWear(target, "HarnessPonyBits","ItemMouth",dressColor)
-		InventoryWear(target, "PonyBoots","Shoes",dressColor)
-		InventoryWear(target, "Corset5","Corset",dressColor)
-		InventoryWear(target, "PonyEars1","HairAccessory2",dressColor)
-		InventoryWear(target, "LatexSocks1","Socks",dressColor)
-
-  } else if (dress == "pony race") {
-		InventoryWear(target, "HorsetailPlug","ItemButt",dressColor) //HorsetailPlug1
-		InventoryWear(target, "LeatherArmbinder","ItemArms",dressColor,50)
-		InventoryWear(target, "HarnessPonyBits","ItemMouth",dressColor)
-		InventoryWear(target, "PonyBoots","Shoes",dressColor)
-		InventoryWear(target, "Corset4","Corset",dressColor)
-		InventoryWear(target, "PonyEars1","HairAccessory2",dressColor)
-		InventoryWear(target, "HarnessPanties2","ItemPelvis",dressColor)
-	  InventoryWear(target, "HarnessBra2","Bra",dressColor)
-
-	} else if (dress == "cat"|| dress == "kitty") {
-		InventoryWear(target, "TailButtPlug","ItemButt",dressColor)
-		InventoryWear(target, "BitchSuit","ItemArms",dressColor)
-		InventoryWear(target, "KittyGag","ItemMouth2",dressColor)
-		//InventoryWear(target, "ClothStuffing","ItemMouth")
-		InventoryWear(target, "LeatherChoker","ItemNeck")
-		InventoryWear(target, "CollarBell","ItemNeckAccessories")
-		//InventoryWear(target, "HarnessBallGag","ItemMouth",dressColor)
-		InventoryWear(target, "Ears2","HairAccessory1",dressColor)
-
-	} else if (dress == "puppy" || dress == "dog") {
-		InventoryWear(target, "WolfTailStrap3","TailStraps",dressColor) //PuppyTailStrap1 PuppyTailStrap WolfTailStrap3
-		InventoryWear(target, "BitchSuit","ItemArms",dressColor)
-		//InventoryWear(target, "KittyGag","ItemMouth2",dressColor)
-		//InventoryWear(target, "DogMuzzleExposed","ItemMouth",dressColor)
-		//InventoryWear(target, "XLBoneGag","ItemMouth",dressColor)
-		InventoryWear(target, "LeatherChoker","ItemNeck",dressColor)
-		//InventoryWear(target, "CollarBell","ItemNeckAccessories")
-		//InventoryWear(target, "HarnessBallGag","ItemMouth",dressColor)
-		InventoryWear(target, "PuppyEars1","HairAccessory1",dressColor)
-
-	} else if (dress == "trainer") {
-    InventoryWear(target, "Jeans1", "ClothLower", "#bbbbbb");
-    InventoryWear(target, "Boots1", "Shoes", "#3d0200");
-    InventoryWear(target, "TShirt1", "Cloth", "#aa8080");
-    InventoryWear(target, "Beret1", "Hat", "#202020");
-    InventoryWear(target, "Bandana", "Necklace");
-
-  } else if (dress == "trainer sub") {
-    InventoryWear(target, "JeansShorts", "ClothLower", "#838383");
-    InventoryWear(target, "Boots1", "Shoes", "#3d0200");
-    InventoryWear(target, "Beret1", "Hat", "#202020");
-    InventoryWear(target, "SexyBeachPanties1", "Panties");
-    InventoryWear(target, "SexyBeachBra1", "Bra");
-    InventoryWear(target, "Bandana", "Necklace");
-
-	} else if (dress == "mistress") {
-    InventoryWear(target, "MistressBoots", "Shoes", dressColor);
-    InventoryWear(target, "MistressGloves", "Gloves", dressColor);
-    InventoryWear(target, "MistressTop", "Cloth", dressColor);
-    InventoryWear(target, "MistressBottom", "ClothLower", dressColor);
-
-	} else if (dress == "concubine" || dress == "temple offering" || dress == "temple") {
-    InventoryWear(target, "HaremBra", "Bra", dressColor);
-    InventoryWear(target, "HaremPants", "ClothLower", dressColor);
-
-    if (dress == "concubine" || dress == "temple offering") {
-      InventoryWear(target, "FaceVeil", "Mask", dressColor);
-      InventoryWear(target, "BarefootSandals1", "Shoes", dressColor);
-    } else {
-      InventoryWear(target, "Dress2", "Cloth", dressColor);
-      InventoryWear(target, "Sandals", "Shoes", dressColor);
-    }
-	}
-
-	// Update Restrain to server
-	if (update) { ChatRoomCharacterUpdate(target) }
 
 }
 
-
-
-function free(char, update = true, reapplyCloth = true) {
-  target = getCharacterObject(char)
-	//punishList.splice( punishList.indexOf(targetMemberNumber), 1 );
-	removeRestrains(target)
-	if (reapplyCloth) {reapplyClothing(target)}
-	if (update) { ChatRoomCharacterUpdate(target) }
-	//ServerSend("ChatRoomChat", { Content: "*" + ChatRoomCharacter[R].Name + ", your punishment is over. From now on, try to behave like a good girl.", Type: "Emote", Target: ChatRoomCharacter[R].MemberNumber} );
-
+function RemoveCloth(sender, msg) {
+	InventoryRemove(sender,"Cloth");
+	InventoryRemove(sender,"ClothLower");
+	InventoryRemove(sender,"ClothAccessory");
+	InventoryRemove(sender,"Suit");
+	InventoryRemove(sender,"SuitLower");
+	InventoryRemove(sender,"Gloves");
+	InventoryRemove(sender,"Shoes");
+	InventoryRemove(sender,"Hat");
+	InventoryRemove(sender,"Necklace");
+	InventoryRemove(sender,"RightAnklet");
+	InventoryRemove(sender,"LeftAnklet");
+	InventoryRemove(sender,"Mask");
+	InventoryRemove(sender,"Socks");
+	InventoryRemove(sender,"Bra");
+	InventoryRemove(sender,"Panties");
+	InventoryRemove(sender,"Corset");
+	InventoryRemove(sender,"HairAccessory1")
+	InventoryRemove(sender,"HairAccessory2")
+	InventoryRemove(sender,"HairAccessory3")
+	InventoryRemove(sender,"TailStraps")
+	InventoryRemove(sender,"Wings")
+	ChatRoomCharacterUpdate(sender);
 }
 
+//脱掉所有装备
+function RemoveRestrains(sender, msg){
 
-function dollifyAll(excludeMemberNumber = -1) {
-	for (jj = 0; jj < ChatRoomCharacter.length; jj++) {
-		if (ChatRoomCharacter[jj].MemberNumber != Player.MemberNumber && ChatRoomCharacter[jj].MemberNumber != excludeMemberNumber) {
-			dollify(ChatRoomCharacter[jj])
+	InventoryRemove(sender,"ItemVulva")
+	InventoryRemove(sender,"ItemVulvaPiercings")
+	InventoryRemove(sender,"ItemButt")
+	InventoryRemove(sender,"ItemArms")
+	InventoryRemove(sender,"ItemHands")
+	InventoryRemove(sender,"ItemNeck")
+	InventoryRemove(sender,"ItemMouth")
+	InventoryRemove(sender,"ItemMouth2")
+	InventoryRemove(sender,"ItemMouth3")
+	InventoryRemove(sender,"ItemTorso")
+	InventoryRemove(sender,"ItemBreast")
+	InventoryRemove(sender,"ItemLegs")
+	InventoryRemove(sender,"ItemFeet")
+	InventoryRemove(sender,"ItemBoots")
+	InventoryRemove(sender,"ItemNipples")
+	InventoryRemove(sender,"ItemNipplesPiercings")
+	InventoryRemove(sender,"ItemPelvis")
+	InventoryRemove(sender,"ItemHead")
+	InventoryRemove(sender,"ItemDevices")
+	InventoryRemove(sender,"ItemEars")
+	ChatRoomCharacterUpdate(sender);
+}
+
+function explore(sender, msg) {
+	ServerSend("ChatRoomChat", { Content: "*你环视了房间，面前的台子上有又红又大的按钮(button),侧面有一堵墙(wall)，", Type: "Emote"} );
+	if (storyProgress == 0) {
+		ServerSend("ChatRoomChat", { Content: "*门没有上锁，现在还可以离开.", Type: "Emote"} );
+	}else if (storyProgress == 1){
+		ServerSend("ChatRoomChat", { Content: "*面前有一排有编号的盒子(box)，前方的墙上有三盏指示灯(light)，门没有上锁，现在还可以离开.", Type: "Emote"} );
+	}else if (storyProgress == 2){
+		ServerSend("ChatRoomChat", { Content: "*现在墙上的一个格子伸了出来，是一个舱室(cell)，等待着你的进入.门上锁了，已经无法离开", Type: "Emote"} );
+	}else {//storyProgress == 3
+		ServerSend("ChatRoomChat", { Content: "*面前有一排有编号的盒子(box)，前方的墙上有三盏指示灯(light).", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*按钮(button)的台子上现在多出了一个操作面板(device).", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*舱室(cell)随时等待着你的进入,你剩下的时间不多了.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*角落(corner)似乎有一些划痕.", Type: "Emote"} );
+	}
+}
+
+//墙 进度1：无 进度2：显示cell 进度3：提示cell
+function wall(sender, msg) {
+	ServerSend("ChatRoomChat", { Content: "*这堵墙上的缝隙将它分成了一个又一个的格子,你靠近仔细听，似乎有喘息声与呜咽声，", Type: "Emote"} );
+	if (storyProgress <= 1) {
+		ServerSend("ChatRoomChat", { Content: "*你不敢往后想，于是退开了.", Type: "Emote"} );
+	}else if (storyProgress == 2){
+		ServerSend("ChatRoomChat", { Content: "*现在墙上的一个格子伸了出来，是一个舱室(cell),你理解了墙壁内的声音都来自于被装在舱室里收纳进去的人，而你也将加入她们.一种难以言喻的感觉自你内心升起.", Type: "Emote"} );
+	}
+	else{// storyProgress == 2
+		ServerSend("ChatRoomChat", { Content: "*舱室(cell)仍在那里，你的眼罩上显示着：进入！.", Type: "Emote"} );
+	}
+}
+
+//按钮 进度1：progressTo1函数 进度2：无 进度3：buttoninish函数
+function button(sender, msg) {
+	//console.log("button")
+	ServerSend("ChatRoomChat", { Content: "*你按下了按钮，", Type: "Emote"} );
+	if (storyProgress == 0) {
+		progressTo1(sender, msg);
+	}
+
+	else if(storyProgress <=2 ){
+		ServerSend("ChatRoomChat", { Content: "*没有任何反应.", Type: "Emote"} );
+	}
+
+
+	//进度3
+	else{
+		if(buttonCount == 3){
+			ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote"} );
+			setTimeout(function (sender) {
+				ServerSend("ChatRoomChat", { Content: "*是不是机器没识别到这一下", Type: "Emote"} );
+			}, 2 * 1000, sender);
+
+		}
+		else if(buttonCount == 4){
+			ServerSend("ChatRoomChat", { Content: "*滴.", Type: "Emote"} );
+			setTimeout(function (sender) {
+				buttonFinish(sender, msg)
+			}, 10 * 1000, sender);
+		}
+		else{
+			ServerSend("ChatRoomChat", { Content: "*滴.", Type: "Emote"} );
+		}
+		buttonCount++;
+
+	}
+	//console.log(InventoryGet(sender, "ItemNeckAccessories"))
+	//console.log(InventoryGet(sender, "ItemNeck"))
+}
+
+//盒子 进度1：wear函数 进度3：取认证卡，
+function box(sender, msg) {
+	if (storyProgress == 0) {
+		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣，不是吗.", Type: "Emote"} );
+	}else if (storyProgress == 1){
+		ServerSend("ChatRoomChat", { Content: "*九个盒子一字排开，上面分别写着1至9的编号，看起来你可以试着打开其中一个.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*还有个显示屏，上面写着："+boxText[restrainCount]+".", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*[NOTE:通过发送 *box 数字 来打开盒子（例：*box 2）.", Type: "Emote"} );
+		if(msg.toLowerCase().includes("1")||
+			msg.toLowerCase().includes("2")||
+			msg.toLowerCase().includes("3")||
+			msg.toLowerCase().includes("4")||
+			msg.toLowerCase().includes("5")||
+			msg.toLowerCase().includes("6")||
+			msg.toLowerCase().includes("7")||
+			msg.toLowerCase().includes("8")||
+			msg.toLowerCase().includes("9")){//是否含数字
+			ServerSend("ChatRoomChat", { Content: "*你试着打开一个盒子.", Type: "Emote"} );
+			if(msg.toLowerCase().includes(boxNum[restrainCount])){
+				isWareable = true;
+				ServerSend("ChatRoomChat", { Content: "*盒子打开了，里面是"+restrainText[restrainCount]+",盒子内壁刻着:穿上(wear)它.", Type: "Emote"} );
+				if(restrainCount == 4){
+					ServerSend("ChatRoomChat", { Content: "*你下意识的看了一眼来时的门，目前还没有上锁.", Type: "Emote"} );
+				}
+			}
+			else {
+				life--;
+				ServerSend("ChatRoomChat", { Content: "*指示灯熄灭了一盏，你有种不详的预感.", Type: "Emote"} );
+				if(life == 0){
+					progressTo2(sender, msg);
+				}
+
+			}
+		}
+	}
+	else if(storyProgress == 2){
+		ServerSend("ChatRoomChat", { Content: "*无论你对盒子做什么，它都没有一点反应，你能做的事只有一件.", Type: "Emote"} );
+	}
+	else {// storyProgress == 3
+		if(isDeviceOn && cardCount<=2){
+			if(isGagOff){
+				ServerSend("ChatRoomChat", { Content: "*九个盒子一字排开，上面分别写着1至9的编号，现在你可以用嘴把认证卡叼出来了.", Type: "Emote"} );
+				ServerSend("ChatRoomChat", { Content: "*还有个显示屏，上面写着："+boxText2[cardCount]+".", Type: "Emote"} );
+				if(cardCount == 1){
+					ServerSend("ChatRoomChat", { Content: "*"+boxText20[0]+"", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*"+boxText20[1]+"", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*"+boxText20[2]+"", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*"+boxText20[3]+"", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*"+boxText20[4]+"", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*"+boxText20[5]+"", Type: "Emote"} );
+				}
+				ServerSend("ChatRoomChat", { Content: "*[NOTE:通过发送 *box 数字 来打开盒子（例：*box 2）.", Type: "Emote"} );
+				if(msg.toLowerCase().includes("1")||
+					msg.toLowerCase().includes("2")||
+					msg.toLowerCase().includes("3")||
+					msg.toLowerCase().includes("4")||
+					msg.toLowerCase().includes("5")||
+					msg.toLowerCase().includes("6")||
+					msg.toLowerCase().includes("7")||
+					msg.toLowerCase().includes("8")||
+					msg.toLowerCase().includes("9")){//是否含数字
+					ServerSend("ChatRoomChat", { Content: "*你试着打开一个盒子.", Type: "Emote"} );
+					if(msg.toLowerCase().includes(boxNum2[cardCount])){
+
+						if(cardCount == 2){
+							isBoxOpenStop = false;
+							t5 = setTimeout(function (SenderCharacter) {
+								if (!isBoxOpenStop){
+									ServerSend("ChatRoomChat", {Content: "*盒子终于打开了，你取出了一个认证卡.", Type: "Emote"} );
+									cardCount++;
+								}
+								else{
+									ServerSend("ChatRoomChat", {Content: "*盒子那边滴了一声，看来你得待在那里.", Type: "Emote"} );
+								}
+							}, 30 * 1000, sender)
+						}
+						else {
+							ServerSend("ChatRoomChat", { Content: "*你取出了一个认证卡.", Type: "Emote"} );
+							cardCount++;
+						}
+
+					}
+					else {
+						setTimeout(function (SenderCharacter) {
+							ServerSend("ChatRoomChat", { Content: "*盒子打不开，你浪费了一些时间.", Type: "Emote"} );
+						}, 5 * 1000, sender)
+					}
+				}
+			}
+			else{
+				ServerSend("ChatRoomChat", { Content: "*九个盒子一字排开，上面分别写着1至9的编号，你意识到以你现在的状态即使里面有东西也没法拿出来.", Type: "Emote"} );
+			}
+		}
+		else {
+			ServerSend("ChatRoomChat", { Content: "*九个盒子一字排开，上面分别写着1至9的编号，看上去里面没有东西.", Type: "Emote"} );
 		}
 	}
 }
 
-
-function isExposed(C, ignoreItemArray = []) {
-  // in this case C is ChatRoomCharacter
-  if (InventoryPrerequisiteMessage(C, "AccessBreast")==="" && InventoryPrerequisiteMessage(C, "AccessVulva")==="" && !customInventoryGroupIsBlocked(C, "ItemBreast") && !customInventoryGroupIsBlocked(C, "ItemNipples") && !customInventoryGroupIsBlocked(C, "ItemVulva", ignoreItemArray)) {
-    return true
-  }
-  return false
-}
-
-
-function customInventoryGroupIsBlocked(C, GroupName, ignoreItemArray = []) {
-  // in this case C is ChatRoomCharacter
-	// Items can block each other (hoods blocks gags, belts blocks eggs, etc.)
-	for (var E = 0; E < C.Appearance.length; E++) {
-    if (ignoreItemArray.includes(C.Appearance[E].Asset.Name)) continue;
-		if (!C.Appearance[E].Asset.Group.Clothing && (C.Appearance[E].Asset.Block != null) && (C.Appearance[E].Asset.Block.includes(GroupName))) return true;
-		if (!C.Appearance[E].Asset.Group.Clothing && (C.Appearance[E].Property != null) && (C.Appearance[E].Property.Block != null) && (C.Appearance[E].Property.Block.indexOf(GroupName) >= 0)) return true;
+//指示灯 进度1：显示生命 进度2：无 进度3：显示101,5
+function light(sender, msg) {
+	if (storyProgress == 0) {
+		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote"} );
 	}
-
-	// Nothing is preventing the group from being used
-	return false;
-
+	else if (storyProgress == 1){
+		ServerSend("ChatRoomChat", { Content: "*有三盏指示灯，其中"+(life)+"盏是亮着的.", Type: "Emote"} );
+	}
+	else if(storyProgress == 2){
+		ServerSend("ChatRoomChat", { Content: "*现在所有指示灯都熄灭了，你能做的事只有一件.", Type: "Emote"} );
+	}
+	else {// storyProgress == 3
+		ServerSend("ChatRoomChat", { Content: "*三盏灯中左右两盏是亮着的，中间是熄灭的.", Type: "Emote"} );
+		//101 == 5
+	}
 }
 
-function copyDress(char){
-  target = getCharacterObject(char)
+//穿 进度1 根据装备数穿装备与progressTo2函数 进度2：无 进度3：无
+function wear(sender, msg) {
+	if (storyProgress == 0) {
+		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote"} );
+	}else if (storyProgress == 1){
+		if(isWareable){
+			switch (restrainCount) {
+				case 0:
+					//腿铐
+					InventoryWear(sender, "FuturisticLegCuffs", "ItemLegs", "Default",80);
+					InventoryLock(sender, InventoryGet(sender, "ItemLegs"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+					InventoryGet(sender, "ItemLegs").Property.CombinationNumber = lockCode;
+					InventoryGet(sender, "ItemLegs").Property.Type = "Chained";
 
-  copiedDress = {}
-  for (var i = 0; i < target.Appearance.length; i++) {
-    if (restrainsLocationList.indexOf(target.Appearance[i].Asset.Group.Name) >=0 || clothesLocationList.indexOf(target.Appearance[i].Asset.Group.Name) >=0 ) {
-      copiedDress[target.Appearance[i].Asset.Group.Name] = {}
-      copiedDress[target.Appearance[i].Asset.Group.Name]["Name"] = target.Appearance[i].Asset.Name
-      copiedDress[target.Appearance[i].Asset.Group.Name]["Color"] = target.Appearance[i].Color
-    }
-  }
-  console.log(copiedDress)
-}
+					//踝铐
+					InventoryWear(sender, "FuturisticAnkleCuffs", "ItemFeet", "Default",80);
+					InventoryLock(sender, InventoryGet(sender, "ItemFeet"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+					InventoryGet(sender, "ItemFeet").Property.CombinationNumber = lockCode;
+					InventoryGet(sender, "ItemFeet").Property.Type = "Chained";
+					//鞋
+					InventoryWear(sender, "FuturisticHeels", "ItemBoots", "Default",80);
+					InventoryLock(sender, InventoryGet(sender, "ItemBoots"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+					InventoryGet(sender, "ItemBoots").Property = {
+						"Effect": [
+							"Lock"
+						],
+						"Type": "Heel",
+						"HeightModifier": 16,
+						"LockedBy": "CombinationPadlock",
+						"LockMemberNumber": Player.MemberNumber,
+						"CombinationNumber": lockCode
+					};
+					//刷新角色
+					ChatRoomCharacterUpdate(sender);
+					isWareable = false;
+					restrainCount ++;
+					ServerSend("ChatRoomChat", { Content: "*你穿上了它们，令人感到诡异的合身，只是你现在光是想站稳都得费尽心神.", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*盒子关上了，里面传出了机械声，似乎里面的东西不一样了.", Type: "Emote"} );
+					break;
+				case 1:
+					//胸罩
+					InventoryWear(sender, "FuturisticBra", "ItemBreast", "Default",80);
+					InventoryLock(sender, InventoryGet(sender, "ItemBreast"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+					InventoryGet(sender, "ItemBreast").Property.CombinationNumber = lockCode;
+					//贞操带
+					InventoryWear(sender, "FuturisticTrainingBelt", "ItemPelvis", "Default",80);
+					InventoryLock(sender, InventoryGet(sender, "ItemPelvis"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+					InventoryGet(sender, "ItemPelvis").Property.CombinationNumber = lockCode;
+					//束带
+					InventoryWear(sender, "FuturisticHarness", "ItemTorso", "Default",80);
+					InventoryLock(sender, InventoryGet(sender, "ItemTorso"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+					InventoryGet(sender, "ItemTorso").Property.CombinationNumber = lockCode;
+					//刷新角色
+					ChatRoomCharacterUpdate(sender);
+					isWareable = false;
+					restrainCount ++;
+					ServerSend("ChatRoomChat", { Content: "*你穿上了它们，现在你确信这些东西是为你量身定做的了，你试着触摸私处，但是刺激完全被挡在了贞操带外.", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*盒子关上了，里面传出了机械声，似乎里面的东西不一样了.", Type: "Emote"} );
+					break;
+				case 2:
+					//眼罩
+					InventoryWear(sender, "InteractiveVRHeadset", "ItemHead", "Default",80);
+					InventoryLock(sender, InventoryGet(sender, "ItemHead"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+					InventoryGet(sender, "ItemHead").Property.CombinationNumber = lockCode;
+					//口塞
+					InventoryWear(sender, "FuturisticHarnessPanelGag", "ItemMouth", "Default",80);
+					InventoryLock(sender, InventoryGet(sender, "ItemMouth"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+					InventoryGet(sender, "ItemMouth").Property.CombinationNumber = lockCode;
+					//刷新角色
+					ChatRoomCharacterUpdate(sender);
+					isWareable = false;
+					restrainCount ++;
+					ServerSend("ChatRoomChat", { Content: "*你穿上了它们，你的脸完全被挡住了，而且有什么东西伸进了你的嘴里，奇怪的是你仍然能看见东西.", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*盒子关上了，里面传出了机械声，似乎里面的东西不一样了.", Type: "Emote"} );
+					break;
+				case 3:
+					InventoryWear(sender, "FuturisticCuffs", "ItemArms", "Default",80);
+					InventoryLock(sender, InventoryGet(sender, "ItemArms"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+					InventoryGet(sender, "ItemArms").Property.CombinationNumber = lockCode;
+					//手套
+					InventoryWear(sender, "FuturisticMittens", "ItemHands", "Default",80);
+					InventoryLock(sender, InventoryGet(sender, "ItemHands"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+					InventoryGet(sender, "ItemHands").Property.CombinationNumber = lockCode;
+					//刷新角色
+					ChatRoomCharacterUpdate(sender);
+					isWareable = false;
+					restrainCount ++;
+					ServerSend("ChatRoomChat", { Content: "*你穿上了它们，你的手被迫握成了拳头.", Type: "Emote"} );
+					ServerSend("ChatRoomChat", { Content: "*盒子关上了，里面传出了机械声，似乎里面的东西不一样了.", Type: "Emote"} );
+					break;
+				case 4:
+					InventoryRemove(sender,"ItemArms");
+					//单手套
+					InventoryWear(sender, "FuturisticArmbinder", "ItemArms", "Default",80);
+					InventoryLock(sender, InventoryGet(sender, "ItemArms"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+					InventoryGet(sender, "ItemArms").Property.CombinationNumber = lockCode;
+					//刷新角色
+					ChatRoomCharacterUpdate(sender);
+					isWareable = false;
+					restrainCount ++;
+					ServerSend("ChatRoomChat", { Content: "*机械臂亲切地伸出来帮你穿上了它，现在你被完美的束缚住了.", Type: "Emote"} );
+					break;
+			}
+			if(restrainCount ==5){
+				progressTo2(sender, msg);
 
-function pasteDress(char, color = "original"){
-  target = getCharacterObject(char)
-
-
-  removeRestrains(target)
-  removeClothes(target)
-
-
-  dressColor = false
-  if (color == "original") {
-    dressColor = false
-  } else if (color == "default") {
-    dressColor = "default"
-  } else if (color == "hair") {
-    for (var ii = 0; ii < target.Appearance.length; ii++) {
-      if (target.Appearance[ii].Asset.Group.Name == 'HairFront') {
-        dressColor = target.Appearance[ii].Color
-        break;
-      }
-    }
-  } else {
-    dressColor = color
-  }
-
-  for (i in copiedDress) {
-    InventoryWear(target, copiedDress[i]["Name"], i, (dressColor ? dressColor : copiedDress[i]["Color"]))
-  }
-  ChatRoomCharacterUpdate(target)
-}
-
-function getCharacterObject(char){
-  // If char is a number it gets processed to be transformed into a char
-  // If 0-9 it is assumed to be the position in the room.
-  // If >9 it is assumed to be the MemeberNumber
-  // If not a number it is returned as it is
-
-  if (isNaN(char)) {
-    return char
-  } else if (char <= 9) {
-    return ChatRoomCharacter[char]
-  } else {
-    for (var R = 0; R < ChatRoomCharacter.length; R++) {
-      if (ChatRoomCharacter[R].MemberNumber == char) {
-        return ChatRoomCharacter[R]
-      }
-    }
-  }
-}
-
-
-function charFromMemberNumber(memberNumber) {
-  var char = null;
-  for (let C = 0; C < ChatRoomCharacter.length; C++) {
-    if (ChatRoomCharacter[C].MemberNumber == memberNumber) {
-      char = ChatRoomCharacter[C];
-      break;
-    }
-  }
-  return char
-}
-
-function charFromName(charName) {
-  var char = null;
-  for (let C = 0; C < ChatRoomCharacter.length; C++) {
-    if (ChatRoomCharacter[C].Name == charName) {
-      char = ChatRoomCharacter[C];
-      break;
-    }
-  }
-  return char
-}
-
-
-//-------------------------------------------------------------------------------------------------------------------------
-clothMemoryList = {}
-
-function memorizeClothing(char) {
-  // in this case char is ChatRoomCharacter
-	clothMemoryList[char.MemberNumber] = char.Appearance.slice(0)
-}
-
-
-function reapplyClothing(char, update=true) {
-  // in this case char is ChatRoomCharacter
-	if (char.MemberNumber in clothMemoryList) {
-		char.Appearance = clothMemoryList[char.MemberNumber].slice(0)
-		if (update) {
-			CharacterRefresh(char);
-			ChatRoomCharacterUpdate(char)
+			}
 		}
-		delete clothMemoryList[char.MemberNumber]
+
+
+	}else {// storyProgress == 2
+		ServerSend("ChatRoomChat", { Content: "*已经没有可以给你穿的东西了，你能做的事只有一件.", Type: "Emote"} );
 	}
 }
 
-function getCharByName(name) {
-	for (var i = 0; i < ChatRoomCharacter.length; i++) {
-		if (ChatRoomCharacter[i].Name == name) {
-			return ChatRoomCharacter[i]
+//角落 进度1：无 进度2：无 进度3：提示button
+function corner(sender, msg){
+	if(storyProgress <=2){
+		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote"} );
+	}
+	else {
+		ServerSend("ChatRoomChat", { Content: "*你仔细检测了划痕，从旁边的金属片来看，是上一个人在同样被全身束缚的情况下留下的文字.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*毕竟哪怕有一根手指能动都不至于这么难以辨识.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*划痕写着：火丁 白勺 2jinzhi 扌安丑 次 deng1会!", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*口宀 面片反 15.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你试了试用金属片划你的束缚，但是现代工业岂是区区金属片可以撼动的.", Type: "Emote"} );
+
+	}
+
+}
+
+//面板 进度3：提示box与button 三次认证卡后调查结局
+function device(sender, msg){
+	if (storyProgress <=2 ) {
+		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote"} );
+	}
+	else {
+		if (isDeviceOn){
+			if(!isSuccess2){
+				ServerSend("ChatRoomChat", { Content: "*面板显示：调试模式，如需获取解除密钥，请从盒子(box)中取出三个认证卡后再次访问.", Type: "Emote"} );
+			}
+			else {
+				ServerSend("ChatRoomChat", { Content: "*面板又关闭了.", Type: "Emote"} );
+			}
+
+			if(!isGagOff){
+				//等待15秒解除口塞
+				isGagOffStop = false;
+				setTimeout(function (sender) {
+					gagOff(sender, msg)
+				}, 15 * 1000, sender);
+			}
+			if (cardCount ==3 && !isSuccess2){
+				isSuccess2 = true;
+
+				InventoryGet(sender, "ItemNeckAccessories").Property = {Effect: Array(0), Text: lockCode};
+
+				InventoryWear(sender, "FuturisticHeels", "ItemBoots", "Default",80);
+				InventoryLock(sender, InventoryGet(sender, "ItemBoots"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+				InventoryGet(sender, "ItemBoots").Property = {
+					"Effect": [
+						"Lock"
+					],
+					"Type": "Heel",
+					"HeightModifier": 16,
+					"LockedBy": "CombinationPadlock",
+					"LockMemberNumber": Player.MemberNumber,
+					"CombinationNumber": lockCode
+				};
+
+				InventoryWear(sender, "FuturisticHarnessPanelGag", "ItemMouth", "Default",80);
+				InventoryLock(sender, InventoryGet(sender, "ItemMouth"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+				InventoryGet(sender, "ItemMouth").Property ={
+					"AutoPunish": 0,
+					"AutoPunishUndoTime": 0,
+					"AutoPunishUndoTimeSetting": 300000,
+					"OriginalSetting": "Plug",
+					"ChatMessage": true,
+					"BlinkState": 1,
+					"Type": "Plug",
+					"Effect": [
+						"BlockMouth",
+						"GagTotal",
+						"Lock"
+					],
+					"LockedBy": "CombinationPadlock",
+					"LockMemberNumber": Player.MemberNumber,
+					"CombinationNumber": lockCode
+				};
+
+				//刷新角色
+				ChatRoomCharacterUpdate(sender);
+
+				ServerSend("ChatRoomChat", { Content: "*面板显示：解除密钥已显示在项圈上，调试模式关闭，恢复束缚中.", Type: "Emote"} );
+				ServerSend("ChatRoomChat", { Content: "*虽然情况也没有好转甚至更坏了，至少你还有个没法自己用的密钥.", Type: "Emote"} );
+			}
+
+
+		}
+		else {
+			ServerSend("ChatRoomChat", { Content: "*你动了动面板，似乎没有什么反应.", Type: "Emote"} );
 		}
 	}
-	return false
 }
 
-function InventoryBlockedOrLimitedCustomized(C, ItemAsset, ItemType) {
-  // slight variation of the official function InventoryBlockedOrLimited
-  Item = {"Asset": ItemAsset}
-	let Blocked = InventoryIsPermissionBlocked(C, Item.Asset.DynamicName(Player), Item.Asset.DynamicGroupName, ItemType);
-	let Limited = !InventoryCheckLimitedPermission(C, Item, ItemType);
-	return Blocked || Limited;
+//按钮完成 解锁device 非五次无法解锁
+function buttonFinish(sender, msg){
+
+	if(buttonCount == 5){
+		isDeviceOn = true;
+		InventoryRemove(sender,"ItemArms");
+		//拘束衣
+		InventoryWear(sender, "FuturisticStraitjacket", "ItemArms", "Default",80);
+		InventoryLock(sender, InventoryGet(sender, "ItemArms"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+		InventoryGet(sender, "ItemArms").Property = {
+			"Type": "cl0co1np1vp1a0",
+			"Difficulty": 0,
+			"Block": [
+				"ItemNipples",
+				"ItemNipplesPiercings",
+				"ItemVulva",
+				"ItemVulvaPiercings",
+				"ItemButt",
+				"ItemHands"
+			],
+			"Effect": [
+				"Block",
+				"Prone",
+				"Lock"
+			],
+			"Hide": [
+				"Cloth",
+				"ItemNipplesPiercings",
+				"ItemVulvaPiercings",
+				"ItemVulva",
+				"ItemVulvaPiercings",
+				"ItemNipples"
+			],
+			"HideItem": [
+				"ItemButtAnalBeads2"
+			],
+			"AllowActivity": [],
+			"Attribute": [],
+			"LockedBy": "CombinationPadlock",
+			"LockMemberNumber": Player.MemberNumber,
+			"CombinationNumber": lockCode
+		};
+		//状态变更
+		InventoryGet(sender, "ItemLegs").Property ={
+
+			"LockedBy": "CombinationPadlock",
+			"LockMemberNumber": Player.MemberNumber,
+			"CombinationNumber": lockCode,
+			"Type": "Closed",
+			"SetPose": [
+				"LegsClosed"
+			],
+			"Effect": [
+				"Prone",
+				"KneelFreeze",
+				"Slow",
+				"Lock"
+			],
+			"FreezeActivePose": [
+				"BodyLower"
+			],
+			"Difficulty": 6
+		};
+		InventoryGet(sender, "ItemFeet").Property ={
+			"LockedBy": "CombinationPadlock",
+			"LockMemberNumber": Player.MemberNumber,
+			"CombinationNumber": lockCode,
+			"Type": "Closed",
+			"Effect": [
+				"Prone",
+				"Freeze",
+				"Lock"
+			],
+			"SetPose": [
+				"LegsClosed"
+			],
+			"Difficulty": 6,
+			"FreezeActivePose": [
+				"BodyLower"
+			]
+		};
+		InventoryGet(sender, "ItemMouth").Property ={
+			"AutoPunish": 0,
+			"AutoPunishUndoTime": 0,
+			"AutoPunishUndoTimeSetting": 300000,
+			"OriginalSetting": "Plug",
+			"ChatMessage": true,
+			"BlinkState": 1,
+			"Type": "Plug",
+			"Effect": [
+				"BlockMouth",
+				"GagTotal",
+				"Lock"
+			],
+			"LockedBy": "CombinationPadlock",
+			"LockMemberNumber": Player.MemberNumber,
+			"CombinationNumber": lockCode
+		};
+		InventoryGet(sender, "ItemHead").Property ={
+			"Type": "b0f1g0",
+			"Difficulty": 0,
+			"Block": [],
+			"Effect": [
+				"VR",
+				"BlindHeavy",
+				"Prone",
+				"Lock"
+			],
+			"Hide": [
+				"Mask",
+				"Glasses"
+			],
+			"HideItem": [
+				"ItemNoseNoseRing"
+			],
+			"AllowActivity": [],
+			"Attribute": [],
+			"LockedBy": "CombinationPadlock",
+			"LockMemberNumber": Player.MemberNumber,
+			"CombinationNumber": lockCode
+		}
+		InventoryRemove(sender,"ItemBoots");
+		//刷新角色
+		ChatRoomCharacterUpdate(sender);
+		ServerSend("ChatRoomChat", { Content: "*叮咚.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*提示音：调试模式已启动，调整束缚中.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*强大的磁力将你的腿铐与足铐紧紧的吸在一起，你的手臂在短暂的从单手套解放出来后又被装进了拘束衣内.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*口塞上又粗又长的东西一口气顶到了你的喉咙，眼罩的视觉也被关上了，只留下显示在上面的倒计时.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*至少你的鞋子被脱下来了.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*提示音：调试模式启动完成，操作面板(device)已解锁.", Type: "Emote"} );
+	}
+	else {
+		ServerSend("ChatRoomChat", { Content: "*调试模式指令输入错误，共输入"+buttonCount+"次，1000秒内无法再次尝试进入调试模式.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*看来你已经失去了最后的机会.", Type: "Emote"} );
+	}
+}
+
+//检测是否移动 取下口塞
+function gagOff(sender, msg){
+	if (isGagOffStop){
+		ServerSend("ChatRoomChat", { Content: "*面板那边嗡了一声.", Type: "Emote"} );
+	}
+	else{
+		InventoryRemove(sender,"ItemMouth");
+		//刷新角色
+		ChatRoomCharacterUpdate(sender);
+		isGagOff = true;
+		ServerSend("ChatRoomChat", { Content: "*嗡！", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*从面板上产生一股磁力，猛地将你的口塞吸了上去，你直接倒在了面板上", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你发现口塞上的锁解开了，你尝试恢复平衡并通过后退来取下口塞，最后从你喉咙里拉出一根长的离谱的假阳具.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*现在你的嘴自由了，你试着呼救，在嗓子发哑后你觉得这个房间是用隔音材料制作的。.", Type: "Emote"} );
+	}
+}
+
+//推进至1
+function progressTo1(sender, msg){
+	storyProgress =1;
+	ServerSend("ChatRoomChat", { Content: "*按钮是通电的，于是你触电晕了过去.", Type: "Emote"} );
+	//项圈
+	InventoryWear(sender, "FuturisticCollar", "ItemNeck", "Default",80);
+	InventoryLock(sender, InventoryGet(sender, "ItemNeck"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+	InventoryGet(sender, "ItemNeck").Property.CombinationNumber = lockCode;
+	InventoryWear(sender, "ElectronicTag", "ItemNeckAccessories", "Default",80);
+	InventoryGet(sender, "ItemNeckAccessories").Property = {Effect: Array(0), Text: "lock"};
+	InventoryLock(sender, InventoryGet(sender, "ItemNeckAccessories"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+	InventoryGet(sender, "ItemNeckAccessories").Property.CombinationNumber = lockCode;
+	//console.log(InventoryGet(sender, "ItemNeckAccessories"))
+	//console.log(InventoryGet(sender, "ItemNeck"))
+	InventoryRemove(sender,"Cloth")
+	InventoryRemove(sender,"ClothLower")
+	InventoryRemove(sender,"Bra")
+	InventoryRemove(sender,"Panties")
+	InventoryWear(sender, "PilotSuit", "Suit", "Default",80);
+	InventoryWear(sender, "PilotSuit", "SuitLower", "Default",80);
+	InventoryWear(sender, "Catsuit", "Gloves", "#2B408B",80);
+	//刷新角色
+	ChatRoomCharacterUpdate(sender)
+	ServerSend("ChatRoomChat", { Content: "*醒来后你发现自己被穿上了奇怪的紧身衣，而且感到脖子有些异样，你伸手一摸，有个项圈被锁了上去，现在你得找办法解开它，或许你可以试试探索(explore)这里.", Type: "Emote"} );
+
+}
+
+//推进至2
+function progressTo2(sender, msg){
+	storyProgress = 2
+
+	if(restrainCount !=5){
+		isSuccess = false;
+		if (restrainCount ==0){
+			//腿铐
+			InventoryWear(sender, "FuturisticLegCuffs", "ItemLegs", "Default",80);
+			InventoryLock(sender, InventoryGet(sender, "ItemLegs"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+			InventoryGet(sender, "ItemLegs").Property.CombinationNumber = lockCode;
+			InventoryGet(sender, "ItemLegs").Property.Type = "Chained";
+
+			//踝铐
+			InventoryWear(sender, "FuturisticAnkleCuffs", "ItemFeet", "Default",80);
+			InventoryLock(sender, InventoryGet(sender, "ItemFeet"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+			InventoryGet(sender, "ItemFeet").Property.CombinationNumber = lockCode;
+			InventoryGet(sender, "ItemFeet").Property.Type = "Chained";
+			//鞋
+			InventoryWear(sender, "FuturisticHeels", "ItemBoots", "Default",80);
+			InventoryLock(sender, InventoryGet(sender, "ItemBoots"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+			InventoryGet(sender, "ItemBoots").Property = {
+				"Effect": [
+					"Lock"
+				],
+				"Type": "Heel",
+				"HeightModifier": 16,
+				"LockedBy": "CombinationPadlock",
+				"LockMemberNumber": Player.MemberNumber,
+				"CombinationNumber": lockCode
+			};
+			restrainCount ++;
+		}
+
+		if(restrainCount ==1){
+			//胸罩
+			InventoryWear(sender, "FuturisticBra", "ItemBreast", "Default",80);
+			InventoryLock(sender, InventoryGet(sender, "ItemBreast"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+			InventoryGet(sender, "ItemBreast").Property.CombinationNumber = lockCode;
+			//贞操带
+			InventoryWear(sender, "FuturisticTrainingBelt", "ItemPelvis", "Default",80);
+			InventoryLock(sender, InventoryGet(sender, "ItemPelvis"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+			InventoryGet(sender, "ItemPelvis").Property.CombinationNumber = lockCode;
+			//束带
+			InventoryWear(sender, "FuturisticHarness", "ItemTorso", "Default",80);
+			InventoryLock(sender, InventoryGet(sender, "ItemTorso"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+			InventoryGet(sender, "ItemTorso").Property.CombinationNumber = lockCode;
+			restrainCount ++;
+		}
+		if(restrainCount ==2){
+			InventoryWear(sender, "InteractiveVRHeadset", "ItemHead", "Default",80);
+			InventoryLock(sender, InventoryGet(sender, "ItemHead"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+			InventoryGet(sender, "ItemHead").Property.CombinationNumber = lockCode;
+			InventoryWear(sender, "FuturisticHarnessPanelGag", "ItemMouth", "Default",80);
+			InventoryLock(sender, InventoryGet(sender, "ItemMouth"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+			InventoryGet(sender, "ItemMouth").Property.CombinationNumber = lockCode;
+			restrainCount ++;
+		}
+		if(restrainCount ==3){
+			InventoryWear(sender, "FuturisticCuffs", "ItemArms", "Default",80);
+			InventoryLock(sender, InventoryGet(sender, "ItemArms"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+			InventoryGet(sender, "ItemArms").Property.CombinationNumber = lockCode;
+			//手套
+			InventoryWear(sender, "FuturisticMittens", "ItemHands", "Default",80);
+			InventoryLock(sender, InventoryGet(sender, "ItemHands"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+			InventoryGet(sender, "ItemHands").Property.CombinationNumber = lockCode;
+			restrainCount ++;
+		}
+		if(restrainCount ==4){
+			InventoryRemove(sender,"ItemArms");
+			//单手套
+			InventoryWear(sender, "FuturisticArmbinder", "ItemArms", "Default",80);
+			InventoryLock(sender, InventoryGet(sender, "ItemArms"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+			InventoryGet(sender, "ItemArms").Property.CombinationNumber = lockCode;
+			restrainCount ++;
+		}
+		//刷新角色
+		ChatRoomCharacterUpdate(sender);
+		ServerSend("ChatRoomChat", { Content: "*随着最后一盏指示灯的熄灭，你意识到你的机会用完了，机械臂伸出来把你层层束缚.", Type: "Emote"} );
+	}
+
+	var UpdatedRoom = {
+		Name: ChatRoomData.Name,
+		Description: ChatRoomData.Description,
+		Background: ChatRoomData.Background,
+		Limit: (2).toString(),
+		Admin: ChatRoomData.Admin,
+		Ban: ChatRoomData.Ban,
+		Private: ChatRoomData.Private,
+		Locked: true
+	};
+	ServerSend("ChatRoomAdmin", {MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update"});
+	ChatAdminMessage = "UpdatingRoom";
+	ServerSend("ChatRoomChat", { Content: "*听见咯塔一声后你看向你进来的门，它被锁住了，你之前一直有离开的机会，现在没有了.", Type: "Emote"} );
+	ServerSend("ChatRoomChat", { Content: "*墙(wall)边有什么响动，或许可以检查一下，如果你还没死心，可以试着挣扎(struggle)一下.", Type: "Emote"} );
+}
+
+//推进至3 progress3End函数计时
+function progressTo3(sender, msg){
+	stopTimeOut = false;
+	storyProgress = 3;
+	enableProgress3End = true;
+	ServerSend("ChatRoomChat", { Content: "*不知多久后你恢复了意识，浑身的疼痛令你意识到你保持这个样子很久了.你看了一眼门，依旧是锁着的.", Type: "Emote"} );
+	ServerSend("ChatRoomChat", { Content: "*你的眼罩上显示了一行字：检测到反抗行为，完全调教程序将在373秒后准备完成并启动，在程序启动前进入舱室(cell)可终止程序.", Type: "Emote"} );
+	ServerSend("ChatRoomChat", { Content: "*看来想要出去的话必须得在程序启动前找到办法，试着探索(explore)一下吧.", Type: "Emote"} );
+	t1 = setTimeout(function (sender) {
+		ServerSend("ChatRoomChat", { Content: "*眼罩显示：检测到反抗行为，完全调教程序将在300秒后准备完成并启动，在程序启动前进入舱室(cell)可终止程序.", Type: "Emote"} );
+	}, 73 * 1000, sender);
+	t2 = setTimeout(function (sender) {
+		ServerSend("ChatRoomChat", { Content: "*眼罩显示：检测到反抗行为，完全调教程序将在200秒后准备完成并启动，在程序启动前进入舱室(cell)可终止程序.", Type: "Emote"} );
+	}, 173 * 1000, sender);
+	t3 = setTimeout(function (sender) {
+		ServerSend("ChatRoomChat", { Content: "*眼罩显示：检测到反抗行为，完全调教程序将在100秒后准备完成并启动，在程序启动前进入舱室(cell)可终止程序.", Type: "Emote"} );
+	}, 273 * 1000, sender);
+	t4 = setTimeout(function (sender) {
+		progress3End(sender, msg)
+	}, 373 * 1000, sender);
+}
+
+//挣扎 3次通向progressTo3函数或progress2End函数
+function struggle(sender, msg) {
+	ServerSend("ChatRoomChat", { Content: "*你拼了命的挣扎，到筋疲力尽为止，你身上的束缚没有松动分毫.", Type: "Emote"} );
+	if(struggleCouont == 0){
+		ServerSend("ChatRoomChat", { Content: "*现代工业，小子.", Type: "Emote"} );
+		struggleCouont++;
+	}
+	else if(storyProgress ==2){
+		if(struggleCouont == 1){
+			ServerSend("ChatRoomChat", { Content: "*你仍未死心，或许再努努力会有什么转机?", Type: "Emote"} );
+		}
+		else if (struggleCouont == 2){
+			ServerSend("ChatRoomChat", { Content: "*你受到了来自项圈的强力电击，你又昏了过去", Type: "Emote"} );
+			wait(sender, msg);
+			if (isSuccess){
+				setTimeout(function (sender) {
+					progressTo3(sender, msg)
+				}, 15 * 1000, sender);
+			}
+			else {
+				setTimeout(function (sender) {
+					progress2End(sender, msg)
+				}, 15 * 1000, sender);
+			}
+		}
+		struggleCouont++;
+	}
+
+
+
+
+}
+
+//舱室 提示enter（get into it）
+function cell(sender, msg) {
+	if (storyProgress <= 1) {
+		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote"} );
+	}else {// storyProgress == 2
+		ServerSend("ChatRoomChat", { Content: "*舱室十分狭小，你若是进去连活动的空间都没有，它正等待着你的进入(get into it)，你别无他法.", Type: "Emote"} );
+	}
+}
+
+//进入舱室 process2end normal process3end giveup
+function enter(sender, msg) {
+
+	if (storyProgress <= 1) {
+		ServerSend("ChatRoomChat", { Content: "*理论上你不应该看见这句话，不过在酒吧点炒饭也是种乐趣.", Type: "Emote"} );
+	}else {// storyProgress == 2
+		toEnd = true;
+		isGameOver = true;
+		if(storyProgress == 3)
+		{
+			ServerSend("ChatRoomChat", { Content: "*你还是接受了你的命运.", Type: "Emote"} );
+		}
+		ServerSend("ChatRoomChat", { Content: "*随着你的踏入，舱室门在你身后关上了.", Type: "Emote"} );
+
+		InventoryRemove(sender,"ItemLegs");
+		InventoryWear(sender, "FuturisticLegCuffs", "ItemLegs", "Default",80);
+		InventoryLock(sender, InventoryGet(sender, "ItemLegs"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+		InventoryGet(sender, "ItemLegs").Property.CombinationNumber = lockCode;
+		InventoryGet(sender, "ItemLegs").Property.Type = "Chained";
+
+		InventoryWear(sender, "FuturisticCrate", "ItemDevices", "Default",80);
+		InventoryLock(sender, InventoryGet(sender, "ItemDevices"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+		InventoryGet(sender, "ItemDevices").Property= {
+			"LockedBy": "CombinationPadlock",
+			"LockMemberNumber": Player.MemberNumber,
+			"CombinationNumber": lockCode,
+			"Type": "w2l3a0d0t0h0",
+			"Difficulty": 44,
+			"Block": [
+				"ItemAddon",
+				"ItemFeet",
+				"ItemLegs"
+			],
+			"Effect": [
+				"Tethered",
+				"BlindLight",
+				"Prone",
+				"Freeze",
+				"Enclose",
+				"BlockKneel",
+				"Mounted",
+				"Lock"
+			],
+			"Hide": [
+				"ItemBoots",
+				"Shoes"
+			],
+			"HideItem": [
+				"ShoesFlippers"
+			],
+			"AllowActivity": [],
+			"Attribute": [],
+			"SetPose": [
+				"Spread"
+			]
+		};
+		ServerSend("ChatRoomChat", { Content: "*你被迫站在这个狭小的舱室内，连弯曲膝盖都做不到.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你感觉到软管接在你的口塞和后庭上，有什么东西顺着软管流了进来.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*有什么异物顶入了你的私处，暴力的抽插着.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*在强烈的刺激之下，你失去了意识.", Type: "Emote"} );
+		if(storyProgress == 2){
+			ServerSend("ChatRoomChat", { Content: "*结局：来的太早，走的太晚。提示：当初多挣扎几下的话", Type: "Chat"} );
+		}
+		else if (storyProgress == 3){
+			if(isSuccess2){
+				ServerSend("ChatRoomChat", { Content: "*真结局：无路可走。自门锁上的那一刻你的命运就已经注定了", Type: "Chat"} );
+			}
+			else {
+				ServerSend("ChatRoomChat", { Content: "*结局：命中注定。提示：意志坚定一点的话", Type: "Chat"} );
+			}
+
+		}
+
+		//刷新角色
+		ChatRoomCharacterUpdate(sender);
+		wait(sender, msg);
+		setTimeout(function (sender) {
+			end(sender, msg);
+		}, 15 * 1000, sender);
+
+	}
+
+}
+
+//process2end bad
+function progress2End(sender, msg){
+	isGameOver = true;
+
+	InventoryRemove(sender,"ItemLegs");
+	InventoryWear(sender, "FuturisticLegCuffs", "ItemLegs", "Default",80);
+	InventoryLock(sender, InventoryGet(sender, "ItemLegs"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+	InventoryGet(sender, "ItemLegs").Property.CombinationNumber = lockCode;
+	InventoryGet(sender, "ItemLegs").Property.Type = "Chained";
+
+	InventoryWear(sender, "FuturisticCrate", "ItemDevices", "Default",80);
+	InventoryLock(sender, InventoryGet(sender, "ItemDevices"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+	InventoryGet(sender, "ItemDevices").Property= {
+		"LockedBy": "CombinationPadlock",
+		"LockMemberNumber": Player.MemberNumber,
+		"CombinationNumber": lockCode,
+		"Type": "w2l3a0d0t0h0",
+		"Difficulty": 44,
+		"Block": [
+			"ItemAddon",
+			"ItemFeet",
+			"ItemLegs"
+		],
+		"Effect": [
+			"Tethered",
+			"BlindLight",
+			"Prone",
+			"Freeze",
+			"Enclose",
+			"BlockKneel",
+			"Mounted",
+			"Lock"
+		],
+		"Hide": [
+			"ItemBoots",
+			"Shoes"
+		],
+		"HideItem": [
+			"ShoesFlippers"
+		],
+		"AllowActivity": [],
+		"Attribute": [],
+		"SetPose": [
+			"Spread"
+		]
+	};
+	ServerSend("ChatRoomChat", { Content: "*你醒来后发现自己被关在了舱室内.", Type: "Emote"} );
+	ServerSend("ChatRoomChat", { Content: "*你被迫站在这个狭小的舱室内，连弯曲膝盖都做不到.", Type: "Emote"} );
+	ServerSend("ChatRoomChat", { Content: "*你感觉到软管接在你的口塞和后庭上，有什么东西顺着软管流了进来.", Type: "Emote"} );
+	ServerSend("ChatRoomChat", { Content: "*有什么异物顶入了你的私处，暴力的抽插着.", Type: "Emote"} );
+	ServerSend("ChatRoomChat", { Content: "*在强烈的刺激之下，你失去了意识.", Type: "Emote"} );
+	ServerSend("ChatRoomChat", { Content: "*结局：已成定局。提示：如果束缚都是自己穿上的话", Type: "Chat"} );
+	//刷新角色
+	ChatRoomCharacterUpdate(sender);
+	wait(sender, msg);
+	setTimeout(function (sender) {
+		end(sender, msg);
+	}, 15 * 1000, sender);
+}
+
+//process3end bad
+function progress3End(sender, msg){
+	if(!toEnd && enableProgress3End){
+		isGameOver = true;
+
+		InventoryRemove(sender,"ItemLegs");
+		InventoryWear(sender, "FuturisticLegCuffs", "ItemLegs", "Default",80);
+		InventoryLock(sender, InventoryGet(sender, "ItemLegs"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+		InventoryGet(sender, "ItemLegs").Property.CombinationNumber = lockCode;
+		InventoryGet(sender, "ItemLegs").Property.Type = "Chained";
+
+		InventoryWear(sender, "FuturisticCrate", "ItemDevices", "Default",80);
+		InventoryLock(sender, InventoryGet(sender, "ItemDevices"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+		InventoryGet(sender, "ItemDevices").Property= {
+			"LockedBy": "CombinationPadlock",
+			"LockMemberNumber": Player.MemberNumber,
+			"CombinationNumber": lockCode,
+			"Type": "w2l3a0d0t0h0",
+			"Difficulty": 44,
+			"Block": [
+				"ItemAddon",
+				"ItemFeet",
+				"ItemLegs"
+			],
+			"Effect": [
+				"Tethered",
+				"BlindLight",
+				"Prone",
+				"Freeze",
+				"Enclose",
+				"BlockKneel",
+				"Mounted",
+				"Lock"
+			],
+			"Hide": [
+				"ItemBoots",
+				"Shoes"
+			],
+			"HideItem": [
+				"ShoesFlippers"
+			],
+			"AllowActivity": [],
+			"Attribute": [],
+			"SetPose": [
+				"Spread"
+			]
+		};
+		ServerSend("ChatRoomChat", { Content: "*眼罩显示：倒计时结束，调教程序启动.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你被机械臂强行拖入了舱室内.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*极其粗壮的巨物直接捅入了你的私处并猛烈震动与抽插，你觉得私处要被摧毁了，但你的悲鸣声被口塞里巨大的假阳具压在了喉咙里.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*某种流体大量的顺着口部与后庭的软管被泵入，你清晰的感觉到身体仿佛要烧起来一样热，但是狭窄的舱室没法散走一丝一毫的热量.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*剧烈的痛苦逐渐转为令人疯狂的快感，你本来觉得自己要高潮了，但是刺激在刹那间停止了，待你稍冷静后刺激又开始了，似乎高潮永远无法到来.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你几乎失去了意识，但是来自项圈的电击使你立马清醒了过来.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*调教还在继续，渐渐的你失去了时间观念.", Type: "Emote"} );
+		if(isSuccess2){
+			ServerSend("ChatRoomChat", { Content: "*真结局：最后一刻。自门锁上的那一刻你的命运就已经注定了", Type: "Chat"} );
+		}
+		else {
+			ServerSend("ChatRoomChat", { Content: "*结局：时间到。提示：动作快一点的话", Type: "Chat"} );
+		}
+		isGameOver = true;
+		//刷新角色
+		ChatRoomCharacterUpdate(sender);
+		wait(sender, msg);
+		setTimeout(function (sender) {
+			end(sender, msg);
+		}, 15 * 1000, sender);
+	}
+
+}
+
+//通用送出
+function end(sender, msg) {
+
+	if(storyProgress == 3 && !toEnd){
+		ServerSend("ChatRoomChat", { Content: "*似乎过了一天，一周，还是一个月或一年，甚至有可能是一个世纪.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*毫无征兆的你达到了高潮，其剧烈程度超出了你此前人生中任何一次高潮的数百倍.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*终于迎来了求之不得的高潮，在余韵中你的大脑除了幸福别无他物.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你听见提示音:运输程序启动，30秒后进行运输.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你感到舱室有些晃动，似乎正在移动.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你看看见了一行数字：" + lockCode + " ，你意识到你必须得记住这行数字.", Type: "Emote"} );
+		if(isSuccess2){
+			ServerSend("ChatRoomChat", { Content: "*[恭喜，这就是真结局了，努力后发现于事无补的情况真的很绝望呢，]", Type: "Emote"} );
+		}
+		else{
+			ServerSend("ChatRoomChat", { Content: "*[再尝试尝试挑战真结局吧]", Type: "Emote"} );
+		}
+
+
+		InventoryGet(sender, "ItemNeckAccessories").Property = {Effect: Array(0), Text: lockCode};
+		//刷新角色
+		ChatRoomCharacterUpdate(sender);
+		setTimeout(function (sender) {
+			console.log("end kick");
+			ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
+			resetRoom()
+		}, 30 * 1000, sender);
+
+
+
+	}
+	else if(isSuccess){
+		ServerSend("ChatRoomChat", { Content: "*恍惚间，你恢复了意识.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你听见提示音:运输程序启动，30秒后进行运输.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你感到舱室有些晃动，似乎正在移动.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你看看见了一行数字：" + lockCode + " ，你意识到你必须得记住这行数字.", Type: "Emote"} );
+		if(storyProgress == 3){
+			if(isSuccess2){
+				ServerSend("ChatRoomChat", { Content: "*[恭喜，这就是真结局了，努力后发现于事无补的情况真的很绝望呢，]", Type: "Emote"} );
+			}
+			else{
+				ServerSend("ChatRoomChat", { Content: "*[再尝试尝试挑战真结局吧]", Type: "Emote"} );
+			}
+		}
+		else{
+			ServerSend("ChatRoomChat", { Content: "*[干的不错，你靠自己就把自己绑的严严实实，做为奖励就帮你跳过本来300秒的等待时间吧,]", Type: "Emote"} );
+
+		}
+		InventoryGet(sender, "ItemNeckAccessories").Property = {Effect: Array(0), Text: lockCode};
+		//刷新角色
+		ChatRoomCharacterUpdate(sender);
+		setTimeout(function (sender) {
+			console.log("end kick");
+			ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
+			resetRoom()
+		}, 30 * 1000, sender);
+
+	}
+	else {
+		ServerSend("ChatRoomChat", { Content: "*恍惚间，你恢复了意识.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你听见提示音:运输程序启动，300秒后进行运输.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你感到舱室有些晃动，似乎正在移动.", Type: "Emote"} );
+		ServerSend("ChatRoomChat", { Content: "*你看看见了一行数字：" + lockCode + " ，你意识到你必须得记住这行数字.", Type: "Emote"} );
+		InventoryGet(sender, "ItemNeckAccessories").Property = {Effect: Array(0), Text: lockCode};
+		//刷新角色
+		ChatRoomCharacterUpdate(sender);
+		setTimeout(function (sender) {
+			console.log("end kick");
+			ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
+			resetRoom()
+		}, 300 * 1000, sender);
+
+	}
+}
+
+//通用等待 后一个函数延时15s
+function wait(sender, msg) {
+	setTimeout(function (sender) {
+		ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote"} );
+	}, 5 * 1000, sender);
+	setTimeout(function (sender) {
+		ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote"} );
+	}, 7 * 1000, sender);
+	setTimeout(function (sender) {
+		ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote"} );
+	}, 9 * 1000, sender);
+	setTimeout(function (sender) {
+		ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote"} );
+	}, 11 * 1000, sender);
+	setTimeout(function (sender) {
+		ServerSend("ChatRoomChat", { Content: "*......", Type: "Emote"} );
+	}, 13 * 1000, sender);
+
+}
+
+
+function storyStart(sender) {
+
+	ServerSend("ChatRoomChat", { Content: "*该bot现已发布至 https://github.com/zajucd/BC_BotGame ", Type: "Emote"} );
+
+
+	// check if all imprisoned people are in room. Sometimes they are not. Don't know why.
+
+	if (isExposed(sender) || sender.IsRestrained() || sender.IsChaste() || sender.IsShackled() || sender.IsBlind() || !sender.CanTalk() || sender.IsEnclose() || sender.IsMounted() || sender.IsEgged() || sender.IsDeaf()) {
+		ServerSend("ChatRoomChat", {
+			Content: "*[需要 穿着衣服且不被束缚 才能游玩. 二十秒后踢出房间. 想玩的话脱掉装备后再来哦.]",
+			Type: "Emote"
+		});
+		setTimeout(function (sender) {
+			console.log("error kick");
+			ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
+		}, 10 * 1000, sender)
+		//imprisonedList.push(sender.MemberNumber)
+	} else if (sender.ItemPermission > 2) {
+		ServerSend("ChatRoomChat", {
+			Content: "*[需要调低 玩家权限 才能游玩. 二十秒后踢出房间. 想玩的话修改权限后再来哦.设置位置在角色档案内选择第三项后选择第一项.]",
+			Type: "Emote"
+		});
+		setTimeout(function (sender) {
+			ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
+		}, 20 * 1000, sender)
+		// setTimeout(resetRoom(), 20*1000, sender)
+
+		//imprisonedList.push(sender.MemberNumber)
+	} else {
+		ServerSend("ChatRoomChat", {
+			Content: "*This is a Chinese room,make sure you can read Chinese before start.",
+			Type: "Emote"
+		});
+		ServerSend("ChatRoomChat", {
+			Content: "*[现在不清楚当前版本对脚本的支持程度如何，条件允许的话请打开公开脚本限权.在 设置-> 脚本 中].",
+			Type: "Emote"
+		});
+		ServerSend("ChatRoomChat", {
+			Content: "*[求求你千万不要自己解除装备，不然bot怎么炸的都不知道].",
+			Type: "Emote"
+		});
+		ServerSend("ChatRoomChat", {
+			Content: "*你进入了一个奇怪的房间，你的面前有一个台子，上面有一个又大又红的按钮(button)，诱惑着你按下它或者你可以观察(explore)一下周围.[NOTE:通过发送 *单词 来行动（例：*button）.]",
+			Type: "Emote"
+		});
+	}
+}
+var t1 = 0;
+var t2 = 0;
+var t3 = 0;
+var t4 = 0;
+var t5 = 0;
+
+function resetRoom() {
+	console.log("reset");
+	// check if all imprisoned people are in room. Sometimes they are not. Don't know why.
+	stopTimeOut = true;
+	storyProgress = 0;
+	life = 3;
+	restrainCount = 0;
+	cardCount = 0;
+	struggleCouont = 0;
+	buttonCount = 0;
+	lockCode = Math.floor(Math.random() * 9000+1000).toString();
+	restrainText = ["两对腿铐和一双高跟鞋","一条贞操胸罩和一条贞操带，还有一套束带","一个口塞与一个眼罩","两对臂铐与一双手套","一条单手套"];
+	boxText = ["1+1=?","3*2=?","PI的小数点后第5位为?","半径为2的圆面积为?PI","lim x→0 sinx/x = ?"];
+	boxText2 = ["目前为止你穿过?次盒子里的装备","下图中最多符号在键盘上对应的数字为?","打开9号盒子并等待30秒"];
+	boxText20 =[" @$@##$%$%$ ",
+		" #@#%$##$%% ",
+		" #@$%#@$%#@ ",
+		" @#$$$%%%$$ ",
+		" #$%%%$%$$@ ",
+		" @@@#%$#@@% "];
+	boxNum = ["2","6","9","4","1"];
+	boxNum2 = ["5","4","9"];
+	isWareable = false;
+	isSuccess = true;
+	isSuccess2 = false;
+	isDeviceOn = false;
+	isGagOff = false;
+	isGagOffStop = false;
+	toEnd = false;
+	isBoxOpenStop = false;
+	isGameOver = false;
+	enableProgress3End =false;
+
+	clearTimeout(t1);
+	clearTimeout(t2);
+	clearTimeout(t3);
+	clearTimeout(t4);
+	clearTimeout(t5);
+
+	// Update room
+	var UpdatedRoom = {
+		Name: ChatRoomData.Name,
+		Description: ChatRoomData.Description,
+		Background: "VaultCorridor",
+		Limit: (2).toString(),
+		Admin: ChatRoomData.Admin,
+		Ban: ChatRoomData.Ban,
+		Private: ChatRoomData.Private,
+		Locked: false
+	};
+	ServerSend("ChatRoomAdmin", {MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update"});
+	ChatAdminMessage = "UpdatingRoom";
+
+}
+
+function WearFullRestrains (sender, msg) {
+	InventoryWear(sender, "InteractiveVRHeadset", "ItemHead", null,80);
+	InventoryWear(sender, "FuturisticHarnessPanelGag", "ItemMouth", null,80);
+
+	InventoryWear(sender, "FuturisticBra", "ItemBreast", null,80);
+	InventoryWear(sender, "FuturisticHarness", "ItemTorso", null,80);
+	InventoryWear(sender, "FuturisticTrainingBelt", "ItemPelvis", null,80);
+
+	InventoryWear(sender, "FuturisticLegCuffs", "ItemLegs", null,80);
+	InventoryWear(sender, "FuturisticAnkleCuffs", "ItemFeet", null,80);
+
+	InventoryWear(sender, "PilotSuit", "Suit", null,80);
+	InventoryWear(sender, "PilotSuit", "SuitLower", null,80);
 }
