@@ -1,3 +1,4 @@
+# R99版本起因房间更新函数无法使用所以该脚本在解决方案自己蹦出来前失效
 # BC_BotGame
 ## 该botgame原型: https://github.com/keykey5/BC-BOT-repository
 ### 使用方法：
