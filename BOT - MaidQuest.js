@@ -151,7 +151,8 @@ function resetRoom() {
 		Admin: ChatRoomData.Admin,
 		Ban: ChatRoomData.Ban,
 		Private: false,
-		Locked: false
+		Locked: false,
+		Language: ChatRoomData.Language
 	};
 	ServerSend("ChatRoomAdmin", {MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update"});
 	ChatAdminMessage = "UpdatingRoom";
@@ -261,7 +262,8 @@ function TimeEvent(sender, msg) {
 			Admin: ChatRoomData.Admin,
 			Ban: ChatRoomData.Ban,
 			Private: false,
-			Locked: true
+			Locked: true,
+			Language: ChatRoomData.Language
 		};
 
 
