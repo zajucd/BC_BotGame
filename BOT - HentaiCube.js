@@ -51,6 +51,7 @@ BOT game：HentaiCube
 原型: https://github.com/keykey5/BC-BOT-repository
 发布地址: https://github.com/zajucd/BC_BotGame
 
+开始前请确认开启允许口塞私语，否则会导致游戏无法进行
 加入了跳过开场的功能，使用(快速进入)。
 加入了方便达成真结局的功能，在第三区域可以尝试触发。
 
@@ -87,6 +88,9 @@ function deactivateStoryRoom() {
 
 //玩家所有包括进出消息在这里调用。
 function ChatRoomMessageCursedRoom(sender, msg, data) {
+	if (sender.MemberNumber == Player.MemberNumber) {
+		return;
+    }
 	if (storyActive) {
 		if ((data.Type === "Action") && (msg.startsWith("ServerEnter"))) {
 			setTimeout(PlayerEnter(sender), 300, sender)
@@ -102,7 +106,6 @@ function ChatRoomMessageCursedRoom(sender, msg, data) {
 				pl = GetPlayerFromCharacter(playerInpunish,sender);
 				if(pl !== "null"){
 					playerInpunish.splice(playerInpunish.indexOf(pl),1);
-					resetRoom(0);
 				}
 				else {
 					pl = "null";
@@ -331,6 +334,8 @@ function ResetGame() {
 	shopMenu = [];
 
 	isControlable = true;
+
+	console.log("reset");
 
 }
 
@@ -1174,7 +1179,7 @@ function End1(player1, player2) {
 		InventoryWear(player1.character, "CryoCapsule","ItemDevices");
 		InventoryLock(player1.character, InventoryGet(player1.character, "ItemDevices"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
 		InventoryGet(player1.character,"ItemDevices").Property.CombinationNumber = player1.lockcode;
-		InventoryGet(player1.character,"ItemDevices").Property.Type = "Closed";
+		InventoryGet(player1.character, "ItemDevices").Property.TypeRecord.typed = 1;
 		ChatRoomCharacterUpdate(player1.character);
 		QuestList(14).QuestFail(player1);
 	}, 2 * 1000);
@@ -1184,7 +1189,7 @@ function End1(player1, player2) {
 		InventoryWear(player2.character, "CryoCapsule","ItemDevices");
 		InventoryLock(player2.character, InventoryGet(player2.character, "ItemDevices"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
 		InventoryGet(player2.character,"ItemDevices").Property.CombinationNumber = player2.lockcode;
-		InventoryGet(player2.character,"ItemDevices").Property.Type = "Closed";
+		InventoryGet(player2.character, "ItemDevices").Property.TypeRecord.typed = 1;
 		ChatRoomCharacterUpdate(player2.character);
 		QuestList(14).QuestFail(player2);
 	}, 10 * 1000);
@@ -1195,7 +1200,7 @@ function End1(player1, player2) {
 		ServerSend("ChatRoomChat", { Content: "*结局：永劫.[提示：有注意到每个区域的每层的金币储量是有限的吗？最好即使切换楼层哦].", Type: "Chat"} );
 		ServerSend("ChatRoomChat", { Content: "*[其实只需要等15分钟就可以获得密码了，随时(排出)可以直接离开，当然没有密码的话就算再进来也没法给哦].", Type: "Chat"} );
 		resetRoom(2);
-	}, 18 * 1000);
+	}, 25 * 1000);
 
 
 	setTimeout(function () {
@@ -1386,6 +1391,10 @@ function End4(player1, player2) {
 
 //电子装备变动时调用
 function ChangeCollarText(player) {
+	if (IsGameStart == false)
+	{
+		return;
+    }
 	if (player.slots[7] !== null){
 		if (player.EndingEquipCount < 6){
 			player.slots[7].GetInventorys(player)[1].Property.Text = player.EndingEquipCount.toString();
@@ -1679,7 +1688,7 @@ function EquipList(indexOrName) {
 			equip.SetEquip(0,[1], equip.state.SetState(-2, 3, -2,3,0), "乳胶修女", 9,"{str-2，agi+3，int-2，mnd+3.你发现你会无意识的做出祷的动作}",
 				[new EquipAssetStruct().SetEquipAsset("FuturisticMask", "ItemHead", ["#000000", "#FFFFFF", "#FFFFFF"], "Blind", null),
 					new EquipAssetStruct().SetEquipAsset("LatexRespirator", "ItemMouth3", null, "f2g0s1m1l1", null),
-					new EquipAssetStruct().SetEquipAsset("LatexHabit", "ItemHood", null, "Loose", null)]);
+					new EquipAssetStruct().SetEquipAsset("LatexHabit", "ItemHood", null, "0", null)]);
 			return equip;
 		}
 
@@ -2323,12 +2332,12 @@ function GoodsList(indexOrName) {
 			break;
 		}
 		case 9:{
-			goods.SetGoods("束缚绑带",20,"{手臂，腿脚，str+3，agi-2，int+3，mnd-2}","{你看着绑带一根根的缠在你身体上，一点点的剥夺你的活动能力[强制装备：束缚绑带]}",
+			goods.SetGoods("束缚绑带", 20, "{手臂，腿脚，str+3，agi-2，int+3，mnd-2}","{你看着绑带一根根的缠在你身体上，一点点的剥夺你的活动能力[强制装备：束缚绑带]}",
 				[0,0,0,0,0],[EquipList("束缚绑带")]);
 			break;
 		}
 		case 10:{
-			goods.SetGoods("乳胶修女",20,"{头部，口部，str-2，agi+3，int-2，mnd+3}","{戴上这个头套后，你的大脑被祷的欲望填满了[强制装备：束缚绑带]}",
+			goods.SetGoods("乳胶修女", 20, "{头部，口部，str-2，agi+3，int-2，mnd+3}","{戴上这个头套后，你的大脑被祷的欲望填满了[强制装备：乳胶修女]}",
 				[0,0,0,0,0],[EquipList("乳胶修女")]);
 			break;
 		}

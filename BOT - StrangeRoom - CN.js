@@ -80,6 +80,9 @@ ChatRoomMessageAdditionDict["StrangeRoom"] = function(SenderCharacter, msg, data
 ChatRoomMessageAdditionDict["EnterLeave"] = function(SenderCharacter, msg, data) {ChatRoomMessageEnterLeave(SenderCharacter, msg, data)}
 
 function ChatRoomMessageEnterLeave(SenderCharacter, msg, data) {
+    if (SenderCharacter.MemberNumber == Player.MemberNumber) {
+        return;
+    }
 	if ((data.Type == "Action") && (msg.startsWith("ServerEnter"))) {
 		setTimeout(enterLeaveEvent,1*1000,SenderCharacter,msg)
 	} else if (data.Type != null && SenderCharacter.MemberNumber != Player.MemberNumber) {
@@ -109,6 +112,9 @@ function ChatRoomMessageEnterLeave(SenderCharacter, msg, data) {
 }
 
 function ChatRoomMessageStrangeRoom(SenderCharacter, msg, data) {
+    if (SenderCharacter.MemberNumber == Player.MemberNumber) {
+        return;
+    }
   if (storyActive) {
   	if ((data.Type == "Action") && (msg.startsWith("ServerEnter"))) {
 		setTimeout(storyStart(SenderCharacter), 300, SenderCharacter)

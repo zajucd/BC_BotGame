@@ -92,6 +92,9 @@ function deactivateStoryRoom() {
 
 
 function ChatRoomMessageCursedRoom(sender, msg, data) {
+	if (sender.MemberNumber == Player.MemberNumber) {
+		return;
+	}
 	if (storyActive) {
 		if ((data.Type === "Action") && (msg.startsWith("ServerEnter"))) {
 			setTimeout(storyStart(sender), 300, sender)

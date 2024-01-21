@@ -54,7 +54,9 @@ function deactivateStoryRoom() {
 ChatRoomMessageAdditionDict["CursedRoom"] = function(SenderCharacter, msg, data) {ChatRoomMessageCursedRoom(SenderCharacter, msg, data)}
 
 function ChatRoomMessageCursedRoom(SenderCharacter, msg, data) {
-
+	if (SenderCharacter.MemberNumber == Player.MemberNumber) {
+		return;
+	}
 	if (storyActive) {
 		if ((data.Type == "Action") && (msg.startsWith("ServerEnter"))) {
 			setTimeout(storyStart(SenderCharacter), 300, SenderCharacter)
