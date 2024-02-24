@@ -147,13 +147,13 @@ function resetRoom() {
 
 	// Update room 在这里修改房间信息
 	var UpdatedRoom = {
-		Name: "Escape Game MaidQuest",
+		Name: ChatRoomData.Name,
 		Description: "[BOT]密室逃生第二部 恶灵洋馆",
-		Background: "Pandora/Second/Entrance",
+		Background: "AsylumEntrance",
 		Limit: (2).toString(),
 		Admin: ChatRoomData.Admin,
 		Ban: ChatRoomData.Ban,
-		Private: false,
+		Private: ChatRoomData.Private,
 		Locked: false,
 		Language: ChatRoomData.Language
 	};
@@ -260,11 +260,11 @@ function TimeEvent(sender, msg) {
 		var UpdatedRoom = {
 			Name: ChatRoomData.Name,
 			Description: ChatRoomData.Description,
-			Background: "Pandora/Underground/Cell0",
+			Background: ChatRoomData.Background,
 			Limit: (2).toString(),
 			Admin: ChatRoomData.Admin,
 			Ban: ChatRoomData.Ban,
-			Private: false,
+			Private: ChatRoomData.Private,
 			Locked: true,
 			Language: ChatRoomData.Language
 		};
