@@ -6,7 +6,7 @@ WearMiadSuit(Player,null);
 InventoryWear(Player, "DroneMask", "ItemHead", "Default",80);
 InventoryGet(Player, "ItemHead").Property = {
 	"Text": "",
-	"Type": "m0e0p0g0s1h0j0",
+	"TypeRecord": {m:0,e:0,p:0,g:0,s:1,h:0,j:0},
 	"Difficulty": 0,
 	"Block": [
 		"ItemNose",
@@ -517,7 +517,7 @@ function WearSleepCloth(sender, msg) {
 			"#202020"
 		],80,0,null,true);
 		InventoryGet(sender, "Suit").Property ={
-			"Type": "Gloves",
+			"TypeRecord": {typed : 1},
 			"Hide": [
 				"Hands"
 			]
@@ -570,7 +570,7 @@ function WearSleepEquip(sender, msg, pos) {
 				"Description": "“戴此具者当优雅”",
 				"Color": "Default,#808080,#aa80aa",
 				"Private": false,
-				"Type": "Chained",
+				TypeRecord: {typed: 2},
 				"OverridePriority": null,
 				"MemberName": "侍奉者",
 				"MemberNumber": 0
@@ -584,7 +584,7 @@ function WearSleepEquip(sender, msg, pos) {
 				"Description": "“戴此具者当优雅”",
 				"Color": "Default,#808080,#aa80aa",
 				"Private": false,
-				"Type": "Chained",
+				TypeRecord: {typed: 2},
 				"OverridePriority": null,
 				"MemberName": "侍奉者",
 				"MemberNumber": 0
@@ -643,7 +643,7 @@ function WearSleepEquip(sender, msg, pos) {
 				"Description": "“戴此具者当端正”",
 				"Color": "#808080,#aa80aa",
 				"Private": false,
-				"Type": "Wrist",
+				TypeRecord: {typed: 1},
 				"OverridePriority": null,
 				"MemberName": "侍奉者",
 				"MemberNumber": 0
@@ -673,7 +673,7 @@ function WearMiadSuit(sender, msg) {
 		"#202020"
 	],80,0,null,true);
 	InventoryGet(sender, "Suit").Property ={
-		"Type": "Gloves",
+		TypeRecord: {typed: 1},
 			"Hide": [
 			"Hands"
 		]
@@ -1630,7 +1630,7 @@ function WearEndA(sender, msg) {
 		"Description": "本来能够使淫魔痛苦，但是却有一部分丢失了。",
 		"Color": "Default",
 		"Private": false,
-		"Type": "c3s1e0",
+		TypeRecord: {c:3,s:1,e:0},
 		"OverridePriority": null,
 		"MemberName": "驱魔人",
 		"MemberNumber": 0
@@ -1658,7 +1658,7 @@ function WearEndA(sender, msg) {
 		"Description": "本来能够使淫魔无力，但是却有一部分丢失了。",
 		"Color": "#808080,#808080,#808080,#808080",
 		"Private": false,
-		"Type": "c0a1s2",
+		TypeRecord: {c:0,a:1,s:2},
 		"OverridePriority": null,
 		"MemberName": "驱魔人",
 		"MemberNumber": 0
@@ -1858,7 +1858,7 @@ function WearEndD(sender, msg) {
 		"Description": "被侵蚀者的末路",
 		"Color": "Default,#202020,Default,Default,Default",
 		"Private": false,
-		"Type": "m0e0p0g0s0h0j0",
+		TypeRecord: {m:0,e:0,p:0,g:0,s:0,h:0,j:0},
 		"OverridePriority": null,
 		"MemberName": "驱魔人",
 		"MemberNumber": 0
@@ -1873,7 +1873,7 @@ function WearEndD(sender, msg) {
 		"Description": "被侵蚀者的末路",
 		"Color": "Default",
 		"Private": false,
-		"Type": "Nohair",
+		TypeRecord: {typed: 1},
 		"OverridePriority": null,
 		"MemberName": "驱魔人",
 		"MemberNumber": 0
@@ -1889,7 +1889,7 @@ function WearEndE(sender, msg) {
 
 	InventoryWear(sender, "HempRope", "ItemArms", "Default",80);
 	InventoryGet(sender, "ItemArms").Property = {
-		"Type": "SuspensionHogtied",
+		TypeRecord: {typed: 9},
 		"Effect": [
 			"Block",
 			"Freeze",
@@ -1933,7 +1933,7 @@ function WearEndF(sender, msg) {
 
 	InventoryWear(sender, "PonyGag", "ItemMouth", "Default",80);
 	InventoryGet(sender, "ItemMouth").Property = {
-		"Type": "g2p0r0t0e1h0b1",
+		TypeRecord: {g:2,p:0,r:0,t:0,e:1,h:0,b:1},
 		"Difficulty": 7,
 		"Block": [],
 		"Effect": [
