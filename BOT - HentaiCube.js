@@ -1551,6 +1551,9 @@ function EquipStruct() {
 				if(inv.Property.hasOwnProperty('Type') === true){
 					inv.Property.Type = this.equipAsset[i].propertyType;
 				}
+				if(inv.Property.hasOwnProperty('TypeRecord') === true){
+					inv.Property.TypeRecord = this.equipAsset[i].propertyType;
+				}
 				if (inv.Property.hasOwnProperty('Text') === true){
 					inv.Property.Text = this.equipAsset[i].propertyText;
 				}
@@ -1618,7 +1621,7 @@ function EquipList(indexOrName) {
 		case 0:
 		case "运输舱":{
 			equip.SetEquip(6,[], equip.state.EquipDefault(), "运输舱", 0,"{无效果.靠自己没有出去的可能}",
-				[new EquipAssetStruct().SetEquipAsset("FuturisticCrate", "ItemDevices", null, "w3l3a3d0t0h0", null)]);
+				[new EquipAssetStruct().SetEquipAsset("FuturisticCrate", "ItemDevices", null, {w:3,l:3,a:3,d:0,t:0,h:0}, null)]);
 			return equip;
 		}
 
@@ -1669,7 +1672,7 @@ function EquipList(indexOrName) {
 		case 7:
 		case "触手服":{
 			equip.SetEquip(5,[], equip.state.SetState(-1, -1, -1,-1,-1), "触手服", 7,"{all-1.这些触手在未经你允许的情况下开发你的身体}",
-				[new EquipAssetStruct().SetEquipAsset("SeamlessCatsuit", "Suit", "#202020", "OpaqueGloves", null),
+				[new EquipAssetStruct().SetEquipAsset("SeamlessCatsuit", "Suit", "#202020", {typed: 1}, null),
 					new EquipAssetStruct().SetEquipAsset("SeamlessCatsuit", "SuitLower", ["#202020"], null, null)]);
 			return equip;
 		}
@@ -1677,17 +1680,17 @@ function EquipList(indexOrName) {
 		case 8:
 		case "束缚绑带":{
 			equip.SetEquip(3,[4], equip.state.SetState(3, -2, 3,-2,0), "束缚绑带", 8,"{str+3，agi-2，int3，mnd-2.只需几根就能让你动弹不得}",
-				[new EquipAssetStruct().SetEquipAsset("SturdyLeatherBelts", "ItemArms", null, "Three", null),
-					new EquipAssetStruct().SetEquipAsset("SturdyLeatherBelts", "ItemLegs", null, "Two", null),
-					new EquipAssetStruct().SetEquipAsset("SturdyLeatherBelts", "ItemFeet", null, "Three", null)]);
+				[new EquipAssetStruct().SetEquipAsset("SturdyLeatherBelts", "ItemArms", null, {typed: 2}, null),
+					new EquipAssetStruct().SetEquipAsset("SturdyLeatherBelts", "ItemLegs", null, {typed: 1}, null),
+					new EquipAssetStruct().SetEquipAsset("SturdyLeatherBelts", "ItemFeet", null, {typed: 2}, null)]);
 			return equip;
 		}
 
 		case 9:
 		case "乳胶修女":{
 			equip.SetEquip(0,[1], equip.state.SetState(-2, 3, -2,3,0), "乳胶修女", 9,"{str-2，agi+3，int-2，mnd+3.你发现你会无意识的做出祷的动作}",
-				[new EquipAssetStruct().SetEquipAsset("FuturisticMask", "ItemHead", ["#000000", "#FFFFFF", "#FFFFFF"], "Blind", null),
-					new EquipAssetStruct().SetEquipAsset("LatexRespirator", "ItemMouth3", null, "f2g0s1m1l1", null),
+				[new EquipAssetStruct().SetEquipAsset("FuturisticMask", "ItemHead", ["#000000", "#FFFFFF", "#FFFFFF"], {typed: 1}, null),
+					new EquipAssetStruct().SetEquipAsset("LatexRespirator", "ItemMouth3", null, {f:2,g:0,s:1,m:1,l:1}, null),
 					new EquipAssetStruct().SetEquipAsset("LatexHabit", "ItemHood", null, "0", null)]);
 			return equip;
 		}
@@ -1695,7 +1698,7 @@ function EquipList(indexOrName) {
 		case 10:
 		case "拘束衣":{
 			equip.SetEquip(3,[], equip.state.SetState(-4, 0, 0,3,0), "拘束衣", 10,"{str-4，mnd+3.就像贴身的监狱}",
-				[new EquipAssetStruct().SetEquipAsset("PrisonLockdownSuit", "ItemArms", ["#cecece", "Default"], "r3s0", null),
+				[new EquipAssetStruct().SetEquipAsset("PrisonLockdownSuit", "ItemArms", ["#cecece", "Default"], {r:3,s:0}, null),
 					new EquipAssetStruct().SetEquipAsset("PrisonLockdownGag", "ItemMouth2", ["#cecece", "Default", "Default"], null, null)]);
 			return equip;
 		}
@@ -1703,7 +1706,7 @@ function EquipList(indexOrName) {
 		case 11:
 		case "强高配饰":{
 			equip.SetEquip(2,[], equip.state.SetState(3, -4, 0,0,0), "强高配饰", 11,"{str+3，agi-4.平均每分钟都会让你高潮一次}",
-				[new EquipAssetStruct().SetEquipAsset("ClitAndDildoVibratorbelt", "ItemVulva", null, "d3e3", null)]);
+				[new EquipAssetStruct().SetEquipAsset("ClitAndDildoVibratorbelt", "ItemVulva", null, {d:3,e:3}, null)]);
 			return equip;
 		}
 
@@ -1734,7 +1737,7 @@ function EquipList(indexOrName) {
 					new EquipAssetStruct().SetEquipAsset("HaremBra", "Bra", null, null, null),
 					new EquipAssetStruct().SetEquipAsset("Sandals", "Shoes", null, null, null),
 					new EquipAssetStruct().SetEquipAsset("RoundPiercing", "ItemNipplesPiercings", null, null, null),
-					new EquipAssetStruct().SetEquipAsset("RoundClitPiercing", "ItemVulvaPiercings", null, "HaremChain", null),
+					new EquipAssetStruct().SetEquipAsset("RoundClitPiercing", "ItemVulvaPiercings", null, {typed: 4}, null),
 					new EquipAssetStruct().SetEquipAsset("HaremStockings", "Socks", null, null, null),
 					new EquipAssetStruct().SetEquipAsset("FaceVeil", "Mask", null, null, null)]);
 			return equip;
@@ -1752,7 +1755,7 @@ function EquipList(indexOrName) {
 			equip.SetEquip(0,[1,2,3,4,5], equip.state.SetState(-10, 10, -10,-10,-10), "史莱姆王", 16,"{agi+10，其余-10.她会带你去该去的地方}",
 				[new EquipAssetStruct().SetEquipAsset("Slime", "ItemHead", null, null, null),
 					new EquipAssetStruct().SetEquipAsset("Slime", "ItemMouth", null, null, null),
-					new EquipAssetStruct().SetEquipAsset("Slime", "ItemArms", null, "p1t1", null)]);
+					new EquipAssetStruct().SetEquipAsset("Slime", "ItemArms", null, {p:1,t:1}, null)]);
 			return equip;
 		}
 
@@ -1796,7 +1799,7 @@ function EquipList(indexOrName) {
 			equip.SetEquip(0,[1,2,3,4,5], equip.state.SetState(-10, -10, -10,10,-10), "犬化", 20,"{mnd+10，其余-10.汪~}",
 				[new EquipAssetStruct().SetEquipAsset("BoneGag", "ItemMouth", null, null, null),
 					new EquipAssetStruct().SetEquipAsset("PolishedChastityBra", "ItemBreast", null, null, null),
-					new EquipAssetStruct().SetEquipAsset("HeavyLatexCorset", "ItemTorso", null, "Straps", null),
+					new EquipAssetStruct().SetEquipAsset("HeavyLatexCorset", {typed: 1}, null, {Typed:1}, null),
 					new EquipAssetStruct().SetEquipAsset("StrictLeatherPetCrawler", "ItemArms", null, null, null)]);
 			return equip;
 		}
@@ -1816,7 +1819,7 @@ function EquipList(indexOrName) {
 					new EquipAssetStruct().SetEquipAsset("CrossedStraightPiercing", "ItemNipplesPiercings", null, null, null),
 					new EquipAssetStruct().SetEquipAsset("NippleWeightClamps", "ItemNipples", null, null, null),
 					new EquipAssetStruct().SetEquipAsset("PolishedMittens", "ItemHands", null, null, null),
-					new EquipAssetStruct().SetEquipAsset("ObedienceBelt", "ItemPelvis", null, "c3s1e0", "SLAVE"),
+					new EquipAssetStruct().SetEquipAsset("ObedienceBelt", "ItemPelvis", null, {c:3,s:1,e:0}, "SLAVE"),
 					new EquipAssetStruct().SetEquipAsset("WoodenHorse", "ItemDevices", null, null, null)]);
 			return equip;
 		}
@@ -1827,7 +1830,7 @@ function EquipList(indexOrName) {
 				[new EquipAssetStruct().SetEquipAsset("PolishedSteelHood", "ItemHood", null, null, null),
 					new EquipAssetStruct().SetEquipAsset("Pillory", "ItemArms", null, null, null),
 					new EquipAssetStruct().SetEquipAsset("PolishedMittens", "ItemHands", null, null, null),
-					new EquipAssetStruct().SetEquipAsset("ObedienceBelt", "ItemPelvis", null, "c0s1e0", "SLAVE"),
+					new EquipAssetStruct().SetEquipAsset("ObedienceBelt", "ItemPelvis", null, {c:3,s:1,e:0}, "SLAVE"),
 					new EquipAssetStruct().SetEquipAsset("CrossedStraightPiercing", "ItemNipplesPiercings", null, null, null),
 					new EquipAssetStruct().SetEquipAsset("NippleWeightClamps", "ItemNipples", null, null, null),
 					new EquipAssetStruct().SetEquipAsset("SpreaderDildoBar", "ItemFeet", null, null, null),
@@ -1838,8 +1841,8 @@ function EquipList(indexOrName) {
 		case 24:
 		case "蜘蛛巢":{
 			equip.SetEquip(0,[3,4], equip.state.SetState(3, -3, -3,3,0), "蜘蛛巢", 24,"{str+3，agi-3，int-3，mnd+3.有什么刺入了你的身体}",
-				[new EquipAssetStruct().SetEquipAsset("WebBlindfold", "ItemHead", null, "Cocoon", null),
-					new EquipAssetStruct().SetEquipAsset("Web", "ItemArms", null, "KneelingSuspended", null)]);
+				[new EquipAssetStruct().SetEquipAsset("WebBlindfold", "ItemHead", null, {typed: 1}, null),
+					new EquipAssetStruct().SetEquipAsset("Web", "ItemArms", null, {typed: 2}, null)]);
 			return equip;
 		}
 
@@ -1857,7 +1860,7 @@ function EquipList(indexOrName) {
 		case 100:
 		case "电子紧身衣":{
 			equip.SetEquip(5,[], equip.state.SetState(1, 1, 1,1,1), "电子紧身衣", 100,"{all+!.似乎你的项圈对这件衣服有反应}",
-				[new EquipAssetStruct().SetEquipAsset("PilotSuit", "Suit", null, "OpaqueGloves", null),
+				[new EquipAssetStruct().SetEquipAsset("PilotSuit", "Suit", null, {typed : 1}, null),
 					new EquipAssetStruct().SetEquipAsset("PilotSuit", "SuitLower", null, null, null)]);
 			return equip;
 		}
@@ -1865,14 +1868,14 @@ function EquipList(indexOrName) {
 		case 101:
 		case "电子口套":{
 			equip.SetEquip(1,[], equip.state.SetState(0, 0, 0,2,0), "电子口套", 101,"{mnd+@.似乎你的项圈对这件口套有反应}",
-				[new EquipAssetStruct().SetEquipAsset("FuturisticHarnessPanelGag", "ItemMouth", null, "g3p3t4", null)]);
+				[new EquipAssetStruct().SetEquipAsset("FuturisticHarnessPanelGag", "ItemMouth", null, {g:3,p:3,t:4}, null)]);
 			return equip;
 		}
 
 		case 102:
 		case "电子眼罩":{
 			equip.SetEquip(0,[], equip.state.SetState(0, 0, 2,0,0), "电子眼罩", 102,"{int+@.似乎你的项圈对这件眼罩有反应}",
-				[new EquipAssetStruct().SetEquipAsset("InteractiveVRHeadset", "ItemHead", null, "b5f0g0", null)]);
+				[new EquipAssetStruct().SetEquipAsset("InteractiveVRHeadset", "ItemHead", null, {b:5,f:0,g:0}, null)]);
 			return equip;
 		}
 
@@ -1880,10 +1883,10 @@ function EquipList(indexOrName) {
 		case "电子贞操具":{
 			equip.SetEquip(2,[], equip.state.SetState(1, 1, 1,1,1), "电子贞操具", 103,"{all+!.似乎你的项圈对这套贞操具有反应}",
 				[new EquipAssetStruct().SetEquipAsset("FuturisticHarness", "ItemTorso", null, null, null),
-					new EquipAssetStruct().SetEquipAsset("FuturisticBra2", "ItemBreast", null, "d0s0", null),
+					new EquipAssetStruct().SetEquipAsset("FuturisticBra2", "ItemBreast", null, {d:0,s:0}, null),
 					new EquipAssetStruct().SetEquipAsset("VibratingDildo", "ItemVulva", null, null, null, "High"),
 					new EquipAssetStruct().SetEquipAsset("VibratingDildoPlug", "ItemButt", null, null, null, "High"),
-					new EquipAssetStruct().SetEquipAsset("FuturisticChastityBelt", "ItemPelvis", null, "m1f1b1t0o1", null)]);
+					new EquipAssetStruct().SetEquipAsset("FuturisticChastityBelt", "ItemPelvis", null, {m:1,f:1,b:1,t:0,o:1}, null)]);
 			return equip;
 		}
 		case 104:
@@ -1896,9 +1899,9 @@ function EquipList(indexOrName) {
 		case 105:
 		case "电子腿铐":{
 			equip.SetEquip(4,[], equip.state.SetState(0, 2, 0,0,0), "电子腿铐", 105,"{agi+@.似乎你的项圈对这套腿铐有反应}",
-				[new EquipAssetStruct().SetEquipAsset("FuturisticLegCuffs", "ItemLegs", null, "Chained", null),
-					new EquipAssetStruct().SetEquipAsset("FuturisticAnkleCuffs", "ItemFeet", null, "Chained", null),
-					new EquipAssetStruct().SetEquipAsset("FuturisticHeels", "ItemBoots", null, "Heel", null)]);
+				[new EquipAssetStruct().SetEquipAsset("FuturisticLegCuffs", "ItemLegs", null, {typed: 2}, null),
+					new EquipAssetStruct().SetEquipAsset("FuturisticAnkleCuffs", "ItemFeet", null, {typed: 2}, null),
+					new EquipAssetStruct().SetEquipAsset("FuturisticHeels", "ItemBoots", null, {typed: 1}, null)]);
 			return equip;
 		}
 
