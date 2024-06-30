@@ -365,7 +365,7 @@ function commandHandler(sender, msg, data) {
 					ShowUnplayableMessage(sender ,msg, isPlayable)
 				}
 			}
-			if (msg.includes("快速进入")){
+			else if (msg.includes("快速进入")){
 				IsEasyMode = false;
 				IsQuickEnding = false;
 				isPlayable = IsPlayerPlayable(sender);
