@@ -2034,7 +2034,7 @@ function WearEndG(sender, msg) {
 		"Description": "本来能够使淫魔痛苦，但是却有一部分丢失了。",
 		"Color": "Default",
 		"Private": false,
-		"Type": "c3s1e0",
+		"TypeRecord": {c:3,s:1,e:0},
 		"OverridePriority": null,
 		"MemberName": "驱魔人",
 		"MemberNumber": 0
@@ -2062,7 +2062,7 @@ function WearEndG(sender, msg) {
 		"Description": "本来能够使淫魔无力，但是却有一部分丢失了。",
 		"Color": "#808080,#808080,#808080,#808080",
 		"Private": false,
-		"Type": "c0a1s2",
+		"TypeRecord": {c: 1, a: 1, s: 3},
 		"OverridePriority": null,
 		"MemberName": "驱魔人",
 		"MemberNumber": 0
