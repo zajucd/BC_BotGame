@@ -169,6 +169,11 @@ function ShowWelcomeMessage(sender) {
 		Type: "Emote",
 		Target: sender.MemberNumber
 	});
+	ServerSend("ChatRoomChat", {
+		Content: "*[在(简易进入)模式下，可不必设置堵嘴悄悄话，以及关键道具不会被覆盖].",
+		Type: "Emote",
+		Target: sender.MemberNumber
+	});
 
 	if(playerInWaiting.length === 0){
 		ServerSend("ChatRoomChat", {
@@ -349,7 +354,20 @@ function commandHandler(sender, msg, data) {
 
 	if(sender.MemberNumber !== Player.MemberNumber && isControlable){
 		ServerSend("ChatRoomChat", { Content: "* ", Type: "Emote", Target: sender.MemberNumber} );
+			if (msg.includes("简易进入")){
+				IsEasyMode = true;
+				IsQuickEnding = true;
+				isPlayable = IsPlayerPlayable(sender);
+				if (isPlayable === 0){
+					EnterWaitingStack(sender,null ,msg, true);
+				}
+				else {
+					ShowUnplayableMessage(sender ,msg, isPlayable)
+				}
+			}
 			if (msg.includes("快速进入")){
+				IsEasyMode = false;
+				IsQuickEnding = false;
 				isPlayable = IsPlayerPlayable(sender);
 				if (isPlayable === 0){
 					EnterWaitingStack(sender,null ,msg, true);
@@ -359,6 +377,8 @@ function commandHandler(sender, msg, data) {
 				}
 			}
 			else if (msg.includes("进入")) {
+				IsEasyMode = false;
+				IsQuickEnding = false;
 				isPlayable = IsPlayerPlayable(sender);
 				if (isPlayable === 0){
 					EnterWaitingStack(sender,null ,msg, false);
@@ -898,9 +918,12 @@ async function GotoPhase2(player) {
 	await sleep(1000);
 	ServerSend("ChatRoomChat", { Content: "*安宝：每位玩家各提交一次后本机会告知您另一位玩家的提交量是否少于您.", Type: "Emote", Target: player.character.MemberNumber} );
 	ServerSend("ChatRoomChat", { Content: "*安宝：每位玩家各提交一次后本机会告知您另一位玩家的提交量是否少于您.", Type: "Emote", Target: anotherPlayer.character.MemberNumber} );
-	await sleep(1000);
-	ServerSend("ChatRoomChat", { Content: "*安宝：请私聊 BOT 来提交，提交阶段期间使用非私聊会受到惩罚.[若无法通过点击来指定BOT，可以通过(/w "+Player.MemberNumber+" 内容)来发送私聊，内容前不要带星号]", Type: "Emote", Target: player.character.MemberNumber} );
-	ServerSend("ChatRoomChat", { Content: "*安宝：请私聊 BOT 来提交，提交阶段期间使用非私聊会受到惩罚.[若无法通过点击来指定BOT，可以通过(/w "+Player.MemberNumber+" 内容)来发送私聊，内容前不要带星号]", Type: "Emote", Target: anotherPlayer.character.MemberNumber} );
+	if(IsEasyMode == false)
+	{
+		await sleep(1000);
+		ServerSend("ChatRoomChat", { Content: "*安宝：请私聊 BOT 来提交，提交阶段期间使用非私聊会受到惩罚.[若无法通过点击来指定BOT，可以通过(/w "+Player.MemberNumber+" 内容)来发送私聊，内容前不要带星号]", Type: "Emote", Target: player.character.MemberNumber} );
+		ServerSend("ChatRoomChat", { Content: "*安宝：请私聊 BOT 来提交，提交阶段期间使用非私聊会受到惩罚.[若无法通过点击来指定BOT，可以通过(/w "+Player.MemberNumber+" 内容)来发送私聊，内容前不要带星号]", Type: "Emote", Target: anotherPlayer.character.MemberNumber} );
+	}
 	await sleep(1000);
 	ServerSend("ChatRoomChat", { Content: "*安宝：那么请开始 (提交 X)[X 应为整数，输入范围外的值视为输入最近范围对应的值].", Type: "Emote", Target: player.character.MemberNumber} );
 	ServerSend("ChatRoomChat", { Content: "*安宝：那么请开始 (提交 X)[X 应为整数，输入范围外的值视为输入最近范围对应的值].", Type: "Emote", Target: anotherPlayer.character.MemberNumber} );
