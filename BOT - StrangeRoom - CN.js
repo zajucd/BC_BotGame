@@ -924,7 +924,7 @@ function coloredButtonPushed(sender, buttonColor) {
       } else {
         ServerSend("ChatRoomChat", { Content: "结局 - '抖S与抖M' : 抖S " + charDict[partnerMemberNumber].Name + " (" + partnerMemberNumber + ") & 抖M " + sender.Name + " (" + sender.MemberNumber + ").", Type: "Chat"} );
         console.log("Ending - 'The Domme and The Sub' for: the domme " + charDict[partnerMemberNumber].Name + " (" + partnerMemberNumber + ") & the submissive " + sender.Name + " (" + sender.MemberNumber + ").")
-        ServerSend("ChatRoomChat", { Content: "emm, " + charDict[partnerMemberNumber].Name + " 你是个不错的S, 但是 " + sender.Name + "得留在这里。如果想要救她的话，跪下然后说：'i wish to replace her to get the punishment'.当然你可以不这么做，会有人陪她的.", Type: "Chat"} );
+        ServerSend("ChatRoomChat", { Content: "emm, " + charDict[partnerMemberNumber].Name + " 你是个不错的S, 但是 " + sender.Name + "得留在这里。如果想要救她的话，全裸下跪然后说：'i wish to replace her to get the punishment'.当然你可以不这么做，会有人陪她的.", Type: "Chat"} );
       }
     } else {
       nextColor = correctCode[insertedCode.length] == 0 ? "red" : (correctCode[insertedCode.length] == 1 ? "blue" : "green")
