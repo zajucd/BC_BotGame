@@ -421,7 +421,7 @@ function wear(sender, msg) {
 						"Effect": [
 							"Lock"
 						],
-						"Type": "Heel",
+						"",
 						"HeightModifier": 16,
 						"LockedBy": "CombinationPadlock",
 						"LockMemberNumber": Player.MemberNumber,
@@ -558,7 +558,7 @@ function device(sender, msg){
 					"Effect": [
 						"Lock"
 					],
-					"Type": "Heel",
+					"TypeRecord": {typed : 1},
 					"HeightModifier": 16,
 					"LockedBy": "CombinationPadlock",
 					"LockMemberNumber": Player.MemberNumber,
@@ -574,7 +574,7 @@ function device(sender, msg){
 					"OriginalSetting": "Plug",
 					"ChatMessage": true,
 					"BlinkState": 1,
-					"Type": "Plug",
+					"TypeRecord": {g: 2, p: 3, t: 4},
 					"Effect": [
 						"BlockMouth",
 						"GagTotal",
@@ -610,7 +610,7 @@ function buttonFinish(sender, msg){
 		InventoryWear(sender, "FuturisticStraitjacket", "ItemArms", "Default",80);
 		InventoryLock(sender, InventoryGet(sender, "ItemArms"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
 		InventoryGet(sender, "ItemArms").Property = {
-			"Type": "cl0co1np1vp1a0",
+			"TypeRecord": {cl: 1, co: 1, np: 1, vp: 1, a: 0},
 			"Difficulty": 0,
 			"Block": [
 				"ItemNipples",
@@ -648,7 +648,7 @@ function buttonFinish(sender, msg){
 			"LockedBy": "CombinationPadlock",
 			"LockMemberNumber": Player.MemberNumber,
 			"CombinationNumber": lockCode,
-			"Type": "Closed",
+			"TypeRecord": {typed : 1},
 			"SetPose": [
 				"LegsClosed"
 			],
@@ -667,7 +667,7 @@ function buttonFinish(sender, msg){
 			"LockedBy": "CombinationPadlock",
 			"LockMemberNumber": Player.MemberNumber,
 			"CombinationNumber": lockCode,
-			"Type": "Closed",
+			"TypeRecord": {typed : 1},
 			"Effect": [
 				"Prone",
 				"Freeze",
@@ -688,7 +688,7 @@ function buttonFinish(sender, msg){
 			"OriginalSetting": "Plug",
 			"ChatMessage": true,
 			"BlinkState": 1,
-			"Type": "Plug",
+			"TypeRecord": {g: 2, p: 3, t: 4},
 			"Effect": [
 				"BlockMouth",
 				"GagTotal",
@@ -699,7 +699,7 @@ function buttonFinish(sender, msg){
 			"CombinationNumber": lockCode
 		};
 		InventoryGet(sender, "ItemHead").Property ={
-			"Type": "b0f1g0",
+			"TypeRecord": {b:0,f:1,g:0},
 			"Difficulty": 0,
 			"Block": [],
 			"Effect": [
@@ -806,7 +806,7 @@ function progressTo2(sender, msg){
 				"Effect": [
 					"Lock"
 				],
-				"Type": "Heel",
+				"TypeRecord": {typed : 1},
 				"HeightModifier": 16,
 				"LockedBy": "CombinationPadlock",
 				"LockMemberNumber": Player.MemberNumber,
@@ -969,7 +969,7 @@ function enter(sender, msg) {
 			"LockedBy": "CombinationPadlock",
 			"LockMemberNumber": Player.MemberNumber,
 			"CombinationNumber": lockCode,
-			"Type": "w2l3a0d0t0h0",
+			"TypeRecord": {w:2,l:3,a:0,d:0,t:0,h:0},
 			"Difficulty": 44,
 			"Block": [
 				"ItemAddon",
@@ -1043,7 +1043,7 @@ function progress2End(sender, msg){
 		"LockedBy": "CombinationPadlock",
 		"LockMemberNumber": Player.MemberNumber,
 		"CombinationNumber": lockCode,
-		"Type": "w2l3a0d0t0h0",
+		"TypeRecord": {w:2,l:3,a:0,d:0,t:0,h:0},,
 		"Difficulty": 44,
 		"Block": [
 			"ItemAddon",
@@ -1104,7 +1104,7 @@ function progress3End(sender, msg){
 			"LockedBy": "CombinationPadlock",
 			"LockMemberNumber": Player.MemberNumber,
 			"CombinationNumber": lockCode,
-			"Type": "w2l3a0d0t0h0",
+			"TypeRecord": {w:2,l:3,a:0,d:0,t:0,h:0},
 			"Difficulty": 44,
 			"Block": [
 				"ItemAddon",
