@@ -34,7 +34,11 @@ InventoryGet(Player, "ItemHead").Property = {
 	"AllowActivity": [],
 	"Attribute": []
 };
+InventoryLock(sender, "ItemHead", { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+InventoryGet(sender,"ItemHead").Property.CombinationNumber = "7092";
 InventoryWear(Player, "TheDisplayFrame", "ItemDevices", "Default",80);
+InventoryLock(sender, "ItemDevices", { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+InventoryGet(sender,"ItemDevices").Property.CombinationNumber = "7092";
 
 Player.Description = `
 BOT game：MaidQuest
