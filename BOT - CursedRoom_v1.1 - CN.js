@@ -421,7 +421,7 @@ function wear(sender, msg) {
 						"Effect": [
 							"Lock"
 						],
-						"",
+						"TypeRecord": {typed : 1},
 						"HeightModifier": 16,
 						"LockedBy": "CombinationPadlock",
 						"LockMemberNumber": Player.MemberNumber,
