@@ -500,24 +500,21 @@ function commandHandler(sender, msg, data) {
 				}
 				//提交阶段
 				else if (gamePhase === 1){
-					if(msg.includes("提交")){
+					if(data.Type === "Whisper" && commandPlayer.character.CanTalk() === false)
+					{
+						coin = coinRequireOfEachProcess[gameProcess] * 0.2;
+						ServerSend("ChatRoomChat", { Content: "*安宝：检测到目标无法正常发声，将自动提交一定数量.", Type: "Emote", Target: commandPlayer.character.MemberNumber} );
+						SubmitCoin(commandPlayer, coin);
+					}			
+					else if(msg.includes("提交")){
 						if(IsEasyMode === true){
 							coin = parseInt(msg.replace(/[^\d]/g, " "));//删除数字外字符
 							SubmitCoin(commandPlayer, coin);
 						}
 						else{
 							if(data.Type === "Whisper"){
-								if(commandPlayer.character.CanTalk() === false)
-								{
-									coin = coinRequireOfEachProcess[gameProcess] * 0.2;
-									ServerSend("ChatRoomChat", { Content: "*安宝：检测到目标无法正常发声，将自动提交一定数量.", Type: "Emote", Target: commandPlayer.character.MemberNumber} );
-									SubmitCoin(commandPlayer, coin);
-								}
-								else
-								{
-									coin = parseInt(msg.replace(/[^\d]/g, " "));//删除数字外字符
-									SubmitCoin(commandPlayer, coin);
-								}
+								coin = parseInt(msg.replace(/[^\d]/g, " "));//删除数字外字符
+								SubmitCoin(commandPlayer, coin);
 							}
 							else {
 								ServerSend("ChatRoomChat", { Content: "*安宝：检测到违规行为，进行惩罚.", Type: "Emote", Target: commandPlayer.character.MemberNumber} );
@@ -1002,7 +999,7 @@ function SubmitCoin(player, coin){
 			ServerSend("ChatRoomChat", { Content: "*安宝：三轮提交已完成，共提交" +coinSubmited+ "金币", Type: "Emote", Target: anotherPlayer.character.MemberNumber} );
 			if(coinSubmited >= coinRequireOfEachProcess[gameProcess]){
 				ServerSend("ChatRoomChat", { Content: "*安宝：恭喜，已达到需求量，将移动至下一阶段", Type: "Emote", Target: player.character.MemberNumber} );
-				ServerSend("ChatRoomChat", { Content: "*安宝：恭喜，已达到需求量，将移动至下一阶段" +coinSubmited+ "金币", Type: "Emote", Target: anotherPlayer.character.MemberNumber} );
+				ServerSend("ChatRoomChat", { Content: "*安宝：恭喜，已达到需求量，将移动至下一阶段", Type: "Emote", Target: anotherPlayer.character.MemberNumber} );
 				GotoPhase3(player);
 			}
 			else {
@@ -1161,7 +1158,7 @@ async function GotoEnd(player, type) {
 	}
 	else{
 		player.slots[6].RemoveEquip(player);
-		player.slots[6].RemoveEquip(anotherPlayer);
+		anotherPlayer.slots[6].RemoveEquip(anotherPlayer);
 		await sleep(1000);
 		ServerSend("ChatRoomChat", { Content: "*运输舱移动了似乎十分漫长的时间.", Type: "Emote", Target: player.character.MemberNumber} );
 		ServerSend("ChatRoomChat", { Content: "*运输舱移动了似乎十分漫长的时间.", Type: "Emote", Target: anotherPlayer.character.MemberNumber} );
@@ -1363,12 +1360,12 @@ function End4(player1, player2) {
 	playerInGame.splice(playerInGame.indexOf(player2),1);
 
 	InventoryRemove(player1.character, "ItemDevices", true);
-	InventoryWear(player1, "TheDisplayFrame", "ItemDevices", "Default",80);
+	InventoryWear(player1.character, "TheDisplayFrame", "ItemDevices", "Default",80);
 	player1.slots[7].GetInventorys(player1)[1].Property.Text = player.lockcode.toString();
 	ChatRoomCharacterUpdate(player1.character);
 
 	InventoryRemove(player2.character, "ItemDevices", true);
-	InventoryWear(player2, "TheDisplayFrame", "ItemDevices", "Default",80);
+	InventoryWear(player2.character, "TheDisplayFrame", "ItemDevices", "Default",80);
 	player2.slots[7].GetInventorys(player2)[1].Property.Text = player.lockcode.toString();
 	ChatRoomCharacterUpdate(player2.character);
 
