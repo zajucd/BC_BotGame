@@ -354,46 +354,49 @@ function commandHandler(sender, msg, data) {
 
 	if(sender.MemberNumber !== Player.MemberNumber && isControlable){
 		ServerSend("ChatRoomChat", { Content: "* ", Type: "Emote", Target: sender.MemberNumber} );
-			if (msg.includes("简易进入")){
-				IsEasyMode = true;
-				IsQuickEnding = true;
-				isPlayable = IsPlayerPlayable(sender);
-				if (isPlayable === 0){
-					EnterWaitingStack(sender,null ,msg, true);
+			if(IsGameStart === false)
+			{
+				if (msg.includes("简易进入")){
+					IsEasyMode = true;
+					IsQuickEnding = true;
+					isPlayable = IsPlayerPlayable(sender);
+					if (isPlayable === 0){
+						EnterWaitingStack(sender,null ,msg, true);
+					}
+					else {
+						ShowUnplayableMessage(sender ,msg, isPlayable)
+					}
 				}
-				else {
-					ShowUnplayableMessage(sender ,msg, isPlayable)
+				else if (msg.includes("快速进入")){
+					IsEasyMode = false;
+					IsQuickEnding = false;
+					isPlayable = IsPlayerPlayable(sender);
+					if (isPlayable === 0){
+						EnterWaitingStack(sender,null ,msg, true);
+					}
+					else {
+						ShowUnplayableMessage(sender ,msg, isPlayable)
+					}
 				}
-			}
-			else if (msg.includes("快速进入")){
-				IsEasyMode = false;
-				IsQuickEnding = false;
-				isPlayable = IsPlayerPlayable(sender);
-				if (isPlayable === 0){
-					EnterWaitingStack(sender,null ,msg, true);
-				}
-				else {
-					ShowUnplayableMessage(sender ,msg, isPlayable)
-				}
-			}
-			else if (msg.includes("进入")) {
-				IsEasyMode = false;
-				IsQuickEnding = false;
-				isPlayable = IsPlayerPlayable(sender);
-				if (isPlayable === 0){
-					EnterWaitingStack(sender,null ,msg, false);
-				}
-				else {
-					ShowUnplayableMessage(sender ,msg, isPlayable)
-				}
+				else if (msg.includes("进入")) {
+					IsEasyMode = false;
+					IsQuickEnding = false;
+					isPlayable = IsPlayerPlayable(sender);
+					if (isPlayable === 0){
+						EnterWaitingStack(sender,null ,msg, false);
+					}
+					else {
+						ShowUnplayableMessage(sender ,msg, isPlayable)
+					}
 
-			}
-			else  if(msg.includes("排出")){
-				setTimeout(function (sender) {
+				}
+				else  if(msg.includes("排出")){
+					setTimeout(function (sender) {
 							ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString());
 							resetRoom(3);
 
 						}, 2 * 1000, sender);
+				}
 			}
 			//游戏中行动
 			else if(IsGameStart) {
