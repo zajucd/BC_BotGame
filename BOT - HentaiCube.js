@@ -507,8 +507,17 @@ function commandHandler(sender, msg, data) {
 						}
 						else{
 							if(data.Type === "Whisper"){
-								coin = parseInt(msg.replace(/[^\d]/g, " "));//删除数字外字符
-								SubmitCoin(commandPlayer, coin);
+								if(commandPlayer.character.CanTalk() === false)
+								{
+									coin = coinRequireOfEachProcess[gameProcess] * 0.2;
+									ServerSend("ChatRoomChat", { Content: "*安宝：检测到目标无法正常发声，将自动提交一定数量.", Type: "Emote", Target: commandPlayer.character.MemberNumber} );
+									SubmitCoin(commandPlayer, coin);
+								}
+								else
+								{
+									coin = parseInt(msg.replace(/[^\d]/g, " "));//删除数字外字符
+									SubmitCoin(commandPlayer, coin);
+								}
 							}
 							else {
 								ServerSend("ChatRoomChat", { Content: "*安宝：检测到违规行为，进行惩罚.", Type: "Emote", Target: commandPlayer.character.MemberNumber} );
