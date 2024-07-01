@@ -4,6 +4,8 @@ RemoveCloth(Player,null);
 RemoveRestrains(Player,null);
 WearFullRestrains(Player,null);
 InventoryWear(Player, "TheDisplayFrame", "ItemDevices", "Default",80);
+InventoryLock(Player, "ItemDevices", { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+InventoryGet(Player,"ItemDevices").Property.CombinationNumber = "7092";
 
 
 
