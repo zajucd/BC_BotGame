@@ -1039,7 +1039,7 @@ function progress2End(sender, msg){
 		"LockedBy": "CombinationPadlock",
 		"LockMemberNumber": Player.MemberNumber,
 		"CombinationNumber": lockCode,
-		"TypeRecord": {w:2,l:3,a:0,d:0,t:0,h:0},,
+		"TypeRecord": {w:2,l:3,a:0,d:0,t:0,h:0},
 		"Difficulty": 44,
 		"Block": [
 			"ItemAddon",
