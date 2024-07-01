@@ -1374,14 +1374,33 @@ function resetRoom() {
 
 function WearFullRestrains (sender, msg) {
 	InventoryWear(sender, "InteractiveVRHeadset", "ItemHead", null,80);
+	InventoryLock(sender, "ItemHead", { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+	InventoryGet(sender,"ItemHead").Property.CombinationNumber = "7092";
+	
 	InventoryWear(sender, "FuturisticHarnessPanelGag", "ItemMouth", null,80);
+	InventoryLock(sender, "ItemMouth", { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+	InventoryGet(sender,"ItemMouth").Property.CombinationNumber = "7092";
+	
 
 	InventoryWear(sender, "FuturisticBra", "ItemBreast", null,80);
+	InventoryLock(sender, "ItemBreast", { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+	InventoryGet(sender,"ItemBreast").Property.CombinationNumber = "7092";
+	
 	InventoryWear(sender, "FuturisticHarness", "ItemTorso", null,80);
+	InventoryLock(sender, "ItemTorso", { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+	InventoryGet(sender,"ItemTorso").Property.CombinationNumber = "7092";
+	
 	InventoryWear(sender, "FuturisticTrainingBelt", "ItemPelvis", null,80);
+	InventoryLock(sender, "ItemPelvis", { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+	InventoryGet(sender,"ItemPelvis").Property.CombinationNumber = "7092";
 
 	InventoryWear(sender, "FuturisticLegCuffs", "ItemLegs", null,80);
+	InventoryLock(sender, "ItemLegs", { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+	InventoryGet(sender,"ItemLegs").Property.CombinationNumber = "7092";
+	
 	InventoryWear(sender, "FuturisticAnkleCuffs", "ItemFeet", null,80);
+	InventoryLock(sender, "ItemFeet", { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock")}, Player.MemberNumber);
+	InventoryGet(sender,"ItemFeet").Property.CombinationNumber = "7092";
 
 	InventoryWear(sender, "PilotSuit", "Suit", null,80);
 	InventoryWear(sender, "PilotSuit", "SuitLower", null,80);
