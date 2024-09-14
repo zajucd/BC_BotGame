@@ -1,4 +1,3 @@
-activateStoryRoom();
 
 RemoveCloth(Player,null);
 RemoveRestrains(Player,null);
