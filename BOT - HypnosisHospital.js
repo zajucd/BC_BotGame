@@ -537,7 +537,6 @@ async function WearRestrainsByDay(sender) {
 		if (InventoryGet(sender, "ItemPelvis") === null) {
 			InventoryWear(sender, "FuturisticChastityBelt", "ItemPelvis", "Default", 80);
 			ChatRoomCharacterUpdate(sender);
-			console.log(InventoryGet(sender, "ItemPelvis"));
 		}
 		try {
 			InventoryGet(sender, "ItemPelvis").Property.CombinationNumber = lockCode;
@@ -2141,7 +2140,6 @@ async function UpdateRoom(ChatRoomData) {
 		ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: ChatRoomData, Action: "Update" });
 	}
 	catch {
-		console.log
 		await sleep(200);
 		UpdateRoom(ChatRoomData)
 	}
