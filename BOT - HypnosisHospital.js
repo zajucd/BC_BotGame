@@ -533,10 +533,20 @@ async function WearRestrainsByDay(sender) {
 		ChatRoomCharacterUpdate(sender);
 		await sleep(100);
 		InventoryLock(sender, InventoryGet(sender, "ItemPelvis"), { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock") }, Player.MemberNumber);
-		InventoryGet(sender, "ItemPelvis").Property.CombinationNumber = lockCode;
-		InventoryGet(sender, "ItemPelvis").Property.TypeRecord = { m: 3, f: 1, b: 1, t: 2, o: 1 };
-		InventoryGet(sender, "ItemPelvis").Color = ['#FFFFFF', '#242424', 'Default', 'Default', 'Default', 'Default', '#222222', 'Default', 'Default'];
-		
+		ChatRoomCharacterUpdate(sender);
+		if (InventoryGet(sender, "ItemPelvis") === null) {
+			InventoryWear(sender, "FuturisticChastityBelt", "ItemPelvis", "Default", 80);
+			ChatRoomCharacterUpdate(sender);
+			console.log(InventoryGet(sender, "ItemPelvis"));
+		}
+		try {
+			InventoryGet(sender, "ItemPelvis").Property.CombinationNumber = lockCode;
+			InventoryGet(sender, "ItemPelvis").Property.TypeRecord = { m: 3, f: 1, b: 1, t: 2, o: 1 };
+			InventoryGet(sender, "ItemPelvis").Color = ['#FFFFFF', '#242424', 'Default', 'Default', 'Default', 'Default', '#222222', 'Default', 'Default'];
+		}
+		catch {
+			
+		}
 	}
 	if (dayPassed >= 2) {
 		InventoryWear(sender, "HighSecurityStraitJacket", "ItemArms", "Default", 80);
@@ -594,15 +604,12 @@ function SetCharIn40x40String(string, x, y, char) {
 	return string;
 }
 async function ToEnd(sender, type) {
+	InventoryRemove(sender, "ItemDevices");
+	ChatRoomCharacterUpdate(sender);
+	await sleep(300);
 
-	resetRoom();
 	switch (type) {
 		case 1: {
-
-			InventoryRemove(sender, "ItemDevices");
-			ChatRoomCharacterUpdate(sender);
-			await sleep(300);
-
 			let point = FindFreeFailPoint();
 			playersFailed.push(sender);
 			await Teleport(sender, point.X, point.Y);
@@ -619,11 +626,6 @@ async function ToEnd(sender, type) {
 		}
 			break;
 		case 2: {
-
-			InventoryRemove(sender, "ItemDevices");
-			ChatRoomCharacterUpdate(sender);
-			await sleep(300);
-
 			let point = FindFreeFailPoint();
 			playersFailed.push(sender);
 			await Teleport(sender, point.X, point.Y);
@@ -650,11 +652,6 @@ async function ToEnd(sender, type) {
 		}
 			break;
 		case 3: {
-
-			InventoryRemove(sender, "ItemDevices");
-			ChatRoomCharacterUpdate(sender);
-			await sleep(300);
-
 			let point = FindFreeFailPoint();
 			playersFailed.push(sender);
 			await Teleport(sender, point.X, point.Y);
@@ -680,10 +677,6 @@ async function ToEnd(sender, type) {
 		}
 			break;
 		case 4: {
-			InventoryRemove(sender, "ItemDevices");
-			ChatRoomCharacterUpdate(sender);
-			await sleep(300);
-
 			let point = FindFreeFailPoint();
 			playersFailed.push(sender);
 			await Teleport(sender, point.X, point.Y);
@@ -729,10 +722,6 @@ async function ToEnd(sender, type) {
 		}
 			break;
 		case 7: {
-			InventoryRemove(sender, "ItemDevices");
-			ChatRoomCharacterUpdate(sender);
-			await sleep(300);
-
 			await Teleport(sender, 20, 37);
 			ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
 			ServerSend("ChatRoomChat", {
@@ -742,10 +731,16 @@ async function ToEnd(sender, type) {
 		}
 			break;
 	}
-	ServerSend("ChatRoomChat", {
-		Content: "*如果有需要,可以使用退出(exit).",
-		Type: "Chat"
-	});
+
+	resetRoom();
+	await sleep(1000 * 120);
+	if (playersFailed.includes(sender)) {
+		ServerSend("ChatRoomChat", {
+			Content: "*如果有需要,可以使用退出(exit).",
+			Type: "Whisper", Target: sender.MemberNumber
+		});
+	}
+	
 }
 function FindFreeFailPoint() {
 	let result;
@@ -2126,8 +2121,15 @@ function resetRoom() {
 		"Tiles": "ЮЮЮЮиЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮxxxxxxxxxxЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮxxxxxxxxЮииииииЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮxЮxxxxxxxxЮЮЮКЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮxЮxxxxxxxxЮЮЮЮЮЮЮЮЮnЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮϨxxxxxxxxЮЮЮЮЮЮЮЮЮnЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮxЮxxxxxxxxЮЮЮЮЮЮЮЮЮКЮКЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮxЮxxxxxxxxЮЮЮЮЮЮЮЮККnККЮÒÒÒÒssssssÒЮЮЮЮЮЮЮxxxxxxxxЮЮЮЮЮЮЮЮККККnЮÒÒ×ÒsߐߐߐߐsÒЮЮЮЮЮxЮxxxxxxxxϨиϨиϨиϨКККnnnЮÒÒÒÒsߐߐߐߐsÒЮЮЮЮЮxЮxxxxxxxxϩиІиКиЮККККККЮÒÒÒÒssssssÒЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮdиnиsиߐКККnККЮÒÒÒÒÒÒÒÒÒÒÒЮxxxxxxxxxxЮdиnиsиߐКnККККЮÒÒÒÒÒÒÒÒÒÒÒЮxxxxxxxxxxЮЮЮЮЮЮЮЮnnnККЮÒÒÒÒÒÒÒÒÒÒÒЮxxxxxxxxxxЮЮЮЮЮЮЮЮКККККЮÒÒÒÒÒÒÒÒÒÒÒЮxxxxxxxxxxЮЮЮЮЮЮЮЮККnККЮÒÒÒÒÒÒÒÒÒÒÒЮxxxxxxxxxxЮЮЮЮЮЮЮЮКККККЮÒÒÒÒÒÒÒÒÒÒÒЮxxxxxxxxxxЮЮЮЮЮЮЮЮККnККЮÒÒÒÒÒÒÒÒÒÒÒЮxxxxxxxxxxЮЮЮЮЮЮЮЮЮКККККЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮnnnnnЮxxxxxxxxxxxxxxxxxxxxxxxxxxЮЮЮЮЮЮЮЮnnnnnЮxxxxxxxxxxxxxxxxxxxxxxxxxxЮЮЮЮЮЮЮЮnnnnnЮxxxxxxxxxxxxxxxxxxxxxxxxxxЮЮЮЮЮЮЮЮКККККЮиииЮиЮиЮиЮиЮЮЮЮЮЮЮЮЮЮиЮиииЮЮЮЮЮЮЮЮnnnnnЮЮЮЮxxxxxxxxЮЮЮЮЮЮЮЮЮnnnnnЮЮЮЮxxxxxxxxЮЮЮЮЮЮЮЮЮКККККЮxЮЮЮxxxxxxxxЮЮЮЮЮЮЮЮЮnКnКnЮЮЮЮxxxxxxxxЮЮЮЮЮЮЮЮЮКЮКЮКЮЮЮЮЮЮЮЮЮЮЮЮЮxxxxxxxxЮЮЮЮЮЮЮЮЮnЮnЮnЮЮЮxxxxxxxxxЮxxxxxxxxЮиииииЮЮЮЮЮЮЮЮnЮnЮnЮЮЮxxxxxxxxxxxxxxxxxxЮЮЮЮЮЮЮЮЮЮЮЮЮЮКЮКЮКЮЮЮЮЮЮЮЮЮЮЮЮЮxxxxxxxxЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮxxxxxxxxxЮxxxxxxxxЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮxxxxxxxxxЮxxxxxxxxЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮxxxxxxxxxЮxxxxxxxxЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮxxxЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮxЮxЮxЮxЮÒÒÒÒÒЮxЮxЮxЮxЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮxЮxЮxЮxЮÒÒÒÒÒЮxЮxЮxЮxЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮxxxxxxxЮÒÒÒÒÒЮxxxxxxxЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮxxxxxxxxÒÒÒÒÒxxxxxxxxЮЮЮЮЮЮЮЮЮ",
 		"Objects": "ddddூdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddྴdЮdЮЮЮЮЮЮdூூூdூூூddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddЮdЮЮЮЮЮЮddddddddddЮdddddddddddddddddddྴdddddddddddddddddddddddddddddddddddddddddЮdЮЮЮЮЮЮddddddddddྵddddddddddddddddddddddddddddddddddddddddddddߕddddddddddddddྴdЮdЮЮЮЮЮЮddddddddddྯdЮddddddddddddddddddddddddddddddddddddddddddࠂddddddddddddddddЮdЮЮЮЮЮЮదdಀdௌdூdddྵddddddddddddddddddddddddddddd d¢d¤ddddddddddd߸dddddddddКККŀdŀddddྴdddddddddddЮdྮddddߕddddddd߸ddddddddddddࠖdddddddddddddddddddddddࠂdddddиdddddddddࠖŞdĶddddddddddྵdddddddߕdddddddиdddddddddࠖŞІĶddddddddddddddddddddddddddиdddddÒÒÒÒࠖdĎdddddddddddྭddddddddddddddddddddÒddࠖddddddddddddddddddɬɬɬɬɬɬdddddddddddddddddddddddddddddྴdddddddddddྴྴdddྴྴdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddྴddddྴdddྴdddྴdddྴྴdಀಀಀdddྴdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddྯdྮdྭdϼdxdϼdxdϼdxddddddddddиdxÒddddddddddddddddddddddddddddddddddddddddddddྶdྶdྶddddಲddூdௌdூddddddddddddddddddddddddddddddddddddddddྴddddddddddddddddddиdиdиddddddddddddࠖdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddࠖdddddddddddddddddddddddddddddddddddddddÒdddddddddddddddddddddddddddddddddddࠖdddddddddddddddddddddddddddddddddddࠖdࠖddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddࠖdࠖdࠖdࠖdddddddࠖdࠖdࠖdࠖddddddddddddddddddddddddddྴddnddྴdddddddddddddddddddddddddddddddddࠖdddddࠖdddddddddddddddd"
 	}
-	ChatRoomData.Description = "[BOT]密室逃生第四部 可疑的医院 使用了地图技术",
-	ChatRoomData.Limit = (2 + playersFailed.length).toString()
+	ChatRoomData.Description = "[BOT]密室逃生第四部 可疑的医院 使用了地图技术";
+	let length;
+	try {
+		length = playersFailed.length;
+	}
+	catch {
+		length = 0;
+	}
+	ChatRoomData.Limit = (2 + length).toString()
 	ChatRoomData.MapData = map;
 	ChatRoomData.Locked = false;
 	UpdateRoom(ChatRoomData);
@@ -2139,6 +2141,7 @@ async function UpdateRoom(ChatRoomData) {
 		ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: ChatRoomData, Action: "Update" });
 	}
 	catch {
+		console.log
 		await sleep(200);
 		UpdateRoom(ChatRoomData)
 	}
