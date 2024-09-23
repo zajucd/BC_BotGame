@@ -626,7 +626,7 @@ function commandHandler(sender, msg) {
           // Slave
           // lookLikeSlave = [ isExposed(sender) + sender.IsKneeling() + InventoryIsWorn(sender, "HarnessBallGag", "ItemMouth") + InventoryIsWorn(sender, "LeatherArmbinder", "ItemArms") ]
           if (isExposed(sender,["PolishedChastityBelt"]) && InventoryIsWorn(sender, "HarnessBallGag", "ItemMouth") && InventoryIsWorn(sender, "LeatherArmbinder", "ItemArms")) {
-            if (sender.IsKneeling() && charPos[partnerMemberNumber] == 'mirror' && dressLikeMistress(partnerMemberNumber) && InventoryIsWorn(charDict[partnerMemberNumber],"SpankingToys","ItemHands")) {
+            if (sender.IsKneeling() && charPos[partnerMemberNumber] == 'mirror' && dressLikeMistress(partnerMemberNumber) && InventoryIsWorn(charDict[partnerMemberNumber],"Crop","ItemHandheld")) {
               ServerSend("ChatRoomChat", { Content: "*私人: 你看见你自己被束缚的裸体, 跪在你的女王前. 你觉得羞耻但是自豪.", Type: "Emote", Target: sender.MemberNumber} );
               ServerSend("ChatRoomChat", { Content: "*秘密: 镜子上显示一行文字: '你们之中有一个人会失去自由. 如果你对 " + Player.Name + "私语发送 (save me), 你会在结束后得到自由, 但是你的女王会失去她的地位. 这由你自己决定'.", Type: "Emote", Target: sender.MemberNumber} );
               return // skip the part below about the partner being near you and the part about kneeling
@@ -655,15 +655,15 @@ function commandHandler(sender, msg) {
 
           // Mistress
           // lookLikeSlave = [ isExposed(sender.) + sender.IsKneeling() + InventoryIsWorn(sender, "HarnessBallGag", "ItemMouth") + InventoryIsWorn(sender, "LeatherArmbinder", "ItemArms") ]
-          if (!dressLikeMistress(sender.MemberNumber) && !InventoryIsWorn(sender,"SpankingToys","ItemHands")) {
+          if (!dressLikeMistress(sender.MemberNumber) && !InventoryIsWorn(sender,"Crop","ItemHandheld")) {
             ServerSend("ChatRoomChat", { Content: "*私人: 你看着镜中的倒影: 怎么会有这么可爱的孩子.", Type: "Emote", Target: sender.MemberNumber} );
-          } else if (dressLikeMistress(sender.MemberNumber) && !InventoryIsWorn(sender,"SpankingToys","ItemHands")) {
+          } else if (dressLikeMistress(sender.MemberNumber) && !InventoryIsWorn(sender,"Crop","ItemHandheld")) {
             ServerSend("ChatRoomChat", { Content: "*私人: 你看着你的着装, 如女王般性感. 但是少了什么东西, 让你觉得你没那么有力.", Type: "Emote", Target: sender.MemberNumber} );
-          } else if (!dressLikeMistress(sender.MemberNumber) && InventoryIsWorn(sender,"SpankingToys","ItemHands")) {
+          } else if (!dressLikeMistress(sender.MemberNumber) && InventoryIsWorn(sender,"Crop","ItemHandheld")) {
             ServerSend("ChatRoomChat", { Content: "*私人: 你看着你手中的鞭子. 十分有力, 但是衣着并没有那么性感?", Type: "Emote", Target: sender.MemberNumber} );
-          } else if (dressLikeMistress(sender.MemberNumber) && InventoryIsWorn(sender,"SpankingToys","ItemHands") && (charPos[partnerMemberNumber] != "mirror")) {
+          } else if (dressLikeMistress(sender.MemberNumber) && InventoryIsWorn(sender,"Crop","ItemHandheld") && (charPos[partnerMemberNumber] != "mirror")) {
             ServerSend("ChatRoomChat", { Content: "*私人: 你得着装和鞭子让你性感而有力. 但是少了什么人在身边。", Type: "Emote", Target: sender.MemberNumber} );
-          } else if (dressLikeMistress(sender.MemberNumber) && InventoryIsWorn(sender,"SpankingToys","ItemHands") && (charPos[partnerMemberNumber] == "mirror") && !lookLikeSlave(partnerMemberNumber)) {
+          } else if (dressLikeMistress(sender.MemberNumber) && InventoryIsWorn(sender,"Crop","ItemHandheld") && (charPos[partnerMemberNumber] == "mirror") && !lookLikeSlave(partnerMemberNumber)) {
             ServerSend("ChatRoomChat", { Content: "*私人: 你得着装和鞭子让你性感而有力. 。" + charDict[partnerMemberNumber].Name + " 在你身边, 但她缺了点什么.", Type: "Emote", Target: sender.MemberNumber} );
             return // skip the part below about the partner being near you
           } else {
