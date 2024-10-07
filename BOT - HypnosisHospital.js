@@ -251,6 +251,7 @@ function sleep(time) {
 	return new Promise((resolve) => setTimeout(resolve, time));
 }
 
+//重写已有方法，在玩家移动后调用PlayerMoved
 function ChatRoomMapViewSyncMapData(data) {
 
 	// Exits if the packet is invalid
@@ -267,9 +268,6 @@ function ChatRoomMapViewSyncMapData(data) {
 			}
 			break;
 		}
-
-
-
 }
 function commandHandler(sender, msg) {
 	if (playerCanAction === true) {
@@ -732,12 +730,86 @@ async function ToEnd(sender, type) {
 	}
 
 	resetRoom();
+	if (playersFailed.includes(sender)) {
+		ServerSend("ChatRoomChat", {
+			Content: "*因为作者的梦想是拿玩家填满地图下方的展示区，所以在这里每等5分钟就会随机给一个结局的提示.",
+			Type: "Whisper", Target: sender.MemberNumber
+		});
+	}
 	await sleep(1000 * 120);
 	if (playersFailed.includes(sender)) {
 		ServerSend("ChatRoomChat", {
 			Content: "*如果有需要,可以使用退出(exit).",
 			Type: "Whisper", Target: sender.MemberNumber
 		});
+	}
+	await sleep(1000 * 180)
+	while (true) {
+		if (playersFailed.includes(sender)) {
+			let ran = Math.floor(Math.random() * (7 - 1 + 1)) + 1;
+			switch (ran) {
+				case 1: {
+					ServerSend("ChatRoomChat", {
+						Content: "*1.催眠一次后进入隐藏房间南方的房间.",
+						Type: "Whisper", Target: sender.MemberNumber
+					});
+					break;
+				}
+				case 2: {
+					ServerSend("ChatRoomChat", {
+						Content: "*2.催眠一次后进入隐藏房间北方的房间，但没达到最深处.",
+						Type: "Whisper", Target: sender.MemberNumber
+					});
+					break;
+				}
+				case 3: {
+					ServerSend("ChatRoomChat", {
+						Content: "*3.催眠一次后进入隐藏房间北方的房间，达到最深处.",
+						Type: "Whisper", Target: sender.MemberNumber
+					});
+					break;
+				}
+				case 4: {
+					ServerSend("ChatRoomChat", {
+						Content: "*4.通过某个动作进入两个盆栽间的密室，但没找到要找的东西.",
+						Type: "Whisper", Target: sender.MemberNumber
+					});
+					break;
+				}
+				case 5: {
+					ServerSend("ChatRoomChat", {
+						Content: "*5.通过某个动作进入两个盆栽间的密室，找到要找的东西.",
+						Type: "Whisper", Target: sender.MemberNumber
+					});
+					break;
+				}
+				case 6: {
+					ServerSend("ChatRoomChat", {
+						Content: "*6.走完梦中的所有路线.",
+						Type: "Whisper", Target: sender.MemberNumber
+					});
+					break;
+				}
+				case 7: {
+					ServerSend("ChatRoomChat", {
+						Content: "*7.平安过完10天.",
+						Type: "Whisper", Target: sender.MemberNumber
+					});
+					break;
+				}
+				default: {
+					ServerSend("ChatRoomChat", {
+						Content: "*如果你看到这句话，说明铸币作者随机数范围写错了，可以此为凭证直接向bot要提示.",
+						Type: "Whisper", Target: sender.MemberNumber
+					});
+					break;
+				}
+			}
+		}
+		else {
+			return;
+		}
+		await sleep(1000 * 300);
 	}
 	
 }
@@ -2134,17 +2206,38 @@ function resetRoom() {
 	UpdateRoom(ChatRoomData);
 	
 }
-
+let retryCount = 0;
 async function UpdateRoom(ChatRoomData) {
+	
 	try {
 		ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: ChatRoomData, Action: "Update" });
 	}
 	catch {
-		await sleep(200);
-		UpdateRoom(ChatRoomData)
+		if (retryCount < 10) {
+			await sleep(500);
+			UpdateRoom(ChatRoomData);
+			retryCount++;
+		}
+		
 	}
+	retryCount = 0;
 }
+async function ToPlayer() {
+	isloop = true 
+	try {
+		while (isloop) {
+			await sleep(3000);
+			if (ChatRoomCharacter.length === 1) continue;
+			Player.MapData.Pos = { X: ChatRoomCharacter[ChatRoomCharacter.length - 1].MapData.Pos.X - 2, Y: ChatRoomCharacter[ChatRoomCharacter.length - 1].MapData.Pos.Y - 2 };
+			
+		}
 
+	}
+	catch {
+
+	}
+	
+}
 ///催眠时直接告知 获得顺序
 ///室友地下 看自己
 ///庭院编码 0123 - 上下左右
