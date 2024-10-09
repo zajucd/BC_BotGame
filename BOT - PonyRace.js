@@ -26,8 +26,8 @@ const wildMap = {
     "Tiles": "АААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААА×А×А×АðА×××××××××А×А×××××××А××××××××АААААААААААА×××××××××ААА×××××××А×АААААА×АААА×А×А×А×А×××××××××А×А×××××××А×А××××А×АААА×А×А×А×А×××××××××ААА×××××××А×А×АА×А×АААА×А×А×А×А×××××××××А×А×××××××А×А××А×А×АААА×А×А×А×А×××××××××ААА×××××××А×А××А×А×АААА×А×А×А×А×××××××××××××××××××А×АААА×А×АААААААААААА××××××××××ð××××××××А××××××А×АААА×××××××××××××××××××××××××××ААААААААААААА××××××××××××××××××ð×××××××××××××××××АААА××××××××××××××××××××××××××××××××××××АААА××××××××××××××ð×××××ð×ð×××××××××××××АААА××××××××××××××××××××××××××××××××××××АААА××××××××××××××××××ð×××××××××××××××××АААА×××АААААА××××××××××××××××××ААААА××××АААА×××АААААА×××××××××ð××××××××ААААА××××АААА×××АААААА××××××××××××××××××ААААА××××АААА×××ААА××××××××××××××××××××××××АА××××АААА×××ААА××××××××××××××××××××××××АА××××АААА×××ААА××××××××××××××××××××××××АА××××АААА×××АААААА××××××××××××××××××ААААА××××АААА×××АААААА××××××××××××××××××ААААА××××АААА×××АААААА××××××××××××××××××ААААА××××АААА××××××××××××××××××××××××××××××××××××АААА××××××××××××××××АА×АА×××××××××××××××АААА××××××××××××××××ААААА×××××××××××××××АААА××××××××××××××××АА×АА×××××××××××××××АААА×××××××××××××ААААААААААА××××××××××××АААА×××××××××××××ААААААААААА××××××××××××ААААߤߤߤߤߤߤߤ××××××ААААААААААА××××××××××××ААААߤߤߤߤߤߤߤ××××××АААААААА××××××××××××ААААߤߤߤߤߤߤߤ××××××АААæАæАæААА××××××××××××ААААߤߤߤ×ߤߤߤ××××××××æææææææ××××××××××××××ААААߤߤߤߤߤߤߤ××××××××æææææææ××××××××ë×××ë×ААААߤߤߤߤߤߤߤ××××××ААæææææææАА××××××××××××ААААߤߤߤߤߤߤߤ××××××ААæææææææАА××××××××××××АААААААААААААААААААæææææææАААААААААААААААААААААААААААААААААæææææææАААААААААААААААА",
     "Objects": "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddɶdʞdȉdddddddddddddȉdddddddddddddddddddddྴdྴdྴdྴdddddddddddྯdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddྮdddddddddʔddddʔdʔdddddddddddddddddddddddddddddddddddȉddddddddddddddddddddddddddྭddddddddddddȈddddddddddddddddddddddddddddddddddddddddddddddddྴdྴdྴdྴdddddddddddddddddddddddddddddddddddddddddddddddd߮߮߮߮߮߮߮dddddddddddddྴddddddddddddddddddd߮ddddd߮ddddddddddddddddddddddddddddddddd߮ddddd߮dddddddddddddddddddddddddddddddȈd߮Ȉd¤dd߮ddddddddddddddddddddddddddddddddd߮ddddd߮ddddddddddddddddddddddddddddddddd߮ddddd߮dddddddddddddddddddddddddddʔdddʔd߮߮߮߮߮߮߮ʔd dʔddddddddddddddddddddddʔdddʔddddddddʔdddʔddddddddddddddddddddddʔdddʔʔʔʔʔʔʔʔʔʔdddʔdddddddddddddddddddϲddddddddddddddddddddddФddddddddddddddddϲdddddddddddȉddddddddddФddddddddddddddddϲddddddddddddddddddddddФdddddddddddddddddddʔʔʔʔʔʔʔʔdddʔʔʔʔʔʔʔdddddddddddddddddddddddddddddʔdddʔdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddྴddddddddddddddddddddddddddddddddddddddd¢dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd߮߮߮߮߮dddddddȉddddddddddddddddddddddddddd߮ȉʔʔʔddddddddddddddddddddddddddddddddddd߮ʞʔdʔdddddddddddddddddddиdddddиddddddddɶ߮ɶʔʔʔdddddddddddddddddddиdddddиddddddddd߮dddddddddddddddddddddddиddnddиdddddddddddddddddddddddddddddddddиddsddиdddddddddddddddd"
 }
-const useMapIndex = 1;
-const mapList = [{ Map: lineMap, TimeLimit: 300, CheckReq: 4 }, { Map: wildMap, TimeLimit: 600, CheckReq: 4 }]
+let useMapIndex = 1;
+const mapList = [{ Map: lineMap, TimeLimit: 400, CheckReq: 4 }, { Map: wildMap, TimeLimit: 800, CheckReq: 4 }];
 let raceId;
 //#region 马奴主体装备
 const ponyItemVulva = {
@@ -288,7 +288,10 @@ const ponySuit = {
     "AssetGroup": "Suit",
     "TypeRecord": {
         "typed": 2
-    }
+    },
+    "Text": "PONY",
+    "Text2": "#7092",
+    "Text3": ""
 }
 
 const ponySuitLower = {
@@ -610,6 +613,7 @@ ChatRoomMessageAdditionDict["BetterTeleportS"] = function (SenderCharacter, msg,
 
 function ChatRoomMessageBetterTeleportS(SenderCharacter, msg, data) {
     if ((data.Type == "Action") && (msg.startsWith("ServerEnter"))) {
+        console.log("BTPReq" + SenderCharacter.MemberNumber);
         ServerSend("ChatRoomChat", { Content: "zajucdtpcheck", Type: "Hidden", Target: SenderCharacter.MemberNumber });
     }
     else if (data.Type === "Hidden" && msg.includes("zajucdtpok")) {
@@ -617,6 +621,7 @@ function ChatRoomMessageBetterTeleportS(SenderCharacter, msg, data) {
             betterTpCharacters = [];
         }
         if (betterTpCharacters.indexOf(SenderCharacter.MemberNumber) < 0) {
+            console.log("BTPReg" + SenderCharacter.MemberNumber);
             ServerSend("ChatRoomChat", { Content: "*传送优化脚本已生效.", Type: "Emote", Target: SenderCharacter.MemberNumber });
             betterTpCharacters.push(SenderCharacter.MemberNumber);
         }
@@ -639,6 +644,7 @@ async function ChatRoomMessagePonyRace(SenderCharacter, msg, data) {
         index = waitingPlayer.indexOf(SenderCharacter);
         if (index >= 0) {
             waitingPlayer = [];
+            ServerSend("ChatRoomCharacterMapDataUpdate", { X: 20, Y: 36 });
             ServerSend("ChatRoomChat", { Content: "*等待中玩家离开，请重新进入准备区.", Type: "Emote" });
             await resetRoom();
         }
@@ -686,7 +692,8 @@ async function commandHandler(sender, msg) {
         }
         else {
             await sleep(1000);
-            await Teleport(sender, 20, 38)
+            let pos = FindFreeFailPoint();
+            await Teleport(sender, pos.X, pos.Y)
         }
         if (finishPonyList.length + failPonyList.length === playingPlayer.length) {
             await RaceOver();
@@ -705,7 +712,7 @@ async function commandHandler(sender, msg) {
 async function PlayerEnter(sender) {
     var playable = true;
     await Teleport(sender, 20, 38);
-    ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
+    ServerSend("ChatRoomCharacterMapDataUpdate", { X: 20, Y: 36 });
     ServerSend("ChatRoomChat", { Content: "*该bot现已发布至 https://github.com/zajucd/BC_BotGame ", Type: "Emote", Target: sender.MemberNumber });
     ServerSend("ChatRoomChat", { Content: "*推荐使用 https://openuserjs.org/scripts/zajucd/zajucdBetterTeleport 的传送优化脚本以保证游戏体验.", Type: "Emote", Target: sender.MemberNumber });
     ServerSend("ChatRoomChat", { Content: "*目前处于测试阶段，发生什么bug都不奇怪", Type: "Emote",Target: sender.MemberNumber });
@@ -835,71 +842,7 @@ async function WearList(sender, List, refresh = true) {
     
 }
 //移除所有衣服
-function removeClothes(sender, refresh = true, removeUnderwear = true, removeCosplay = false) {
-    InventoryRemove(sender, "Cloth")
-    InventoryRemove(sender, "ClothLower")
-    InventoryRemove(sender, "ClothAccessory")
-    InventoryRemove(sender, "Suit")
-    InventoryRemove(sender, "SuitLower")
-    InventoryRemove(sender, "Gloves")
-    InventoryRemove(sender, "Shoes")
-    InventoryRemove(sender, "Hat")
-    InventoryRemove(sender, "Necklace")
-    InventoryRemove(sender, "RightAnklet")
-    InventoryRemove(sender, "LeftAnklet")
-    InventoryRemove(sender, "Mask")
-    if (removeUnderwear) {
-        InventoryRemove(sender, "Socks")
-        InventoryRemove(sender, "Bra")
-        InventoryRemove(sender, "Panties")
-        InventoryRemove(sender, "Corset")
-    }
-    if (removeCosplay) {
-        // Hair accessory 1: Ears & Accessories
-        // Hair accessory 2: Ears only
-        // Hair accessory 3: Accessories only
-        InventoryRemove(sender, "HairAccessory1")
-        InventoryRemove(sender, "HairAccessory2")
-        InventoryRemove(sender, "HairAccessory3")
-        InventoryRemove(sender, "TailStraps")
-        InventoryRemove(sender, "Wings")
-    }
-    if (refresh == true) {
-        CharacterLoadEffect(sender);
-        ChatRoomCharacterUpdate(sender);
-    }
-    
-}
-//移除所有拘束
-function removeRestrains(sender, refresh = true) {
 
-    InventoryRemove(sender, "ItemVulva")
-    InventoryRemove(sender, "ItemVulvaPiercings")
-    InventoryRemove(sender, "ItemButt")
-    InventoryRemove(sender, "ItemArms")
-    InventoryRemove(sender, "ItemHands")
-    InventoryRemove(sender, "ItemNeck")
-    InventoryRemove(sender, "ItemMouth")
-    InventoryRemove(sender, "ItemMouth2")
-    InventoryRemove(sender, "ItemMouth3")
-    InventoryRemove(sender, "ItemTorso")
-    InventoryRemove(sender, "ItemTorso2")
-    InventoryRemove(sender, "ItemBreast")
-    InventoryRemove(sender, "ItemLegs")
-    InventoryRemove(sender, "ItemFeet")
-    InventoryRemove(sender, "ItemBoots")
-    InventoryRemove(sender, "ItemNipples")
-    InventoryRemove(sender, "ItemNipplesPiercings")
-    InventoryRemove(sender, "ItemPelvis")
-    InventoryRemove(sender, "ItemHead")
-    InventoryRemove(sender, "ItemDevices")
-    InventoryRemove(sender, "ItemEars")
-    InventoryRemove(sender, "ItemHood")
-    if (refresh == true) {
-        CharacterLoadEffect(sender);
-        ChatRoomCharacterUpdate(sender);
-    }
-}
 
 function CheckInventory(sender,item) {
     itemGetted = InventoryGet(sender, item.AssetGroup);
@@ -986,6 +929,7 @@ function PlayerMoved(sender) {
 
 //玩家进入等待区
 async function PlayerReady(sender) {
+    ServerSend("ChatRoomCharacterMapDataUpdate", { X: 20, Y: 36 });
     if (playingPlayer.length != 0) return;
     if (waitingPlayer.indexOf(sender) >= 0) return;
     if (sender.ItemPermission > 2) {
@@ -996,8 +940,14 @@ async function PlayerReady(sender) {
         });
         return;
     }
+    waitingPlayer.push(sender);
     let playerPos = Player.MapData.Pos;
+
     ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender + 2, Y: sender + 2 });
+    let objStr = ChatRoomData.MapData.Objects;
+    objStr = SetCharIn40x40String(objStr, sender.MapData.Pos.X, sender.MapData.Pos.Y + 1, readyBolckO);
+    ChatRoomData.MapData.Objects = objStr;
+    UpdateRoom(ChatRoomData);
     await sleep(100);
     let diff = 0;
     try {
@@ -1012,24 +962,21 @@ async function PlayerReady(sender) {
     if (diff <= 2) {
         ServerSend("ChatRoomChat", { Content: "*请在\"设置->沉浸\"中将\"感觉剥夺设置\"选项设置为重度或完全,以保证视觉正常.", Type: "Emote", Target: sender.MemberNumber });
     }
-    let objStr = ChatRoomData.MapData.Objects;
-    objStr = SetCharIn40x40String(objStr, sender.MapData.Pos.X, sender.MapData.Pos.Y + 1, readyBolckO);
-    ChatRoomData.MapData.Objects = objStr;
-    UpdateRoom(ChatRoomData);
+    
     await sleep(1000);
     await WearFullRestrains(sender);
     ServerSend("ChatRoomCharacterMapDataUpdate", playerPos);
-    waitingPlayer.push(sender);
     if (waitingPlayer.length === 3) {
         StartRace();
     }
 }
 async function StartRace() {
+    ServerSend("ChatRoomCharacterMapDataUpdate", { X: 20, Y: 36 });
     ServerSend("ChatRoomChat", { Content: "*马奴已到齐，比赛即将开始.", Type: "Emote" });
     let str = "";
-    waitingPlayer.forEach(function (player) {
-        str + player.Name +",";
-    })
+    for (let i = 0; i < waitingPlayer.length; i++) {
+        str += waitingPlayer[i].Name + ",";
+    }
     ServerSend("ChatRoomChat", { Content: "*参赛马奴分别为" + str + ".", Type: "Emote" });
     ServerSend("ChatRoomChat", { Content: "*场地中共有" + checkPointList.length + "个检查点，马奴需经过" + mapList[useMapIndex].CheckReq + "个拱门检查点后到达终点，若达到终点时未经过" + mapList[useMapIndex].CheckReq + "个检查点即判负.", Type: "Emote" });
     ServerSend("ChatRoomChat", { Content: "*起点前挡板栏杆撤下后即为开始.比赛限时" + mapList[useMapIndex].TimeLimit + "秒.", Type: "Emote" });
@@ -1104,6 +1051,7 @@ async function PonyCheck(sender) {
         await Teleport(sender, 20, 38);
         return;
     }
+    ServerSend("ChatRoomCharacterMapDataUpdate", { X: 20, Y: 36 });
     let index = playingPlayer.indexOf(sender);
     if (index === -1) return;
     let isFound = false; {
@@ -1130,6 +1078,7 @@ async function PonyTrap(sender, count, ran = -1) {
         await Teleport(sender, 20, 38);
         return;
     }
+    ServerSend("ChatRoomCharacterMapDataUpdate", { X: 20, Y: 36 });
     let ramdomMax = 10
     for (i = 0; i < count; i++) {
         let random = 0;
@@ -1259,6 +1208,7 @@ async function PonyWarp(sender, lv) {
         await Teleport(sender, 20, 38);
         return;
     }
+    ServerSend("ChatRoomCharacterMapDataUpdate", { X: 20, Y: 36 });
     let random = Math.floor(Math.random() * warpExitListLists[lv - 1].length) + 1;
     let x = warpExitListLists[lv - 1][random - 1].X;
     let y = warpExitListLists[lv - 1][random - 1].Y;
@@ -1273,6 +1223,7 @@ async function PonyFinsh(sender) {
         await Teleport(sender, 20, 38);
         return;
     }
+    ServerSend("ChatRoomCharacterMapDataUpdate", { X: 20, Y: 36 });
     index = failPonyList.indexOf(sender);
     if (index != -1) return;
     index = finishPonyList.indexOf(sender);
@@ -1283,7 +1234,7 @@ async function PonyFinsh(sender) {
     InventoryCraft(sender, sender, res.AssetGroup, Object.assign({}, res), false);
     CharacterLoadEffect(sender);
     ChatRoomCharacterUpdate(sender);
-    if (checkCountList[index].length < checkPointList.length) {
+    if (checkCountList[index].length < mapList[useMapIndex].CheckReq) {
         ServerSend("ChatRoomChat", { Content: "*愚蠢的" + sender.Name + "达到终点时未经过全部个检查点，直接判负！", Type: "Emote" });
         failPonyList.push(sender);
     }
@@ -1305,25 +1256,46 @@ async function RaceOver() {
     //        finishPonyList.splice(0, 1);
     //    }
     //}
-    let sender;
-    for (let j = 0; j < playingPlayer.length; j++) {
-        sender = playingPlayer[j];
-        if (finishPonyList.indexOf(sender) < 0 && failPonyList.indexOf(sender) < 0) {
-            failPonyList.push(sender);
+    
+    try {
+        ServerSend("ChatRoomCharacterMapDataUpdate", { X: 20, Y: 36 });
+        let sender;
+        let winner = null;
+        for (let j = 0; j < playingPlayer.length; j++) {
+            sender = playingPlayer[j];
+            if (finishPonyList.indexOf(sender) < 0 && failPonyList.indexOf(sender) < 0) {
+                failPonyList.push(sender);
+            }
         }
-    }
-    if (finishPonyList.length > 0) {
-        ServerSend("ChatRoomChat", { Content: "*恭喜" + finishPonyList[0].Name + "获得了胜利！", Type: "Emote" });
-        await WonPlayer(finishPonyList[0])
-        finishPonyList.splice(0, 1);
-    }
-    await sleep(2000);
-    failPonyList = failPonyList.concat(finishPonyList);
-    for (let i = 0; i < failPonyList.length; i++) {
-        sender = failPonyList[i];
-        await FailedPlayer(sender);
+        if (finishPonyList.length > 0) {
+            winner = finishPonyList[0];
+            await WonPlayer(winner);
+            finishPonyList.splice(0, 1);
+        }
         await sleep(2000);
+        failPonyList = failPonyList.concat(finishPonyList);
+        for (let i = 0; i < failPonyList.length; i++) {
+            sender = failPonyList[i];
+            await FailedPlayer(sender);
+            await sleep(2000);
+        }
+        if (winner !== null) {
+            ServerSend("ChatRoomChat", { Content: "*恭喜马奴" + winner.Name + "获得了胜利！", Type: "Emote" });
+        }
+        if (finishPonyList.length > 0) {
+            let str = "";
+            for (let i = 0; i < failPonyList.length; i++) {
+                str += failPonyList[i].Name + ",";
+            }
+            ServerSend("ChatRoomChat", { Content: "*输掉比赛的马奴" + str + "将接受惩罚！", Type: "Emote" });
+        }
+        
+       
     }
+    catch (e) {
+        console.log(e);
+    }
+
     await resetRoom();
 }
 async function WonPlayer(sender) {
@@ -1394,124 +1366,124 @@ function FindFreeFailPoint() {
     });
     return result;
 }
-function sleep(time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-}
-function HoldLeash(sender) {
-    const Dictionary = new DictionaryBuilder()
-        .sourceCharacter(Player)
-        .targetCharacter(sender)
-        .build();
-    ServerSend("ChatRoomChat", { Content: "HoldLeash", Type: "Hidden", Target: sender.MemberNumber });
-    if (ChatRoomLeashList.indexOf(sender.MemberNumber) < 0)
-        ChatRoomLeashList.push(sender.MemberNumber);
-}
-function StopHoldLeash(sender) {
-    const Dictionary = new DictionaryBuilder()
-        .sourceCharacter(Player)
-        .targetCharacter(sender)
-        .build();
-    ServerSend("ChatRoomChat", { Content: "StopHoldLeash", Type: "Hidden", Target: sender.MemberNumber });
-    if (ChatRoomLeashList.indexOf(sender.MemberNumber) >= 0)
-        ChatRoomLeashList.splice(ChatRoomLeashList.indexOf(sender.MemberNumber), 1);
-}
+//function sleep(time) {
+//    return new Promise((resolve) => setTimeout(resolve, time));
+//}
+//function HoldLeash(sender) {
+//    const Dictionary = new DictionaryBuilder()
+//        .sourceCharacter(Player)
+//        .targetCharacter(sender)
+//        .build();
+//    ServerSend("ChatRoomChat", { Content: "HoldLeash", Type: "Hidden", Target: sender.MemberNumber });
+//    if (ChatRoomLeashList.indexOf(sender.MemberNumber) < 0)
+//        ChatRoomLeashList.push(sender.MemberNumber);
+//}
+//function StopHoldLeash(sender) {
+//    const Dictionary = new DictionaryBuilder()
+//        .sourceCharacter(Player)
+//        .targetCharacter(sender)
+//        .build();
+//    ServerSend("ChatRoomChat", { Content: "StopHoldLeash", Type: "Hidden", Target: sender.MemberNumber });
+//    if (ChatRoomLeashList.indexOf(sender.MemberNumber) >= 0)
+//        ChatRoomLeashList.splice(ChatRoomLeashList.indexOf(sender.MemberNumber), 1);
+//}
 
-function wearLeash(sender) {
-    InventoryWear(sender, "CollarLeash", "ItemNeckRestraints", "Default", 80);
-    var inv = InventoryGet(sender, "ItemNeckRestraints").Property;
-    if (inv === undefined || inv === null) {
-        InventoryGet(sender, "ItemNeckRestraints").Property = { OverridePriority: 1 }
-    }
-    else {
-        InventoryGet(sender, "ItemNeckRestraints").Property.OverridePriority = 1;
-    }
-    ChatRoomCharacterUpdate(sender);
-}
-async function Teleport(sender, x, y) {
-    try {
-        if (sender.MemberNumber === Player.MemberNumber)
-            return true;
-        if (typeof tpCount === 'undefined') {
-            tpCount = 0;
-        }
-        tpCount++;
+//function wearLeash(sender) {
+//    InventoryWear(sender, "CollarLeash", "ItemNeckRestraints", "Default", 80);
+//    var inv = InventoryGet(sender, "ItemNeckRestraints").Property;
+//    if (inv === undefined || inv === null) {
+//        InventoryGet(sender, "ItemNeckRestraints").Property = { OverridePriority: 1 }
+//    }
+//    else {
+//        InventoryGet(sender, "ItemNeckRestraints").Property.OverridePriority = 1;
+//    }
+//    ChatRoomCharacterUpdate(sender);
+//}
+//async function Teleport(sender, x, y) {
+//    try {
+//        if (sender.MemberNumber === Player.MemberNumber)
+//            return true;
+//        if (typeof tpCount === 'undefined') {
+//            tpCount = 0;
+//        }
+//        tpCount++;
 
-        if (typeof betterTpCharacters === 'undefined') {
-            betterTpCharacters = [];
-        }
-        //若目标装有betterTeleport则使用指令传送，反之使用牵绳传送
-        if (betterTpCharacters.indexOf(sender.MemberNumber) >= 0) {
-            console.log("BTP" + sender.MemberNumber);
-            ServerSend("ChatRoomChat", { Content: "zajucdtpreq", Type: "Hidden", Dictionary: { MemberNumber: sender.MemberNumber, Pos: { X: x, Y: y } }, Target: sender.MemberNumber });
-            await sleep(1000);
-        }
-        else {
-            canTeleport = false;
-            if (sender.IsEnclose() || sender.IsSuspended() || sender.IsMounted() || sender.HasEffect("MapImmobile")) {
-                InventoryRemove(sender, "ItemDevices");
-                InventoryRemove(sender, "ItemAddon");
-                InventoryRemove(sender, "ItemNeckRestraints");
-                CharacterLoadEffect(sender);
-                ChatRoomCharacterUpdate(sender);
-                await sleep(100);
-            }
+//        if (typeof betterTpCharacters === 'undefined') {
+//            betterTpCharacters = [];
+//        }
+//        //若目标装有betterTeleport则使用指令传送，反之使用牵绳传送
+//        if (betterTpCharacters.indexOf(sender.MemberNumber) >= 0) {
+//            console.log("BTP" + sender.MemberNumber);
+//            ServerSend("ChatRoomChat", { Content: "zajucdtpreq", Type: "Hidden", Dictionary: { MemberNumber: sender.MemberNumber, Pos: { X: x, Y: y } }, Target: sender.MemberNumber });
+//            await sleep(1000);
+//        }
+//        else {
+//            canTeleport = false;
+//            if (sender.IsEnclose() || sender.IsSuspended() || sender.IsMounted() || sender.HasEffect("MapImmobile")) {
+//                InventoryRemove(sender, "ItemDevices");
+//                InventoryRemove(sender, "ItemAddon");
+//                InventoryRemove(sender, "ItemNeckRestraints");
+//                CharacterLoadEffect(sender);
+//                ChatRoomCharacterUpdate(sender);
+//                await sleep(100);
+//            }
 
-            var loc = Player.MapData.Pos;
-            var sleepTime = 250
-            wearLeash(sender);
-            await sleep(sleepTime);
-            HoldLeash(sender);
-            await sleep(sleepTime);
-            ServerSend("ChatRoomCharacterMapDataUpdate", { X: x + 2, Y: y + 2 });
-            await sleep(sleepTime);
-            ServerSend("ChatRoomCharacterMapDataUpdate", { X: x + 2, Y: y - 2 });
-            await sleep(sleepTime);
-            ServerSend("ChatRoomCharacterMapDataUpdate", { X: x - 2, Y: y + 2 });
-            await sleep(sleepTime);
-            ServerSend("ChatRoomCharacterMapDataUpdate", { X: x - 2, Y: y - 2 });
-            await sleep(sleepTime);
-            ServerSend("ChatRoomCharacterMapDataUpdate", { X: x + 2, Y: y + 2 });
-            await sleep(sleepTime);
-            ServerSend("ChatRoomCharacterMapDataUpdate", { X: x + 2, Y: y - 2 });
-            await sleep(sleepTime);
-            ServerSend("ChatRoomCharacterMapDataUpdate", { X: x - 2, Y: y + 2 });
-            await sleep(sleepTime);
-            ServerSend("ChatRoomCharacterMapDataUpdate", { X: x - 2, Y: y - 2 });
-            await sleep(sleepTime);
-            StopHoldLeash(sender)
-            await sleep(sleepTime);
-            InventoryRemove(sender, "ItemNeckRestraints");
-            await sleep(sleepTime);
-            ChatRoomCharacterUpdate(sender);
-            await sleep(sleepTime);
-            ServerSend("ChatRoomCharacterMapDataUpdate", { X: loc.X, Y: loc.Y });
+//            var loc = Player.MapData.Pos;
+//            var sleepTime = 250
+//            wearLeash(sender);
+//            await sleep(sleepTime);
+//            HoldLeash(sender);
+//            await sleep(sleepTime);
+//            ServerSend("ChatRoomCharacterMapDataUpdate", { X: x + 2, Y: y + 2 });
+//            await sleep(sleepTime);
+//            ServerSend("ChatRoomCharacterMapDataUpdate", { X: x + 2, Y: y - 2 });
+//            await sleep(sleepTime);
+//            ServerSend("ChatRoomCharacterMapDataUpdate", { X: x - 2, Y: y + 2 });
+//            await sleep(sleepTime);
+//            ServerSend("ChatRoomCharacterMapDataUpdate", { X: x - 2, Y: y - 2 });
+//            await sleep(sleepTime);
+//            ServerSend("ChatRoomCharacterMapDataUpdate", { X: x + 2, Y: y + 2 });
+//            await sleep(sleepTime);
+//            ServerSend("ChatRoomCharacterMapDataUpdate", { X: x + 2, Y: y - 2 });
+//            await sleep(sleepTime);
+//            ServerSend("ChatRoomCharacterMapDataUpdate", { X: x - 2, Y: y + 2 });
+//            await sleep(sleepTime);
+//            ServerSend("ChatRoomCharacterMapDataUpdate", { X: x - 2, Y: y - 2 });
+//            await sleep(sleepTime);
+//            StopHoldLeash(sender)
+//            await sleep(sleepTime);
+//            InventoryRemove(sender, "ItemNeckRestraints");
+//            await sleep(sleepTime);
+//            ChatRoomCharacterUpdate(sender);
+//            await sleep(sleepTime);
+//            ServerSend("ChatRoomCharacterMapDataUpdate", { X: loc.X, Y: loc.Y });
 
-            canTeleport = true;
-        }
-
-
-        if (sender.MapData.Pos.X != x && sender.MapData.Pos.Y != y) {
-            if (tpCount >= 5) {
-                tpCount = 0;
-                console.log("TPfail");
-                return false;
-            }
-            console.log("retryTP" + tpCount);
-            await sleep(100);
-            return await Teleport(sender, x, y);
-        }
-        else {
-            tpCount = 0;
-        }
-    }
-    catch (e) {
-        console.log(e);
-    }
-    return true;
+//            canTeleport = true;
+//        }
 
 
+//        if (sender.MapData.Pos.X != x && sender.MapData.Pos.Y != y) {
+//            if (tpCount >= 5) {
+//                tpCount = 0;
+//                console.log("TPfail");
+//                return false;
+//            }
+//            console.log("retryTP" + tpCount);
+//            await sleep(100);
+//            return await Teleport(sender, x, y);
+//        }
+//        else {
+//            tpCount = 0;
+//        }
+//    }
+//    catch (e) {
+//        console.log(e);
+//    }
+//    return true;
 
-}
+
+
+//}
 
 
 function ScanMap() {
@@ -1611,6 +1583,7 @@ async function resetRoom() {
     
     //重置房间
     ChatRoomData.MapData = mapList[useMapIndex].Map;
+    ChatRoomData.Description = "[BOT]密室逃生第五部 赛马奴";
     await UpdateRoom();
     ScanMap();
     await sleep(1000);

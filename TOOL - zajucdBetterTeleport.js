@@ -1,18 +1,19 @@
 
-//ChatRoomMessageAdditionDict["BetterTeleportC"] = function (SenderCharacter, msg, data) { ChatRoomMessageBetterTeleportC(SenderCharacter, msg, data) };
+ChatRoomMessageAdditionDict["BetterTeleportC"] = function (SenderCharacter, msg, data) { ChatRoomMessageBetterTeleportC(SenderCharacter, msg, data) };
 function ChatRoomMessageBetterTeleportC(SenderCharacter, msg, data) {
     if (data.Type === "Hidden" && msg.includes("zajucdtpcheck")) {
         setTimeout(function () { ServerSend("ChatRoomChat", { Content: "zajucdtpok", Type: "Hidden", Target: SenderCharacter.MemberNumber }); }, 200);
     }
     else if (data.Type === "Hidden" && msg.includes("zajucdtpreq")) {
         if (data.Dictionary.MemberNumber === Player.MemberNumber) {
+            ChatRoomMapViewMovement = null;
             Player.MapData.Pos = data.Dictionary.Pos;
             ServerSend("ChatRoomCharacterMapDataUpdate", data.Dictionary.Pos);
         }
     }
 }
 
-//ChatRoomMessageAdditionDict["BetterTeleportS"] = function (SenderCharacter, msg, data) { ChatRoomMessageBetterTeleportS(SenderCharacter, msg, data) };
+ChatRoomMessageAdditionDict["BetterTeleportS"] = function (SenderCharacter, msg, data) { ChatRoomMessageBetterTeleportS(SenderCharacter, msg, data) };
 
 function ChatRoomMessageBetterTeleportS(SenderCharacter, msg, data) {
     if ((data.Type == "Action") && (msg.startsWith("ServerEnter"))) {
@@ -149,5 +150,12 @@ async function Teleport(sender, x, y) {
 
 
 
+}
+
+async function loop(sender) {
+    while (true) {
+        await sleep(1000);
+        await Teleport(sender, 20, 38);
+    }
 }
 
