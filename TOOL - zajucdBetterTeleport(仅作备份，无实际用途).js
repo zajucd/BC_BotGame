@@ -13,6 +13,52 @@ function ChatRoomMessageBetterTeleportC(SenderCharacter, msg, data) {
     }
 }
 
+function ServerDisconnect(data, close = false) {
+    if (data == "ErrorRateLimited") {
+        alert("快速传送插件可能与其他插件冲突，建议暂时关闭其他插件.")
+    }
+    if (!ServerIsConnected) return;
+    console.warn("Server connection lost");
+    const ShouldRelog = Player.Name != "";
+    let msg = ShouldRelog ? "Disconnected" : "ErrorDisconnectedFromServer";
+    if (data) {
+        console.warn(data);
+        msg = data;
+    }
+    ServerSetConnected(false, msg);
+    if (close) {
+        ServerSocket.disconnect();
+        // If the error was duplicated login, we want to reconnect
+        if (data === "ErrorDuplicatedLogin") {
+            ServerInit();
+        }
+    }
+
+    if (ShouldRelog) {
+        if (CurrentScreen != "Relog") {
+
+            // Exits out of the chat room or a sub screen of the chatroom, so we'll be able to get in again when we log back
+            if (ServerPlayerIsInChatRoom()) {
+                ChatRoomHideElements();
+                CurrentScreen = "ChatSearch";
+                CurrentModule = "Online";
+                CurrentCharacter = null;
+            }
+
+            // Keeps the relog data
+            RelogData = { Screen: CurrentScreen, Module: CurrentModule, Character: CurrentCharacter };
+            CurrentCharacter = null;
+            CommonSetScreen("Character", "Relog");
+
+        }
+    }
+
+    // Raise a notification to alert the user
+    if (!document.hasFocus()) {
+        NotificationRaise(NotificationEventType.DISCONNECT);
+    }
+}
+
 ChatRoomMessageAdditionDict["BetterTeleportS"] = function (SenderCharacter, msg, data) { ChatRoomMessageBetterTeleportS(SenderCharacter, msg, data) };
 
 function ChatRoomMessageBetterTeleportS(SenderCharacter, msg, data) {

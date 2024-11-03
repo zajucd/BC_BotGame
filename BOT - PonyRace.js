@@ -549,14 +549,35 @@ const ponyFailLists = [ponyFailList1, ponyFailList2, ponyFailList3];
 const ponyWinLists = [ponyWinList1, ponyWinList2, ponyWinList3];
 const ponyTrapList = [trap1, trap2, trap3, trap4];
 //#endregion
-await WearFullRestrains(Player);
-ServerSend("ChatRoomCharacterMapDataUpdate", { X: 20, Y: 36 });
-Player.MapData.Pos = { X: 20, Y: 36 };
-InventoryWear(Player, "TheDisplayFrame", "ItemDevices", "Default", 80);
-InventoryLock(Player, "ItemDevices", { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock") }, Player.MemberNumber);
-InventoryGet(Player, "ItemDevices").Property.CombinationNumber = "7092";
 
-Player.Description = `
+
+const finishItemDevices = {
+    "Item": "LowCage",
+    "AssetGroup": "ItemDevices",
+    "Name": "终点",
+    "Description": "到达终点的马奴短暂休息的地方",
+    "Color": "Default",
+    "Property": "Normal",
+    "Lock": "ExclusivePadlock",
+    "Private": false,
+    "ItemProperty": {},
+    "Type": null,
+    "TypeRecord": null,
+    "MemberName": "BOT",
+    "MemberNumber": 7092
+}
+resetRoom();
+InitBot();
+
+async function InitBot() {
+    await WearFullRestrains(Player);
+    ServerSend("ChatRoomCharacterMapDataUpdate", { X: 20, Y: 36 });
+    Player.MapData.Pos = { X: 20, Y: 36 };
+    InventoryWear(Player, "TheDisplayFrame", "ItemDevices", "Default", 80);
+    InventoryLock(Player, "ItemDevices", { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock") }, Player.MemberNumber);
+    InventoryGet(Player, "ItemDevices").Property.CombinationNumber = "7092";
+
+    Player.Description = `
 BOT game：PonyRace
 作者: zajucd(7092)
 原型: https://github.com/keykey5/BC-BOT-repository
@@ -585,36 +606,24 @@ BOT game：PonyRace
 9.比赛有时间限制，超时后未达到终点的玩家视作失败;
 
 高额无偿悬赏不靠牵绳移动其它玩家位置的方法
-以及查看其它玩家位置的方法
+以及查看其它玩家设置的方法
 
 `
-// end of description
-ServerSend("AccountUpdate", { Description: Player.Description });
-ChatRoomCharacterUpdate(Player);
-
-const finishItemDevices = {
-    "Item": "LowCage",
-    "AssetGroup": "ItemDevices",
-    "Name": "终点",
-    "Description": "到达终点的马奴短暂休息的地方",
-    "Color": "Default",
-    "Property": "Normal",
-    "Lock": "ExclusivePadlock",
-    "Private": false,
-    "ItemProperty": {},
-    "Type": null,
-    "TypeRecord": null,
-    "MemberName": "BOT",
-    "MemberNumber": 7092
+    // end of description
+    ServerSend("AccountUpdate", { Description: Player.Description });
+    ChatRoomCharacterUpdate(Player);
 }
-resetRoom();
 
 ChatRoomMessageAdditionDict["BetterTeleportS"] = function (SenderCharacter, msg, data) { ChatRoomMessageBetterTeleportS(SenderCharacter, msg, data) };
 
 function ChatRoomMessageBetterTeleportS(SenderCharacter, msg, data) {
     if ((data.Type == "Action") && (msg.startsWith("ServerEnter"))) {
-        console.log("BTPReq" + SenderCharacter.MemberNumber);
-        ServerSend("ChatRoomChat", { Content: "zajucdtpcheck", Type: "Hidden", Target: SenderCharacter.MemberNumber });
+        setTimeout(function () {
+            console.log("BTPReq" + SenderCharacter.MemberNumber);
+            ServerSend("ChatRoomChat", { Content: "zajucdtpcheck", Type: "Hidden", Target: SenderCharacter.MemberNumber });
+        }, 300
+        );
+        
     }
     else if (data.Type === "Hidden" && msg.includes("zajucdtpok")) {
         if (typeof betterTpCharacters === 'undefined') {
@@ -627,6 +636,15 @@ function ChatRoomMessageBetterTeleportS(SenderCharacter, msg, data) {
         }
 
     }
+    else if ((msg.startsWith("ServerLeave")) || (msg.startsWith("ServerDisconnect")) || (msg.startsWith("ServerBan")) || (msg.startsWith("ServerKick"))) {
+        if (typeof betterTpCharacters === 'undefined') {
+            betterTpCharacters = [];
+        }
+        let index = betterTpCharacters.indexOf(SenderCharacter.MemberNumber);
+        if (index >= 0) {
+            betterTpCharacters.splice(index, 1);
+        }
+    }
 }
 ServerSend("ChatRoomChat", { Content: "zajucdtpcheck", Type: "Hidden" });
 
@@ -636,7 +654,7 @@ async function ChatRoomMessagePonyRace(SenderCharacter, msg, data) {
         return;
     }
     if ((data.Type == "Action") && (msg.startsWith("ServerEnter"))) {
-        setTimeout(PlayerEnter(SenderCharacter), 300, SenderCharacter);
+        setTimeout(PlayerEnter(SenderCharacter), 1000, SenderCharacter);
     }
     else if ((msg.startsWith("ServerLeave")) || (msg.startsWith("ServerDisconnect")) || (msg.startsWith("ServerBan")) || (msg.startsWith("ServerKick"))) {
 
@@ -715,7 +733,6 @@ async function PlayerEnter(sender) {
     ServerSend("ChatRoomCharacterMapDataUpdate", { X: 20, Y: 36 });
     ServerSend("ChatRoomChat", { Content: "*该bot现已发布至 https://github.com/zajucd/BC_BotGame ", Type: "Emote", Target: sender.MemberNumber });
     ServerSend("ChatRoomChat", { Content: "*推荐使用 https://openuserjs.org/scripts/zajucd/zajucdBetterTeleport 的传送优化脚本以保证游戏体验.", Type: "Emote", Target: sender.MemberNumber });
-    ServerSend("ChatRoomChat", { Content: "*目前处于测试阶段，发生什么bug都不奇怪", Type: "Emote",Target: sender.MemberNumber });
     if (sender.ItemPermission > 2) {
         ServerSend("ChatRoomChat", {
             Content: "*[需要调低 玩家权限 才能游玩.]",
@@ -754,6 +771,8 @@ async function PlayerEnter(sender) {
         ServerSend("ChatRoomChat", { Content: "*请在\"设置->沉浸\"中将\"感觉剥夺设置\"选项设置为重度或完全,以保证视觉正常.", Type: "Emote", Target: sender.MemberNumber });
     }
     ServerSend("ChatRoomChat", { Content: "*推荐使用 https://openuserjs.org/scripts/zajucd/zajucdBetterTeleport 的传送优化脚本以保证游戏体验，因为很重要所以说两遍.", Type: "Emote", Target: sender.MemberNumber });
+
+    ServerSend("ChatRoomChat", { Content: "*已证实传送优化脚本与部分脚本冲突导致后台发送大量隐藏信息导致掉线，建议使用传送优化脚本时暂时关闭其余脚本", Type: "Emote", Target: sender.MemberNumber });
     //ServerSend("ChatRoomChat", {
     //    Content: "*[NOTE:通过发送 *单词 来行动（例：*think）,游戏中可以使用 (think)来显示当前状态，使用(check)来观察当前的房间.且一切在括号内的单词均可用于行动]",
     //    Type: "Emote"
@@ -1282,7 +1301,7 @@ async function RaceOver() {
         if (winner !== null) {
             ServerSend("ChatRoomChat", { Content: "*恭喜马奴" + winner.Name + "获得了胜利！", Type: "Emote" });
         }
-        if (finishPonyList.length > 0) {
+        if (failPonyList.length > 0) {
             let str = "";
             for (let i = 0; i < failPonyList.length; i++) {
                 str += failPonyList[i].Name + ",";
