@@ -227,7 +227,7 @@ class CommandInfo {
         CommandsAction[commandInfo.command].Command(commandInfo.commandText);
     }
 }
-var levelsInfo = [
+const levelsInfo = [
     new level(
         "移动性能测试",
         "无人机已被授权移动功能，已与搭档机进行链接。无人机与搭档机不可离开对方5*5范围外",
@@ -317,7 +317,7 @@ var levelsInfo = [
         300, false, 300
     ),
 ];
-var MsgCmds = {
+const MsgCmds = {
     invite: {
         Command: (param) => {
 
@@ -385,7 +385,7 @@ var MsgCmds = {
     levelRestartRec: {
         Command: (param) => {
             if (LeashDronePlayer.currentLevel == levelsInfo.length - 1) {
-                MsgInfo.DoCmd(new MsgInfo("gameFinish", false));
+                setTimeout(() => { MsgInfo.DoCmd(new MsgInfo("gameFinish", false)); }, 1000);
             }
             else {
                 LeashDronePlayer.GotoLevel(param);
@@ -442,7 +442,12 @@ var MsgCmds = {
         }
     }
 };
-var CommandsAction = {
+const CommandsAction = {
+    help: {
+        Command: (param) => {
+
+        }
+    },
     invite: {
         Command: (param) => {
 
@@ -478,12 +483,12 @@ var CommandsAction = {
             if (ChatRoomMapViewGetTileAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y).ID === 240) {
                 if (param === LeashDronePlayer.lockCode.toString()) {
                     SendMessageToSelf("提交成功");
-                    TPSelf(LeashDronePlayer.BCPlayer.Pos.X, LeashDronePlayer.BCPlayer.Pos.Y - 2);
+                    TPSelf({ X: LeashDronePlayer.BCPlayer.MapData.Pos.X, Y: LeashDronePlayer.BCPlayer.MapData.Pos.Y + 2 });
                     return;
                 }
                 if (param === LeashDronePlayer.lockCode.toString()) {
                     SendMessageToSelf("提交成功");
-                    SendMsg(target, new MsgInfo("tp", { X: LeashDronePlayer.BCPlayer.Pos.X, Y: LeashDronePlayer.BCPlayer.Pos.Y - 2 }));
+                    SendMsg(target, new MsgInfo("tp", { X: LeashDronePlayer.BCPlayer.MapData.Pos.X, Y: LeashDronePlayer.BCPlayer.MapData.Pos.Y + 2 }));
                     return;
                 }
                 SendMessageToSelf("无效数据");
@@ -492,7 +497,7 @@ var CommandsAction = {
         }
     }
 }
-var Equips =
+const Equips =
     [
         {
             "AssetGroup":"ItemHood",
@@ -685,7 +690,7 @@ var Equips =
             "Color": "#000000",
         }
     ];
-var EquipsMove = [
+const EquipsMove = [
     {
         "AssetGroup": "ItemLegs",
         "Item": "Slime",
@@ -733,7 +738,7 @@ var EquipsMove = [
         }
     },
 ]
-var EquipsHang = [
+const EquipsHang = [
     {
         "AssetGroup": "ItemBoots",
         "Item": "FuturisticHeels2",
@@ -805,7 +810,7 @@ var EquipsHang = [
         "ItemProperty": {}
     }
 ]
-var EquipsFall = [
+const EquipsFall = [
     {
         "AssetGroup": "ItemDevices",
         "Item": "FuturisticCrate",
@@ -828,11 +833,11 @@ var EquipsFall = [
     }
 ];
 
-var HangPoints = [
+const HangPoints = [
     { X: 30, Y: 1 },
     { X: 32, Y: 1 },
 ]
-var CoffinPoints = [
+const CoffinPoints = [
     { X: 17, Y: 27 },
     { X: 19, Y: 27 },
     { X: 21, Y: 27 },
@@ -842,7 +847,7 @@ var CoffinPoints = [
     { X: 18, Y: 38 },
     { X: 20, Y: 38 }
     ];
-var EndPoints = [
+const EndPoints = [
     { X: 0, Y: 2 },
     { X: 0, Y: 4 },
     { X: 0, Y: 6 },
@@ -973,7 +978,7 @@ function InitRoom() {
 }
 
 function TPSelf(Pos, DoEnterTile = true) {
-    Player.MapData.Pos = Pos;
+    Player.MapData.Pos = {X:Pos.X, Y:Pos.Y};
     ServerSend("ChatRoomCharacterMapDataUpdate", Pos);
     if (DoEnterTile) {
         EnterTile(Pos);
