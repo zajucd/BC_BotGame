@@ -40,7 +40,7 @@ BOT game：CursedRoom V1.1
 ` // end of description
 ServerSend("AccountUpdate", { Description: Player.Description });
 ChatRoomCharacterUpdate(Player)
-
+activateStoryRoom();
 
 function activateStoryRoom() {
 	resetRoom()
