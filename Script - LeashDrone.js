@@ -324,7 +324,16 @@ const MsgCmds = {
             LeashDronePlayer = new playerInfo(Player);
             let target = ChatRoomCharacter.find((obj) => obj.MemberNumber === param);
             LeashDronePlayer.anotherPlayer = new playerInfo(target);
-            SendMessageToSelf(`收到来自${LeashDronePlayer.anotherPlayer.BCPlayer.Name}的邀请,发送 /d accept 以接受邀请`);
+            let playerSP = StartPoints.findIndex((a) => (a.X == Player.MapData.Pos.X && a.Y == Player.MapData.Pos.Y));
+            let anotherSP = StartPoints.findIndex((a) => (a.X == target.MapData.Pos.X && a.Y == target.MapData.Pos.Y));
+            if (playerSP != -1 && anotherSP != -1) {
+                SendMessageToSelf(`即将开始`);
+                SendMsg(LeashDronePlayer.anotherPlayer.BCPlayer, new MsgInfo("accept", LeashDronePlayer.MemberNumber));
+            }
+            else {
+                SendMessageToSelf(`收到来自${LeashDronePlayer.anotherPlayer.BCPlayer.Name}的邀请,发送 /d accept 以接受邀请`);
+            }
+            
         }
     },
     accept: {
@@ -385,7 +394,7 @@ const MsgCmds = {
     levelRestartRec: {
         Command: (param) => {
             if (LeashDronePlayer.currentLevel == levelsInfo.length - 1) {
-                setTimeout(() => { MsgInfo.DoCmd(new MsgInfo("gameFinish", false)); }, 1000);
+                setTimeout(() => { MsgInfo.DoCmd(new MsgInfo("gameFinish", false)); }, 2000);
             }
             else {
                 LeashDronePlayer.GotoLevel(param);
@@ -445,7 +454,22 @@ const MsgCmds = {
 const CommandsAction = {
     help: {
         Command: (param) => {
-
+            SendMessageToSelf("开始游戏 : 两个玩家分别进入入口上方玻璃门后的小房间的门内或使用invite与accept指令");
+            SendMessageToSelf("邀请 : (/d invite 玩家名称)可向房间内对应玩家发出邀请(玩家名称可用编号或昵称代替)");
+            SendMessageToSelf("接受邀请 : (/d accept)接受收到的邀请并开始游戏");
+            SendMessageToSelf("初始化房间 : (/d initRoom) 初始化房间，需要房间管理员权限");
+            SendMessageToSelf("放弃游戏 : (/d giveUp) 放弃游戏，判定为失败")
+        }
+    },
+    initRoom: {
+        Command: (param) => {
+            InitRoom();
+        }
+    },
+    giveUp: {
+        Command: (param) => {
+            MsgInfo.DoCmd(new MsgInfo("gameFinish", false));
+            setTimeout(() => { MsgInfo.DoCmd(new MsgInfo("gameFinish", false)); }, 2000);
         }
     },
     invite: {
@@ -855,6 +879,10 @@ const EndPoints = [
     { X: 11, Y: 4 },
     { X: 11, Y: 6 }
 ];
+const StartPoints = [
+    { X: 4, Y: 3 },
+    { X: 7, Y: 3 }
+]
 
 
 var iceTimer = -1;
@@ -1105,6 +1133,17 @@ function EnterTile(Pos) {
         if (ChatRoomMapViewGetTileAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y).ID === 115 && CheckRoom()) {
             TPSelf({ X: Player.MapData.Pos.X, Y: Player.MapData.Pos.Y - 2 })
         }
+        //通过地图开始游戏
+        let playerSP = StartPoints.findIndex((a) => (a.X == Player.MapData.Pos.X && a.Y == Player.MapData.Pos.Y));
+        if (playerSP != -1) {
+            for (let C of ChatRoomCharacter) {
+                if (StartPoints.findIndex((a) => (a.X == C.MapData.Pos.X && a.Y == C.MapData.Pos.Y)) != -1) {
+                    SendMsg(C, new MsgInfo(new MsgInfo("invite", LeashDronePlayer.MemberNumber)));
+                    return;
+                }
+            }
+            SendMessageToSelf("等待玩家进入");
+        }
     }
 }
 
@@ -1298,19 +1337,20 @@ function ScriptEnable() {
         // Hurdle 3 cannot be crossed if the Player is Freeze or slow
         if ((ObjectID == 680) && (Player.HasEffect("Freeze") || Player.HasEffect("Slow"))) return 0;
 
-        // Cannot enter a tile occupied by another player
-        for (let C of ChatRoomCharacter)
-            if (!C.IsPlayer() && (C.MapData?.Pos != null) && (C.MapData.Pos.X === X) && (C.MapData.Pos.Y === Y))
-                return 0;
-
-
-
-
-
+    
         //若在游戏过程中，统一速度和无视部分效果
         if (typeof LeashDronePlayer !== 'undefined' && LeashDronePlayer !== undefined && LeashDronePlayer !== null) {
             if (LeashDronePlayer.inGame) {
-                //牵绳状态下禁止离开5*5外
+
+                //可以穿过非队友的玩家
+                for (let C of ChatRoomCharacter)
+                    if (!C.IsPlayer() && (C.MapData?.Pos != null) && (C.MapData.Pos.X === X) && (C.MapData.Pos.Y === Y)) {
+                        if (C.MemberNumber === LeashDronePlayer.anotherPlayer.MemberNumber) {
+                            return 0;
+                        }
+                    }
+
+                //牵绳状态下禁止离开队友5*5内
                 if (LeashDronePlayer.isLeashing && LeashDronePlayer.anotherPlayer != null) {
                     let pos = ChatRoomCharacter.find((a) => a.MemberNumber === LeashDronePlayer.anotherPlayer.MemberNumber).MapData.Pos;
                     let Distance = Math.max(Math.abs(X - pos.X), Math.abs(Y - pos.Y));
@@ -1326,6 +1366,11 @@ function ScriptEnable() {
             }
         }
 
+        // Cannot enter a tile occupied by another player
+        for (let C of ChatRoomCharacter)
+            if (!C.IsPlayer() && (C.MapData?.Pos != null) && (C.MapData.Pos.X === X) && (C.MapData.Pos.Y === Y)) {
+                return 0;
+            }
 
         // Enclosed or suspended players cannot change tiles
         if (Player.IsEnclose() || Player.IsSuspended() || Player.IsMounted()) return 0;
