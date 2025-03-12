@@ -335,7 +335,8 @@ const MsgCmds = {
             let target = ChatRoomCharacter.find((obj) => obj.MemberNumber === param);
             LeashDronePlayer.anotherPlayer = new playerInfo(target);
             SendMessageToSelf(`即将开始`);
-
+            SendMsg(LeashDronePlayer.anotherPlayer, new MsgInfo("acceptRec", true));
+            LeashDronePlayer.GameStart(true);
         }
     },
     accept: {
