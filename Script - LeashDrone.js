@@ -324,16 +324,18 @@ const MsgCmds = {
             LeashDronePlayer = new playerInfo(Player);
             let target = ChatRoomCharacter.find((obj) => obj.MemberNumber === param);
             LeashDronePlayer.anotherPlayer = new playerInfo(target);
-            let playerSP = StartPoints.findIndex((a) => (a.X == Player.MapData.Pos.X && a.Y == Player.MapData.Pos.Y));
-            let anotherSP = StartPoints.findIndex((a) => (a.X == target.MapData.Pos.X && a.Y == target.MapData.Pos.Y));
-            if (playerSP != -1 && anotherSP != -1) {
-                SendMessageToSelf(`即将开始`);
-                SendMsg(LeashDronePlayer.anotherPlayer.BCPlayer, new MsgInfo("accept", LeashDronePlayer.MemberNumber));
-            }
-            else {
-                SendMessageToSelf(`收到来自${LeashDronePlayer.anotherPlayer.BCPlayer.Name}的邀请,发送 /d accept 以接受邀请`);
-            }
+            SendMessageToSelf(`收到来自${LeashDronePlayer.anotherPlayer.BCPlayer.Name}的邀请,发送 /d accept 以接受邀请`);
             
+        }
+    },
+    inviteMap: {
+        Command: (param) => {
+
+            LeashDronePlayer = new playerInfo(Player);
+            let target = ChatRoomCharacter.find((obj) => obj.MemberNumber === param);
+            LeashDronePlayer.anotherPlayer = new playerInfo(target);
+            SendMessageToSelf(`即将开始`);
+
         }
     },
     accept: {
@@ -1140,7 +1142,7 @@ function EnterTile(Pos) {
                 for (let C of ChatRoomCharacter) {
                     let anotherSP = StartPoints.findIndex((a) => (a.X == C.MapData.Pos.X && a.Y == C.MapData.Pos.Y && C.MemberNumber != Player.MemberNumber))
                     if (anotherSP != -1) {
-                        SendMsg(C, new MsgInfo("invite", LeashDronePlayer.MemberNumber));
+                        SendMsg(C, new MsgInfo("inviteMap", LeashDronePlayer.MemberNumber));
                         return;
                     }
                 }
