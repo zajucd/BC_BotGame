@@ -1203,177 +1203,7 @@ function CanEnterTile(X, Y) {
     return 1;
 }
 var fog = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
-//#region 重写地图函数
 
-//检测玩家是否可以移动至该位置,并在游戏过程中统一速度并忽略部分效果
-function ChatRoomMapViewCanEnterTile(X, Y) {
-    if (typeof LeashDronePlayer !== 'undefined' && LeashDronePlayer !== undefined && LeashDronePlayer !== null) {
-        if (LeashDronePlayer.inGame) {
-            //刷新迷雾
-            ChatRoomMapViewTileFog = fog;
-            ChatRoomMapViewObjectFog = fog;
-        }
-    }
-    // Out of map bound or walls cannot enter, super powers skip everything
-    if ((X < 0) || (Y < 0) || (X >= ChatRoomMapViewWidth) || (Y >= ChatRoomMapViewHeight)) return 0;
-    if (ChatRoomMapViewHasSuperPowers()) return ChatRoomMapViewBaseMovementSpeed / 10;
-    if (ChatRoomMapViewIsWall(X, Y) && !ChatRoomMapViewCanEnterWall(X, Y)) return 0;
-
-    // Floor obstacles from 2000 to 3000 cannot be crossed
-    let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapViewWidth);
-    if ((ObjectID >= 2000) && (ObjectID < 3000)) return 0;
-    // Hurdle 2 cannot be crossed if the Player is Freeze
-    if ((ObjectID == 670) && Player.HasEffect("Freeze")) return 0;
-    // Hurdle 3 cannot be crossed if the Player is Freeze or slow
-    if ((ObjectID == 680) && (Player.HasEffect("Freeze") || Player.HasEffect("Slow"))) return 0;
-
-    // Cannot enter a tile occupied by another player
-    for (let C of ChatRoomCharacter)
-        if (!C.IsPlayer() && (C.MapData?.Pos != null) && (C.MapData.Pos.X === X) && (C.MapData.Pos.Y === Y))
-            return 0;
-
-
-
-
-
-    //若在游戏过程中，统一速度和无视部分效果
-    if (typeof LeashDronePlayer !== 'undefined' && LeashDronePlayer !== undefined && LeashDronePlayer !== null) {
-        if (LeashDronePlayer.inGame) {
-            //牵绳状态下禁止离开5*5外
-            if (LeashDronePlayer.isLeashing && LeashDronePlayer.anotherPlayer != null) {
-                let pos = ChatRoomCharacter.find((a) => a.MemberNumber === LeashDronePlayer.anotherPlayer.MemberNumber).MapData.Pos;
-                let Distance = Math.max(Math.abs(X - pos.X), Math.abs(Y - pos.Y));
-                if (Distance > 2) {
-                    return 0;
-                }
-            }
-            //在冰上禁止移动
-            if (LeashDronePlayer.onIce) {
-                return 0;
-            }
-            return LeashDronePlayer.MoveSpeed;
-        }
-    }
-
-    
-    // Enclosed or suspended players cannot change tiles
-    if (Player.IsEnclose() || Player.IsSuspended() || Player.IsMounted()) return 0;
-
-    // The MapImmobile effect prevents players from moving
-    if (Player.HasEffect("MapImmobile")) return 0;
-
-    
-
-    // Always full speed in water if wearing mermaid tail
-    let TileID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapViewWidth);
-    if ((TileID >= 2000) && (TileID < 3000) && InventoryIsWorn(Player, "MermaidTail", "ItemLegs")) return ChatRoomMapViewBaseMovementSpeed;
-
-    // Base movement speed first, water tiles are slower
-    let Speed = ChatRoomMapViewBaseMovementSpeed;
-    if ((TileID >= 2000) && (TileID < 3000)) Speed = Speed * 2.5;
-
-    // The hogtied/bound/slow/plugged modificator
-    if ((Player.Pose != null) && (Player.Pose.indexOf("Hogtied") >= 0)) Speed = Speed * 12;
-    else if (!Player.CanWalk()) Speed = Speed * 6;
-    else if (Player.GetSlowLevel() > 0) Speed = Speed * Player.GetSlowLevel() * 2;
-    else if (!Player.CanKneel()) Speed = Speed * 1.5;
-    else if (Player.IsPlugged()) Speed = Speed * 1.2;
-undefined
-    // Returns the final calculated speed
-    return Speed;
-
-}
-
-//执行玩家移动，并在移动完成后调用进入格子的函数
-function ChatRoomMapViewMovementProcess() {
-    if ((ChatRoomMapViewMovement == null) || (ChatRoomMapViewMovement.TimeEnd > CommonTime())) return;
-    LeashDronePlayer.lastDire = ChatRoomMapViewMovement.Direction;
-    Player.MapData.Pos.X = ChatRoomMapViewMovement.X;
-    Player.MapData.Pos.Y = ChatRoomMapViewMovement.Y;
-    // Set the update flag and reduce the wait time by the time the player already waited
-    ChatRoomMapViewUpdatePlayerFlag(ChatRoomMapViewMovement.TimeStart - ChatRoomMapViewMovement.TimeEnd);
-    ChatRoomMapViewMovement = null;
-    // After we moved, calculate the new perception masks
-    ChatRoomMapViewCalculatePerceptionMasks();
-    // Get the tile and object we entered
-    const newTile = ChatRoomMapViewGetTileAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
-    const newObject = ChatRoomMapViewGetObjectAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
-    // If the current tile or object have OnEnter functions, execute them
-    if (newTile && newTile.OnEnter) newTile.OnEnter();
-    if (newObject && newObject.OnEnter) newObject.OnEnter();
-
-
-    //执行移动后事件
-    EnterTile(Player.MapData.Pos);
-
-}
-
-//执行牵绳移动，并时刻刷新牵绳对象
-function ChatRoomMapViewLeash() {
-
-    //刷新牵绳
-    if (LeashDronePlayer.isLeashing.inGame && LeashDronePlayer.isLeashing && LeashDronePlayer.anotherPlayer != null) {
-        ChatRoomLeashPlayer = this.anotherPlayer.MemberNumber
-    }
-
-    // Finds the leash holder character
-    if (ChatRoomLeashPlayer == null) return;
-    for (let C of ChatRoomCharacter)
-        if ((C.MemberNumber == ChatRoomLeashPlayer) && !C.IsPlayer()) {
-
-            // Validates the data first
-            if ((Player.MapData == null) || (Player.MapData.Pos.X == null) || (Player.MapData.Pos.Y == null)) return;
-            if ((C.MapData?.Pos == null) || (C.MapData.Pos.X == null) || (C.MapData.Pos.Y == null)) return;
-
-            // Leash range is 2 tiles
-            let Distance = Math.max(Math.abs(Player.MapData.Pos.X - C.MapData.Pos.X), Math.abs(Player.MapData.Pos.Y - C.MapData.Pos.Y));
-            if (Distance <= 2) return;
-
-            // The X and Y variance tells us where to pull the character
-            let VarX = Player.MapData.Pos.X - C.MapData.Pos.X;
-            let VarY = Player.MapData.Pos.Y - C.MapData.Pos.Y;
-            let TargetX = Player.MapData.Pos.X;
-            let TargetY = Player.MapData.Pos.Y;
-            if (VarX > 2) TargetX = C.MapData.Pos.X + 2;
-            if (VarX < -2) TargetX = C.MapData.Pos.X - 2;
-            if (VarY > 2) TargetY = C.MapData.Pos.Y + 2;
-            if (VarY < -2) TargetY = C.MapData.Pos.Y - 2;
-
-            // If the new target tile cannot be entered, we try another one nearby
-            if (ChatRoomMapViewCanEnterTile(TargetX, TargetY) <= 0) {
-
-                // Tries to bring the character one extra tile toward the leash holder on the invert axis (X instead of Y or vice versa)
-                if ((Math.abs(VarX) > 2) && (Math.abs(VarX) > Math.abs(VarY)) && (VarY > 0)) TargetY--;
-                if ((Math.abs(VarX) > 2) && (Math.abs(VarX) > Math.abs(VarY)) && (VarY < 0)) TargetY++;
-                if ((Math.abs(VarY) > 2) && (Math.abs(VarX) < Math.abs(VarY)) && (VarX > 0)) TargetX--;
-                if ((Math.abs(VarY) > 2) && (Math.abs(VarX) < Math.abs(VarY)) && (VarX < 0)) TargetX++;
-
-                // If we still cannot move there
-                if (ChatRoomMapViewCanEnterTile(TargetX, TargetY) <= 0) {
-
-                    // Bring the character 1 tile near the leash holder
-                    if (VarX > 1) TargetX = C.MapData.Pos.X + 1;
-                    if (VarX < -1) TargetX = C.MapData.Pos.X - 1;
-                    if (VarY > 1) TargetY = C.MapData.Pos.Y + 1;
-                    if (VarY < -1) TargetY = C.MapData.Pos.Y - 1;
-
-                    // If it still doesn't work, we give up
-                    if (ChatRoomMapViewCanEnterTile(TargetX, TargetY) <= 0) return;
-
-                }
-
-            }
-
-            // Sends the movement packet
-            Player.MapData.Pos.X = TargetX;
-            Player.MapData.Pos.Y = TargetY;
-            ChatRoomMapViewUpdatePlayerFlag();
-            return;
-
-        }
-
-}
-//#endregion
 
 
 
@@ -1439,6 +1269,180 @@ function ScriptEnable() {
     if (typeof ChatRoomScriptDict === 'undefined') {
         ChatRoomScriptDict = {}
     }
+    //#region 重写地图函数
+
+    //检测玩家是否可以移动至该位置,并在游戏过程中统一速度并忽略部分效果
+    ChatRoomMapViewCanEnterTile = function (X, Y) {
+        if (typeof LeashDronePlayer !== 'undefined' && LeashDronePlayer !== undefined && LeashDronePlayer !== null) {
+            if (LeashDronePlayer.inGame) {
+                //刷新迷雾
+                ChatRoomMapViewTileFog = fog;
+                ChatRoomMapViewObjectFog = fog;
+            }
+        }
+        // Out of map bound or walls cannot enter, super powers skip everything
+        if ((X < 0) || (Y < 0) || (X >= ChatRoomMapViewWidth) || (Y >= ChatRoomMapViewHeight)) return 0;
+        if (ChatRoomMapViewHasSuperPowers()) return ChatRoomMapViewBaseMovementSpeed / 10;
+        if (ChatRoomMapViewIsWall(X, Y) && !ChatRoomMapViewCanEnterWall(X, Y)) return 0;
+
+        // Floor obstacles from 2000 to 3000 cannot be crossed
+        let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapViewWidth);
+        if ((ObjectID >= 2000) && (ObjectID < 3000)) return 0;
+        // Hurdle 2 cannot be crossed if the Player is Freeze
+        if ((ObjectID == 670) && Player.HasEffect("Freeze")) return 0;
+        // Hurdle 3 cannot be crossed if the Player is Freeze or slow
+        if ((ObjectID == 680) && (Player.HasEffect("Freeze") || Player.HasEffect("Slow"))) return 0;
+
+        // Cannot enter a tile occupied by another player
+        for (let C of ChatRoomCharacter)
+            if (!C.IsPlayer() && (C.MapData?.Pos != null) && (C.MapData.Pos.X === X) && (C.MapData.Pos.Y === Y))
+                return 0;
+
+
+
+
+
+        //若在游戏过程中，统一速度和无视部分效果
+        if (typeof LeashDronePlayer !== 'undefined' && LeashDronePlayer !== undefined && LeashDronePlayer !== null) {
+            if (LeashDronePlayer.inGame) {
+                //牵绳状态下禁止离开5*5外
+                if (LeashDronePlayer.isLeashing && LeashDronePlayer.anotherPlayer != null) {
+                    let pos = ChatRoomCharacter.find((a) => a.MemberNumber === LeashDronePlayer.anotherPlayer.MemberNumber).MapData.Pos;
+                    let Distance = Math.max(Math.abs(X - pos.X), Math.abs(Y - pos.Y));
+                    if (Distance > 2) {
+                        return 0;
+                    }
+                }
+                //在冰上禁止移动
+                if (LeashDronePlayer.onIce) {
+                    return 0;
+                }
+                return LeashDronePlayer.MoveSpeed;
+            }
+        }
+
+
+        // Enclosed or suspended players cannot change tiles
+        if (Player.IsEnclose() || Player.IsSuspended() || Player.IsMounted()) return 0;
+
+        // The MapImmobile effect prevents players from moving
+        if (Player.HasEffect("MapImmobile")) return 0;
+
+
+
+        // Always full speed in water if wearing mermaid tail
+        let TileID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapViewWidth);
+        if ((TileID >= 2000) && (TileID < 3000) && InventoryIsWorn(Player, "MermaidTail", "ItemLegs")) return ChatRoomMapViewBaseMovementSpeed;
+
+        // Base movement speed first, water tiles are slower
+        let Speed = ChatRoomMapViewBaseMovementSpeed;
+        if ((TileID >= 2000) && (TileID < 3000)) Speed = Speed * 2.5;
+
+        // The hogtied/bound/slow/plugged modificator
+        if ((Player.Pose != null) && (Player.Pose.indexOf("Hogtied") >= 0)) Speed = Speed * 12;
+        else if (!Player.CanWalk()) Speed = Speed * 6;
+        else if (Player.GetSlowLevel() > 0) Speed = Speed * Player.GetSlowLevel() * 2;
+        else if (!Player.CanKneel()) Speed = Speed * 1.5;
+        else if (Player.IsPlugged()) Speed = Speed * 1.2;
+        undefined
+        // Returns the final calculated speed
+        return Speed;
+
+    }
+
+    //执行玩家移动，并在移动完成后调用进入格子的函数
+    ChatRoomMapViewMovementProcess = function () {
+        if ((ChatRoomMapViewMovement == null) || (ChatRoomMapViewMovement.TimeEnd > CommonTime())) return;
+        LeashDronePlayer.lastDire = ChatRoomMapViewMovement.Direction;
+        Player.MapData.Pos.X = ChatRoomMapViewMovement.X;
+        Player.MapData.Pos.Y = ChatRoomMapViewMovement.Y;
+        // Set the update flag and reduce the wait time by the time the player already waited
+        ChatRoomMapViewUpdatePlayerFlag(ChatRoomMapViewMovement.TimeStart - ChatRoomMapViewMovement.TimeEnd);
+        ChatRoomMapViewMovement = null;
+        // After we moved, calculate the new perception masks
+        ChatRoomMapViewCalculatePerceptionMasks();
+        // Get the tile and object we entered
+        const newTile = ChatRoomMapViewGetTileAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
+        const newObject = ChatRoomMapViewGetObjectAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
+        // If the current tile or object have OnEnter functions, execute them
+        if (newTile && newTile.OnEnter) newTile.OnEnter();
+        if (newObject && newObject.OnEnter) newObject.OnEnter();
+
+
+        //执行移动后事件
+        EnterTile(Player.MapData.Pos);
+
+    }
+
+    //执行牵绳移动，并时刻刷新牵绳对象
+    ChatRoomMapViewLeash = function () {
+
+        //刷新牵绳
+        if (LeashDronePlayer.isLeashing.inGame && LeashDronePlayer.isLeashing && LeashDronePlayer.anotherPlayer != null) {
+            ChatRoomLeashPlayer = this.anotherPlayer.MemberNumber
+        }
+
+        // Finds the leash holder character
+        if (ChatRoomLeashPlayer == null) return;
+        for (let C of ChatRoomCharacter)
+            if ((C.MemberNumber == ChatRoomLeashPlayer) && !C.IsPlayer()) {
+
+                // Validates the data first
+                if ((Player.MapData == null) || (Player.MapData.Pos.X == null) || (Player.MapData.Pos.Y == null)) return;
+                if ((C.MapData?.Pos == null) || (C.MapData.Pos.X == null) || (C.MapData.Pos.Y == null)) return;
+
+                // Leash range is 2 tiles
+                let Distance = Math.max(Math.abs(Player.MapData.Pos.X - C.MapData.Pos.X), Math.abs(Player.MapData.Pos.Y - C.MapData.Pos.Y));
+                if (Distance <= 2) return;
+
+                // The X and Y variance tells us where to pull the character
+                let VarX = Player.MapData.Pos.X - C.MapData.Pos.X;
+                let VarY = Player.MapData.Pos.Y - C.MapData.Pos.Y;
+                let TargetX = Player.MapData.Pos.X;
+                let TargetY = Player.MapData.Pos.Y;
+                if (VarX > 2) TargetX = C.MapData.Pos.X + 2;
+                if (VarX < -2) TargetX = C.MapData.Pos.X - 2;
+                if (VarY > 2) TargetY = C.MapData.Pos.Y + 2;
+                if (VarY < -2) TargetY = C.MapData.Pos.Y - 2;
+
+                // If the new target tile cannot be entered, we try another one nearby
+                if (ChatRoomMapViewCanEnterTile(TargetX, TargetY) <= 0) {
+
+                    // Tries to bring the character one extra tile toward the leash holder on the invert axis (X instead of Y or vice versa)
+                    if ((Math.abs(VarX) > 2) && (Math.abs(VarX) > Math.abs(VarY)) && (VarY > 0)) TargetY--;
+                    if ((Math.abs(VarX) > 2) && (Math.abs(VarX) > Math.abs(VarY)) && (VarY < 0)) TargetY++;
+                    if ((Math.abs(VarY) > 2) && (Math.abs(VarX) < Math.abs(VarY)) && (VarX > 0)) TargetX--;
+                    if ((Math.abs(VarY) > 2) && (Math.abs(VarX) < Math.abs(VarY)) && (VarX < 0)) TargetX++;
+
+                    // If we still cannot move there
+                    if (ChatRoomMapViewCanEnterTile(TargetX, TargetY) <= 0) {
+
+                        // Bring the character 1 tile near the leash holder
+                        if (VarX > 1) TargetX = C.MapData.Pos.X + 1;
+                        if (VarX < -1) TargetX = C.MapData.Pos.X - 1;
+                        if (VarY > 1) TargetY = C.MapData.Pos.Y + 1;
+                        if (VarY < -1) TargetY = C.MapData.Pos.Y - 1;
+
+                        // If it still doesn't work, we give up
+                        if (ChatRoomMapViewCanEnterTile(TargetX, TargetY) <= 0) return;
+
+                    }
+
+                }
+
+                // Sends the movement packet
+                Player.MapData.Pos.X = TargetX;
+                Player.MapData.Pos.Y = TargetY;
+                ChatRoomMapViewUpdatePlayerFlag();
+                return;
+
+            }
+
+    }
+    //#endregion
+
+
+
     ServerSocket.on("ChatRoomMessage", function (data) { ChatRoomMessageAdd(data); });
     ChatRoomScriptDict["LeashDroneGame"] = function (SenderCharacter, dict) { MsgInfo.DoCmd(dict) };
     CommandCombine([
