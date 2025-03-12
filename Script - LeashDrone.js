@@ -475,7 +475,7 @@ var CommandsAction = {
     },
     submit: {
         Command: (param) => {
-            if (ChatRoomMapViewGetObjectAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y).ID === 240) {
+            if (ChatRoomMapViewGetTileAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y).ID === 240) {
                 if (param === LeashDronePlayer.lockCode.toString()) {
                     SendMessageToSelf("提交成功");
                     TPSelf(LeashDronePlayer.BCPlayer.Pos.X, LeashDronePlayer.BCPlayer.Pos.Y - 2);
