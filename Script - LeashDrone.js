@@ -1137,9 +1137,12 @@ function EnterTile(Pos) {
         let playerSP = StartPoints.findIndex((a) => (a.X == Player.MapData.Pos.X && a.Y == Player.MapData.Pos.Y));
         if (playerSP != -1) {
             for (let C of ChatRoomCharacter) {
-                if (StartPoints.findIndex((a) => (a.X == C.MapData.Pos.X && a.Y == C.MapData.Pos.Y)) != -1) {
-                    SendMsg(C, new MsgInfo("invite", LeashDronePlayer.MemberNumber));
-                    return;
+                for (let C of ChatRoomCharacter) {
+                    let anotherSP = StartPoints.findIndex((a) => (a.X == C.MapData.Pos.X && a.Y == C.MapData.Pos.Y && C.MemberNumber != Player.MemberNumber))
+                    if (anotherSP != -1) {
+                        SendMsg(C, new MsgInfo("invite", LeashDronePlayer.MemberNumber));
+                        return;
+                    }
                 }
             }
             SendMessageToSelf("等待玩家进入");
