@@ -1457,10 +1457,12 @@ function ScriptEnable() {
 
     setInterval(() => { IntervalTimer() }, 100);
     LeashDronePlayer = new playerInfo(Player);
+    console.log(`启动完成`);
 }
 
 async function WaitEnable() {
     if (!window.LeashDrone) {
+        console.log(`加载完成`);
         window.LeashDrone = true;
         await waitFor(() => typeof window.Player?.MemberNumber === "number");
         ScriptEnable();
