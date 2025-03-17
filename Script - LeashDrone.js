@@ -1229,6 +1229,7 @@ function EnterTile(Pos) {
             for (let C of ChatRoomCharacter) {
                 let anotherSP = StartPoints.findIndex((a) => (a.X == C.MapData.Pos.X && a.Y == C.MapData.Pos.Y && C.MemberNumber != Player.MemberNumber))
                 if (anotherSP != -1) {
+                    LeashDronePlayer.anotherPlayer = new playerInfo(C);
                     SendMsg(C, new MsgInfo("inviteMap", LeashDronePlayer.MemberNumber));
                     return;
                 }
