@@ -435,7 +435,8 @@ const MsgCmds = {
             if (param) {
                 SendMessageToSelf("无人机已完成任务，即将返回待命区");
                 LeashDronePlayer.RemoveEquips(EquipsHang, false);
-                LeashDronePlayer.RemoveEquips(EquipsMove);
+                LeashDronePlayer.RemoveEquips(EquipsMove, false);
+                LeashDronePlayer.WearEquips(EquipsLegs);
                 TPSelf({ X: 5, Y: 11 });
             }
             else {
@@ -839,6 +840,48 @@ const EquipsHang = [
 ]
 const EquipsFall = [
     {
+        "AssetGroup": "ItemBoots",
+        "Item": "FuturisticHeels2",
+        "Property": "Normal",
+        "Lock": "",
+        "Name": "无人机鞋",
+        "Description": "抹去无人机自主移动能力",
+        "Color": "Default,#CC33CC,Default,Default,Default,#aaaaaa,Default",
+        "Private": false,
+        "TypeRecord": {
+            "typed": 0
+        },
+        "ItemProperty": {}
+    },
+    {
+        "AssetGroup": "ItemLegs",
+        "Item": "FuturisticLegCuffs",
+        "Property": "Normal",
+        "Lock": "",
+        "Name": "无人机铐",
+        "Description": "抹去无人机自主移动能力",
+        "Color": "Default,#CC33CC,#707070,Default",
+        "Private": false,
+        "TypeRecord": {
+            "typed": 1
+        },
+        "ItemProperty": {}
+    },
+    {
+        "AssetGroup": "ItemFeet",
+        "Item": "FuturisticAnkleCuffs",
+        "Property": "Normal",
+        "Lock": "",
+        "Name": "无人机铐",
+        "Description": "抹去无人机自主移动能力",
+        "Color": "Default,#CC33CC,#707070,Default",
+        "Private": false,
+        "TypeRecord": {
+            "typed": 1
+        },
+        "ItemProperty": {}
+    },
+    {
         "AssetGroup": "ItemDevices",
         "Item": "FuturisticCrate",
         "Property": "Normal",
@@ -859,6 +902,50 @@ const EquipsFall = [
         "ItemProperty": {}
     }
 ];
+const EquipsLegs = [
+    {
+        "AssetGroup": "ItemBoots",
+        "Item": "FuturisticHeels2",
+        "Property": "Normal",
+        "Lock": "",
+        "Name": "无人机鞋",
+        "Description": "抹去无人机自主移动能力",
+        "Color": "Default,#CC33CC,Default,Default,Default,#aaaaaa,Default",
+        "Private": false,
+        "TypeRecord": {
+            "typed": 0
+        },
+        "ItemProperty": {}
+    },
+    {
+        "AssetGroup": "ItemLegs",
+        "Item": "FuturisticLegCuffs",
+        "Property": "Normal",
+        "Lock": "",
+        "Name": "无人机铐",
+        "Description": "抹去无人机自主移动能力",
+        "Color": "Default,#CC33CC,#707070,Default",
+        "Private": false,
+        "TypeRecord": {
+            "typed": 1
+        },
+        "ItemProperty": {}
+    },
+    {
+        "AssetGroup": "ItemFeet",
+        "Item": "FuturisticAnkleCuffs",
+        "Property": "Normal",
+        "Lock": "",
+        "Name": "无人机铐",
+        "Description": "抹去无人机自主移动能力",
+        "Color": "Default,#CC33CC,#707070,Default",
+        "Private": false,
+        "TypeRecord": {
+            "typed": 1
+        },
+        "ItemProperty": {}
+    }
+]
 
 const HangPoints = [
     { X: 30, Y: 1 },
@@ -1000,7 +1087,7 @@ function InitRoom() {
     const mapData = {
         "Type": "Always",
         "Tiles": "иЮиЮЮЮЮЮЮиЮиЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮиЮЮЮЮЮЮЮЮЮЮиЮЮииЮЮsxxЮииииЮxxЮЮииЮЮsиЮxЮЮxЮиЮЮииЮЮsxxЮЮЮЮЮЮxxЮиииииииииЮииЮЮsиЮxЮxxxxЮxЮиЮиЮииЮЮsxxЮxxxxЮxxЮиЮииЮЮsЮЮxЮЮnnЮЮxЮЮЮиЮииЮЮdnnnnnssnnnnnЮиЮииЮЮdnnnnnnnnnnnnЮиииииииииЮииЮЮdnnnnnnnnnnnnϨЮииЮЮdnnnnnnnnnnnnЮЮииЮЮdnnnnnnnnnnnnЮЮииЮЮdииииииииииииЮииииииииииииЮККККККККККККЮdииЮиииииииЮККККëëëКЮdиииииЮиииииииииЮߐëëКëëߐКëëëКЮdииЮииииЮߐКëКëКߐКëëëКЮdиииииЮииииииииииЮߐëëКëëߐКëëëКЮdииЮииииииииииЮߐКëКëКߐКëëëКЮdиииииЮииииииииииииЮߐëëКëëߐКëëëКЮdииЮииииииииЮߐКëКëКߐКëëëКЮdиииииЮииииииииКККЮߐëëКëëߐКëëëКЮdииЮииииëëЮߐКëКëКߐКëëëКЮdиииииЮииииииëëЮߐëëКëëߐКëëëКЮdииЮиииииииЮߐКëКëКߐКëëëКЮdиииииииииЮииииииииииииЮëКëКëëëКЮdККККККККККККЮККККККККККККЮККККККККККККЮdëëëККëëëëëЮККëКëКëКëКЮККëëëëëëëëЮdëëëëëККëëëëëЮëКëКëКëКëКëКЮëëëКëëëëëëëëЮdëëëëКëКëККëëЮККККККККККККЮëëëКëëëëëëëëЮdКККߐߐߐߐߐߐКëëЮëëëëëëëëëëëëЮëëëКëëëëëëëëЮdКККߐߐߐߐߐߐëëëЮëëëëëëëëëëëëЮëëëКëëëëëëëëЮdКККߐߐߐߐߐߐКККЮëëëëëëëëëëëëЮëëëКëëëëëëëëЮdКККߐߐߐߐߐߐКККЮëëëëëëëëëëëëЮëëëКëëëëëëëëЮdëëëߐߐߐКߐߐКëëЮëëëëëëëëëëëëЮðëðКëëëëëëëëЮdëëКߐߐߐКߐߐКëëЮëëëëëëëëëëëëЮКëëëëëëëëЮdëëКëКККëККëëЮККККККККККККЮКëëëëëëëëЮdëëëëëККëëëëëЮКëКëКëКëКëКëЮКëëëëëëëëЮdëëëëëККëëëЮКëКëКëКëККЮЮЮЮЮЮЮЮЮЮКККЮdККККККККККККЮККККККККККККЮККККККККККККЮК",
-        "Objects": "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd߮dddddddʨdࠖddddddddࠖddࠖࠖࠖࠖࠖࠖࠖࠖࠖࠖࠖddddddd߮dddddddʨdddddࠖࠖddddddddddddddddࠖddʔdʔdd߮dddddddʨdࠖddྴddྴddࠖddddddddddddࠖddddddd߮dddddddʨdddddddddddddddddddddddࠖddʔdʔdd߮dddddddʨdࠖddddddddࠖddddddddddddࠖddddddd߮dddddddʨdddddࠖࠖddddddddddddddddࠖddʔdʔdd߮dddddddddddddddddddddddddddddddࠖddddddd߮dddddddddddddddddddddddddddddddࠖddʔdʔdd߮dddddddddddddddddddddddddddddddࠖddddddd߮dddddddddddddnsddddddࠖࠖࠖࠖࠖࠖࠖࠖࠖࠖࠖddʔdʔdd߮ddddddddddddddddddddddddddddddddddddddd߮dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddྶdddྵddd߮dddddddddddddddddddddddddddddddࠖdddࠖddd߮dddddddddddddddddddྴdddddྵdddddྶdddྵddd߮dddddddddddddddddddddddddddddddࠖdddࠖddd߮dddddddddddddddddddddddddddddddྶdddྵddd߮dddddddddddddddddddddddddddddddࠖdddࠖddd߮ddddddddddddddddd dddddddddddddྶdddྵddd߮dddddddddddddddddddddྵdddddddddࠖdddࠖddd߮dddddddddddddddddddddddddddddddྶdddྵddd߮dddddddddddddddddྴdྭdྵdddddddddࠖdddࠖddd߮dddddddddddddddddddddddddddddddྶdddྵddd߮dddddddddddddddddddddddddddddddࠖdddࠖddd߮dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddЮdЮdЮdЮdddddddddddddddddddddྵddddddd¢dddddddddddddࠖdddddddddddddddddddddddddྶdྶdྭdྮdྫdྭdddࠖdddddddddddddddddddddddddddddddddddddddࠖdddddddddddddddddddddddddddddddddddddddࠖdddddddddddddddddddddddddddddddddddddddࠖdddddddddddddddddddddddddddddddddddddddࠖdddddddddddddddddddddddddddddddddddddddࠖdddddddddddddddddddddddddddddddddddddd߮ࠖ߮dddddddddddddddddddddddddྮdྫdྭdྮdྴdྴddࠖddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddЮdЮdЮdЮddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        "Objects": "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd߮dddddddʨdࠖddddddddࠖddࠖࠖࠖࠖࠖࠖࠖࠖࠖࠖࠖddddddd߮dddddddʨdddddࠖࠖddddddddddddddddࠖddʔdʔdd߮dddddddʨdࠖddྴddྴddࠖddddddddddddࠖddddddd߮dddddddʨdddddddddddddddddddddddࠖddʔdʔdd߮dddddddʨdࠖddddddddࠖddddddddddddࠖddddddd߮dddddddʨdddddࠖࠖddddddddddddddddࠖddʔdʔdd߮dddddddddddddddddddddddddddddddࠖddddddd߮dddddddddddddddddddddddddddddddࠖddʔdʔdd߮dddddddddddddddddddddddddddddddࠖddddddd߮dddddddddddddnsddddddࠖࠖࠖࠖࠖࠖࠖࠖࠖࠖࠖddʔdʔdd߮ddddddddddddddddddddddddddddddddddddddd߮dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddྶdddྵddd߮dddddddddddddddddddddddddddddddࠖdddࠖddd߮dddddddddddddddddddྴdddddྵdddddྶdddྵddd߮dddddddddddddddddddddddddddddddࠖdddࠖddd߮dddddddddddddddddddddddddddddddྶdddྵddd߮dddddddddddddddddddddddddddddddࠖdddࠖddd߮ddddddddddddddddd dddddddddddddྶdddྵddd߮dddddddddddddddddddddྵdddddddddࠖdddࠖddd߮dddddddddddddddddddddddddddddddྶdddྵddd߮dddddddddddddddddྴdྭdྵdddddddddࠖdddࠖddd߮dddddddddddddddddddddddddddddddྶdddྵddd߮dddddddddddddddddddddddddddddddࠖdddࠖddd߮dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddЮdЮdЮdЮdddddddddddddddddddddྵddddddd¢dddddddddddddࠖdddddddddddddddddddddddddྶdྶdྭdྮdྴdྭdddࠖdddddddddddddddddddddddddddddddddddddddࠖdddddddddddddddddddddddddddddddddddddddࠖdddddddddddddddddddddddddddddddddddddddࠖdddddddddddddddddddddddddddddddddddddddࠖdddddddddddddddddddddddddddddddddddddddࠖdddddddddddddddddddddddddddddddddddddd߮ࠖ߮dddddddddddddddddddddddddྮdྴdྭdྮdྴdྴddࠖddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddЮdЮdЮdЮddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
     }
     ChatRoomData.MapData = mapData;
     ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: ChatRoomData, Action: "Update" });
