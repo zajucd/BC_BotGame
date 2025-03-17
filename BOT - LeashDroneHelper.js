@@ -88,7 +88,7 @@ const Equips =
             "ItemProperty": {},
             "Type": null,
             "TypeRecord": {
-                "typed": 3
+                "typed": 0
             }
         },
         {
@@ -131,11 +131,11 @@ const Equips =
             "Private": false,
             "ItemProperty": {
                 "ShowText": true,
-                "OriginalSetting": 3
+                "OriginalSetting": 0
             },
             "Type": null,
             "TypeRecord": {
-                "g": 3,
+                "g": 0,
                 "p": 0,
                 "t": 0
             }
@@ -449,6 +449,7 @@ BOT game：LeashDrone
 发布地址: https://github.com/zajucd/BC_BotGame
 
 游玩需要插件:https://openuserjs.org/scripts/zajucd/LeashDrone
+不建议与其他插件共同使用
 
 可通过两位玩家进入入口上方玻璃门后的小房间的门内开始游戏,
 也可通过使用invite与accept指令开始游戏
