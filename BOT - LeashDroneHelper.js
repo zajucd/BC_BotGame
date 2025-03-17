@@ -432,6 +432,13 @@ function InitRoom() {
     //传送至入口处
     TPSelf({ X: 4, Y: 8 })
 }
+function TPSelf(Pos, DoEnterTile = true) {
+    Player.MapData.Pos = { X: Pos.X, Y: Pos.Y };
+    ServerSend("ChatRoomCharacterMapDataUpdate", Pos);
+    if (DoEnterTile) {
+        EnterTile(Pos);
+    }
+}
 function InitBot() {
     removeClothes(Player, false);
     removeRestrains(Player, false)
