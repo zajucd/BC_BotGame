@@ -1,4 +1,5 @@
 ﻿
+let retryCount = 0;
 activateStoryRoom();
 RemoveCloth(Player, null);
 RemoveRestrains(Player, null);
@@ -103,6 +104,7 @@ function RemoveRestrains(sender, msg) {
 }
 
 ChatRoomMessageAdditionDict["HypnosisHospital"] = function (SenderCharacter, msg, data) {ChatRoomMessageHypnosisHospital(SenderCharacter, msg, data)}
+ChatRoomSyncMapDataeAdditionDict["HypnosisHospital"] = function (SenderCharacter) { PlayerMoved(SenderCharacter) }
 
 function ChatRoomMessageHypnosisHospital(SenderCharacter, msg, data) {
 	if (SenderCharacter.MemberNumber == Player.MemberNumber) {
@@ -137,7 +139,8 @@ function ChatRoomMessageHypnosisHospital(SenderCharacter, msg, data) {
 async function PlayerEnter(sender) {
 	var playable = true;
 	await Teleport(sender, 20, 38);
-	ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
+	await sleep(1000);
+	PlayerToChar(sender);
 	ServerSend("ChatRoomChat", { Content: "*该bot现已发布至 https://github.com/zajucd/BC_BotGame ", Type: "Emote" });
 	if (isExposed(sender) || sender.IsRestrained() || sender.IsChaste() || sender.IsShackled() || sender.IsBlind() || !sender.CanTalk() || sender.IsEnclose() || sender.IsMounted() || sender.IsEgged() || sender.IsDeaf()) {
 		ServerSend("ChatRoomChat", {
@@ -180,40 +183,6 @@ async function PlayerEnter(sender) {
 }
 
 
-async function Teleport(sender, x, y) {
-	playerCanAction = false; 
-
-	var loc = Player.MapData.Pos;
-	var sleepTime = 150
-	wearLeash(sender);
-	await sleep(sleepTime);
-	HoldLeash(sender);
-	await sleep(sleepTime);
-	ServerSend("ChatRoomCharacterMapDataUpdate", { X: x + 2, Y: y + 2 });
-	await sleep(sleepTime);
-	ServerSend("ChatRoomCharacterMapDataUpdate", { X: x + 2, Y: y - 2 });
-	await sleep(sleepTime);
-	ServerSend("ChatRoomCharacterMapDataUpdate", { X: x - 2, Y: y + 2 });
-	await sleep(sleepTime);
-	ServerSend("ChatRoomCharacterMapDataUpdate", { X: x - 2, Y: y - 2 });
-	await sleep(sleepTime);
-	ServerSend("ChatRoomCharacterMapDataUpdate", { X: x + 2, Y: y + 2 });
-	await sleep(sleepTime);
-	ServerSend("ChatRoomCharacterMapDataUpdate", { X: x + 2, Y: y - 2 });
-	await sleep(sleepTime);
-	ServerSend("ChatRoomCharacterMapDataUpdate", { X: x - 2, Y: y + 2 });
-	await sleep(sleepTime);
-	ServerSend("ChatRoomCharacterMapDataUpdate", { X: x - 2, Y: y - 2 });
-	await sleep(sleepTime);
-	StopHoldLeash(sender)
-	await sleep(sleepTime);
-	InventoryRemove(sender, "CollarLeash");
-	ChatRoomCharacterUpdate(sender);
-	await sleep(sleepTime);
-	ServerSend("ChatRoomCharacterMapDataUpdate", { X: 39, Y: 39 });
-
-	playerCanAction = true;
-}
 
 
 function HoldLeash(sender) {
@@ -251,28 +220,11 @@ function sleep(time) {
 	return new Promise((resolve) => setTimeout(resolve, time));
 }
 
-//重写已有方法，在玩家移动后调用PlayerMoved
-function ChatRoomMapViewSyncMapData(data) {
 
-	// Exits if the packet is invalid
-	if (!CommonIsObject(data) || (data.MemberNumber == null) || (typeof data.MemberNumber != "number")) return;
-	if (!CommonIsObject(data.MapData) || (data.MapData.X == null) || (typeof data.MapData.X != "number") || (data.MapData.Y == null) || (typeof data.MapData.Y != "number")) return;
-
-	// Assigns the MapData to the chatroom character
-	for (let C of ChatRoomCharacter)
-		if ((C.MemberNumber == data.MemberNumber) && !C.IsPlayer()) {
-			C.MapData = ChatRoomMapViewInitializeCharacter(C);
-			C.MapData.Pos = { X: data.MapData.X, Y: data.MapData.Y };
-			if (playerCanAction) {
-				PlayerMoved(C);
-			}
-			break;
-		}
-}
 function commandHandler(sender, msg) {
 	if (playerCanAction === true) {
 		if (msg.toLowerCase().includes("think")) {
-			ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
+			ServerSend("ChatRoomCharacterMapDataUpdate", {Pos:{ X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 }} );
 			Think(sender);
 			return;
 		}
@@ -281,13 +233,13 @@ function commandHandler(sender, msg) {
 			if (IsInsideArea(area, sender)) {
 				isFound = true;
 				if (msg.toLowerCase().includes("check")) {
-					ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
+					PlayerToChar(sender);
 					ShowAreaCheckText(area, sender);
 					return;
 				}
 				area.movements.forEach((movement) => {
 					if (msg.toLowerCase().includes(movement.name)) {
-						ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
+						PlayerToChar(sender);
 						movement.func(sender);
 					}
 				})
@@ -314,18 +266,13 @@ function PlayerMoved(sender) {
 			//第一次进入区域时显示检查文本
 			if (areasEntered[index] != true) {
 				areasEntered[index] = true;
-				ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
+				ServerSend("ChatRoomCharacterMapDataUpdate", { Pos: { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 } });
 				ShowAreaCheckText(area, sender);
 			}
 			//位于事件点上时触发事件
 			area.eventPoints.forEach((point) => {
 				if (sender.MapData.Pos.X === point.Pos.X && sender.MapData.Pos.Y === point.Pos.Y) {
-					if (sender.MapData.Pos.X - 1 <= 0) {
-						ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X + 1, Y: sender.MapData.Pos.Y - 1 });
-					}
-					else {
-						ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
-					}
+					PlayerToChar(sender);
 					point.func(sender);
 				}
 			});
@@ -458,7 +405,7 @@ async function DayEnd(sender) {
 
 		ChatRoomCharacterUpdate(sender);
 
-		ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
+		PlayerToChar(sender);
 
 		await sleep(3000);
 		ServerSend("ChatRoomChat", {
@@ -500,11 +447,10 @@ async function DayEnd(sender) {
 		ToEnd(sender, 7);
 	}
 	else {
-		await sleep(100);
+		await sleep(1000);
 		await Teleport(sender, 23, 26);
-		await sleep(100);
-		ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
-		WearRestrainsByDay(sender);
+		await sleep(1000);
+		await WearRestrainsByDay(sender);
 		if (hypnosisTime === 1) {
 			ChatRoomData.MapData.Tiles = SetCharIn40x40String(ChatRoomData.MapData.Tiles, 13, 21, 110);
 			UpdateRoom(ChatRoomData);
@@ -566,6 +512,8 @@ async function WearRestrainsByDay(sender) {
 		InventoryGet(sender, "ItemBoots").Property.TypeRecord = { typed: 0 };
 		InventoryGet(sender, "ItemBoots").Color = ['#FFFFFF', '#FFFFFF', 'Default', '#aa80aa', '#FFFFFF', 'Default', 'Default', '#FFFFFF'];
 	}
+	await sleep(1000);
+	await PlayerToChar(sender)
 	ServerSend("ChatRoomChat", {
 		Content: "*你在自己的病房上醒来.",
 		Type: "Emote"
@@ -615,10 +563,10 @@ async function ToEnd(sender, type) {
 			InventoryLock(sender, "ItemDevices", { Asset: AssetGet("Female3DCG", "ItemMisc", "CombinationPadlock") }, Player.MemberNumber);
 			InventoryGet(sender, "ItemDevices").Property.CombinationNumber = lockCode;
 			ChatRoomCharacterUpdate(sender);
-			ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
+			PlayerToChar(sender);
 			ServerSend("ChatRoomChat", {
-				Content: "*结局:朝闻道  得到了情报但付出了代价，必可活用于下一次.",
-				Type: "Chat"
+				Content: "(结局:朝闻道  得到了情报但付出了代价，必可活用于下一次)",
+				Type: "Whisper", Target: sender.MemberNumber
 			});
 		}
 			break;
@@ -641,10 +589,10 @@ async function ToEnd(sender, type) {
 			}
 			ChatRoomCharacterUpdate(sender);
 
-			ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
+			PlayerToChar(sender);
 			ServerSend("ChatRoomChat", {
-				Content: "*结局:残缺  说不定需要潜得更深才能更进一步.",
-				Type: "Chat"
+				Content: "(结局:残缺  说不定需要潜得更深才能更进一步)",
+				Type: "Whisper", Target: sender.MemberNumber
 			});
 		}
 			break;
@@ -666,10 +614,10 @@ async function ToEnd(sender, type) {
 			}
 			ChatRoomCharacterUpdate(sender);
 
-			ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
+			PlayerToChar(sender);
 			ServerSend("ChatRoomChat", {
-				Content: "*结局:盈满  你到达了盈满，但这并非真正的结局.",
-				Type: "Chat"
+				Content: "(结局:盈满  你到达了盈满，但这并非真正的结局)",
+				Type: "Whisper", Target: sender.MemberNumber
 			});
 		}
 			break;
@@ -691,19 +639,19 @@ async function ToEnd(sender, type) {
 			}
 			ChatRoomCharacterUpdate(sender);
 
-			ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
+			PlayerToChar(sender);
 			ServerSend("ChatRoomChat", {
-				Content: "*结局:样本 时间太紧了? 去那个地方找更多的情报吧.",
-				Type: "Chat"
+				Content: "(结局:样本 时间太紧了? 去那个地方找更多的情报吧.)",
+				Type: "Whisper", Target: sender.MemberNumber
 			});
 		}
 			break;
 		case 5: {
 			await Teleport(sender, 20, 37);
-			ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
+			PlayerToChar(sender);
 			ServerSend("ChatRoomChat", {
-				Content: "*结局:逃出升天 神秘的组织怎么看都不靠谱吧.",
-				Type: "Chat"
+				Content: "(结局:逃出升天 神秘的组织怎么看都不靠谱吧.)",
+				Type: "Whisper", Target: sender.MemberNumber
 			});
 		}
 			break;
@@ -711,19 +659,19 @@ async function ToEnd(sender, type) {
 			let point = FindFreeFailPoint();
 			playersFailed.push(sender);
 			await Teleport(sender, point.X, point.Y);
-			ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
+			PlayerToChar(sender);
 			ServerSend("ChatRoomChat", {
-				Content: "*结局:回归  潜得太深也不是什么好事呢.",
-				Type: "Chat"
+				Content: "(结局:回归  潜得太深也不是什么好事呢.)",
+				Type: "Whisper", Target: sender.MemberNumber
 			});
 		}
 			break;
 		case 7: {
 			await Teleport(sender, 20, 37);
-			ServerSend("ChatRoomCharacterMapDataUpdate", { X: sender.MapData.Pos.X - 1, Y: sender.MapData.Pos.Y - 1 });
+			PlayerToChar(sender);
 			ServerSend("ChatRoomChat", {
-				Content: "*结局:完成 嗯,结束了,但是还留有很多疑点.",
-				Type: "Chat"
+				Content: "(结局:完成 嗯,结束了,但是还留有很多疑点.)",
+				Type: "Whisper", Target: sender.MemberNumber
 			});
 		}
 			break;
@@ -732,14 +680,14 @@ async function ToEnd(sender, type) {
 	resetRoom();
 	if (playersFailed.includes(sender)) {
 		ServerSend("ChatRoomChat", {
-			Content: "*因为作者的梦想是拿玩家填满地图下方的展示区，所以在这里每等5分钟就会随机给一个结局的提示.",
+			Content: "(因为作者的梦想是拿玩家填满地图下方的展示区，所以在这里每等5分钟就会随机给一个结局的提示.)",
 			Type: "Whisper", Target: sender.MemberNumber
 		});
 	}
 	await sleep(1000 * 120);
 	if (playersFailed.includes(sender)) {
 		ServerSend("ChatRoomChat", {
-			Content: "*如果有需要,可以使用退出(exit).",
+			Content: "*(如果有需要,可以使用退出[exit].)",
 			Type: "Whisper", Target: sender.MemberNumber
 		});
 	}
@@ -750,56 +698,56 @@ async function ToEnd(sender, type) {
 			switch (ran) {
 				case 1: {
 					ServerSend("ChatRoomChat", {
-						Content: "*1.催眠一次后进入隐藏房间南方的房间.",
+						Content: "(1.催眠一次后进入隐藏房间南方的房间.)",
 						Type: "Whisper", Target: sender.MemberNumber
 					});
 					break;
 				}
 				case 2: {
 					ServerSend("ChatRoomChat", {
-						Content: "*2.催眠一次后进入隐藏房间北方的房间，但没达到最深处.",
+						Content: "(2.催眠一次后进入隐藏房间北方的房间，但没达到最深处.)",
 						Type: "Whisper", Target: sender.MemberNumber
 					});
 					break;
 				}
 				case 3: {
 					ServerSend("ChatRoomChat", {
-						Content: "*3.催眠一次后进入隐藏房间北方的房间，达到最深处.",
+						Content: "(3.催眠一次后进入隐藏房间北方的房间，达到最深处.)",
 						Type: "Whisper", Target: sender.MemberNumber
 					});
 					break;
 				}
 				case 4: {
 					ServerSend("ChatRoomChat", {
-						Content: "*4.通过某个动作进入两个盆栽间的密室，但没找到要找的东西.",
+						Content: "(4.通过某个动作进入两个盆栽间的密室，但没找到要找的东西.)",
 						Type: "Whisper", Target: sender.MemberNumber
 					});
 					break;
 				}
 				case 5: {
 					ServerSend("ChatRoomChat", {
-						Content: "*5.通过某个动作进入两个盆栽间的密室，找到要找的东西.",
+						Content: "(5.通过某个动作进入两个盆栽间的密室，找到要找的东西.)",
 						Type: "Whisper", Target: sender.MemberNumber
 					});
 					break;
 				}
 				case 6: {
 					ServerSend("ChatRoomChat", {
-						Content: "*6.走完梦中的所有路线.",
+						Content: "(6.走完梦中的所有路线.)",
 						Type: "Whisper", Target: sender.MemberNumber
 					});
 					break;
 				}
 				case 7: {
 					ServerSend("ChatRoomChat", {
-						Content: "*7.平安过完10天.",
+						Content: "(7.平安过完10天.)",
 						Type: "Whisper", Target: sender.MemberNumber
 					});
 					break;
 				}
 				default: {
 					ServerSend("ChatRoomChat", {
-						Content: "*如果你看到这句话，说明铸币作者随机数范围写错了，可以此为凭证直接向bot要提示.",
+						Content: "(如果你看到这句话，说明铸币作者随机数范围写错了，可以此为凭证直接向bot要提示.)",
 						Type: "Whisper", Target: sender.MemberNumber
 					});
 					break;
@@ -2206,11 +2154,10 @@ function resetRoom() {
 	UpdateRoom(ChatRoomData);
 	
 }
-let retryCount = 0;
 async function UpdateRoom(ChatRoomData) {
 	
 	try {
-		ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: ChatRoomData, Action: "Update" });
+		ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: ChatRoomGetSettings(ChatRoomData), Action: "Update" });
 	}
 	catch {
 		if (retryCount < 10) {
@@ -2237,6 +2184,17 @@ async function ToPlayer() {
 
 	}
 	
+}
+
+async function PlayerToChar(sender) {
+	var target = ChatRoomGetCharacter(sender.MemberNumber)
+	if (target.MapData.Pos.X - 1 <= 0) {
+		ServerSend("ChatRoomCharacterMapDataUpdate", { Pos: { X: target.MapData.Pos.X + 1, Y: target.MapData.Pos.Y - 1 } });
+	}
+	else {
+
+		ServerSend("ChatRoomCharacterMapDataUpdate", { Pos: { X: target.MapData.Pos.X - 1, Y: target.MapData.Pos.Y - 1 } });
+	}
 }
 ///催眠时直接告知 获得顺序
 ///室友地下 看自己

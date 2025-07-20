@@ -5,7 +5,7 @@
 
 1.复制CommonBotAssets.js内全部内容
 
-2.在BondageClub中创建一个聊天室
+2.在BondageClub中创建一个聊天室，如果要使用带有传送功能的BOT，需具有房主身份
 
 2.按F12打开控制台并粘贴，按下回车
 
