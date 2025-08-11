@@ -165,12 +165,13 @@ function wearLeash(sender) {
 }
 async function Teleport(sender, x, y) {
     try {
-        if (sender.MemberNumber === Player.MemberNumber)
+        if (sender.MemberNumber === Player.MemberNumber) {
             return true;
-        if (Player.MemberNumber === sender.MemberNumber) Player.Position = { X: x, Y: y };
+        }
 
-        ChatRoomMapViewTeleport(ChatRoomGetCharacter(sender.MemberNumber), { X: x, Y: y });
-        console.log("tp " + sender.Name + " to " + x + "," + y);
+        var c = ChatRoomGetCharacter(sender.MemberNumber);
+        ChatRoomMapViewTeleport(c, { X: x, Y: y });
+        console.log("tp " + c.Name + " to " + x + "," + y);
     }
     catch (e) {
         console.log(e);
@@ -179,6 +180,34 @@ async function Teleport(sender, x, y) {
 
 
 
+}
+
+async function SetMapObjs(opers) {
+    let objStr = ChatRoomData.MapData.Objects;
+    for (var oper of opers) {
+        objStr = SetCharIn40x40String(objStr, oper.X, oper.Y, oper.Id);
+    }
+    ChatRoomData.MapData.Objects = objStr;
+    ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: ChatRoomGetSettings(ChatRoomData), Action: "Update" });
+}
+
+async function SetMapTiles(opers) {
+    let tileStr = ChatRoomData.MapData.Tiles;
+    for (var oper of opers) {
+        tileStr = SetCharIn40x40String(tileStr, oper.X, oper.Y, oper.Id);
+    }
+    ChatRoomData.MapData.Tiles = tileStr;
+    ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: ChatRoomGetSettings(ChatRoomData), Action: "Update" });
+}
+
+function GetCharIn40x40String(string, x, y) {
+    return string.charCodeAt(y * ChatRoomMapViewWidth + x);
+}
+function SetCharIn40x40String(string, x, y, char) {
+    const strAry = string.split('');
+    strAry[y * ChatRoomMapViewWidth + x] = String.fromCharCode(char);
+    string = strAry.join('');
+    return string;
 }
 
 
