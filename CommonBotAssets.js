@@ -168,13 +168,15 @@ async function Teleport(sender, x, y) {
         if (sender.MemberNumber === Player.MemberNumber) {
             return true;
         }
-
         var c = ChatRoomGetCharacter(sender.MemberNumber);
         ChatRoomMapViewTeleport(c, { X: x, Y: y });
         console.log("tp " + c.Name + " to " + x + "," + y);
     }
     catch (e) {
         console.log(e);
+        if (sender.MemberNumber == undefined) {
+            throw (e);
+        }
     }
     return true;
 

@@ -99,7 +99,7 @@ async function PlayerEnter(sender) {
 		});
 		playable = false;
 	}
-	if (sender.ItemPermission > 2) {
+	if (sender.AllowedInteractions > 2) {
 		ServerSend("ChatRoomChat", {
 			Content: "*[需要调低 玩家权限 才能游玩.]",
 			Type: "Emote"
@@ -778,7 +778,7 @@ function EntranceRoomSign(sender) {
 		});
 		playable = false;
 	}
-	if (sender.ItemPermission > 2) {
+	if (sender.AllowedInteractions > 2) {
 		ServerSend("ChatRoomChat", {
 			Content: "*[需要调低 玩家权限 才能游玩.]",
 			Type: "Emote"

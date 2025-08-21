@@ -1218,7 +1218,7 @@ function storyStart(sender) {
 			ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
 		}, 10 * 1000, sender)
 		//imprisonedList.push(sender.MemberNumber)
-	} else if (sender.ItemPermission > 2) {
+	} else if (sender.AllowedInteractions > 2) {
 		ServerSend("ChatRoomChat", {
 			Content: "*[Need to lower permissions to play Kick out of the room in twenty seconds If you want to play, please modify your permissions before coming back. Set the location in the character file, select the third option, and then select the first option.]",
 			Type: "Emote"

@@ -2059,7 +2059,7 @@ async function PlayerStart(sender) {
         return;
     }
     if (IsInArea(sender.MapData.Pos, startTile)) {
-        if (sender.ItemPermission > 2) {
+        if (sender.AllowedInteractions > 2) {
             SendText("[需要调低 玩家权限 才能游玩]", sender);
             return;
         }
@@ -2234,6 +2234,7 @@ function FindNullAndRemove(player) {
         var i = playingPlayer.findIndex((a) => a.MemberNumber == player.MemberNumber)
         if (i > -1) {
             playingPlayer.splice(i, 1);
+            console.log("removed:" + player.MemberNumber)
         }
     }
 }

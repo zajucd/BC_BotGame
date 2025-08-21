@@ -200,7 +200,7 @@ function IsPlayerPlayable(sender) {
 	if (isExposed(sender) || sender.IsRestrained() || sender.IsChaste() || sender.IsShackled() || sender.IsBlind() || !sender.CanTalk() || sender.IsEnclose() || sender.IsMounted() || sender.IsEgged() || sender.IsDeaf()) {
 		return 0;
 	}
-	else if (sender.ItemPermission > 2) {
+	else if (sender.AllowedInteractions > 2) {
 		return 2;
 	}
 	else if (InventoryBlockedOrLimitedCustomized(sender, AssetGet("Female3DCG","ItemMisc","CombinationPadlock")))  {

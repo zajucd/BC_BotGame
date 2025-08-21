@@ -701,7 +701,7 @@ async function PlayerEnter(sender) {
     ServerSend("ChatRoomCharacterMapDataUpdate", { Pos:{ X: 20, Y: 36 }});
     ServerSend("ChatRoomChat", { Content: "*该bot现已发布至 https://github.com/zajucd/BC_BotGame ", Type: "Emote", Target: sender.MemberNumber });
     ServerSend("ChatRoomChat", { Content: "*正在测试R118版本更新的传送功能，可能会出现各种情况.", Type: "Emote", Target: sender.MemberNumber });
-    if (sender.ItemPermission > 2) {
+    if (sender.AllowedInteractions > 2) {
         ServerSend("ChatRoomChat", {
             Content: "*[需要调低 玩家权限 才能游玩.]",
             Type: "Emote",
@@ -897,7 +897,7 @@ async function PlayerReady(sender) {
     ServerSend("ChatRoomCharacterMapDataUpdate", { Pos:{ X: 20, Y: 36 }});
     if (playingPlayer.length != 0) return;
     if (waitingPlayer.indexOf(sender) >= 0) return;
-    if (sender.ItemPermission > 2) {
+    if (sender.AllowedInteractions > 2) {
         ServerSend("ChatRoomChat", {
             Content: "*[需要调低 玩家权限 才能游玩.]",
             Type: "Emote",

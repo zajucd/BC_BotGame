@@ -1221,7 +1221,7 @@ function storyStart(sender) {
 			ChatRoomAdminChatAction("Kick", sender.MemberNumber.toString())
 		}, 10 * 1000, sender)
 		//imprisonedList.push(sender.MemberNumber)
-	} else if (sender.ItemPermission > 2) {
+	} else if (sender.AllowedInteractions > 2) {
 		ServerSend("ChatRoomChat", {
 			Content: "*[需要调低 玩家权限 才能游玩. 二十秒后踢出房间. 想玩的话修改权限后再来哦.设置位置在角色档案内选择第三项后选择第一项.]",
 			Type: "Emote"
