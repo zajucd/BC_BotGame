@@ -2132,7 +2132,7 @@ async function ShowEndText(player, param) {
         }
             break;
         case "manic": {
-            await Se,ndText("虽然看不到其他修女的脸，但你确定她们的表情大多是惊恐，惊恐于你的狂笑.", player);
+            await SendText("虽然看不到其他修女的脸，但你确定她们的表情大多是惊恐，惊恐于你的狂笑.", player);
             await SendText("因为双手双腿都无法像一个人类一样活动，她们以笨拙的动作包围了你，你也以笨拙的动作反击.", player);
             await SendText("最后你被关在了大厅后的隔间，但你的狂笑不会停下，她们也永远无法摆脱着墙后瘆人的笑声.", player);
             await SendText("结局：绝望之路(疯人身份结局).", player);
