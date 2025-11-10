@@ -574,7 +574,7 @@ function LibraryHiddenCageTileEnter(player, params, areaInfo) {
     if (player.punishing == false) {
         SendText("你站了进去，笼子自动关上了，再也没有离开的办法.", player);
         player.punishing = true;
-        WearList(player, EndEquips);
+        WearEquips(player, EndEquips);
         globalInfo.cagePlayers.push(player);
         if (globalInfo.cagePlayers.length >= 2) {
             for (var p of globalInfo.cagePlayers) {
@@ -1018,58 +1018,6 @@ var allAreaArray = [].concat(baseAreaArray, LibraryAreaArray, BedRoomAreaArray, 
 //#region 主体事件处理
 ChatRoomMessageAdditionDict["RubberChurch"] = function (SenderCharacter, msg, data) { ChatRoomMessageRubberChurch(SenderCharacter, msg, data) }
 ChatRoomSyncMapDataeAdditionDict["RubberChurch"] = function (SenderCharacter) { PlayerMoved(SenderCharacter) }
-async function WearList(target, List, refresh = true) {
-    var sender = ChatRoomGetCharacter(target.MemberNumber);
-    if (sender == undefined) return;
-    var pushList = [];
-    for (let i = 0; i < List.length; i++) {
-        let res = Object.assign({}, List[i]);
-        const ID = CharacterAppearanceGetCurrentValue(sender, res.AssetGroup, "ID");
-        if (ID != "None") {
-            sender.Appearance.splice(ID, 1);
-        }
-        let colors = [];
-        if (res.Color != undefined) {
-           colors = res.Color.replace(/\s*/g, "").split(",");
-        }
-
-        const A = AssetGet(sender.AssetFamily, res.AssetGroup, res.Item)
-        if (A != null) {
-            let item = {
-                Asset: A,
-                Color: colors,
-                Difficulty: 1000,
-            }
-            ExtendedItemInit(sender, item, false, false);
-            pushList.push(item);
-        }
-        
-    }
-    sender.Appearance.push(...pushList);
-    for (let i of List) {
-        let res = Object.assign({}, i)
-        InventoryCraft(sender, sender, res.AssetGroup, res, false, true, false);
-        await sleep(100);
-    }
-    if (refresh) {
-        CharacterLoadEffect(sender);
-        ChatRoomCharacterUpdate(sender);
-    }
-
-}
-
-async function RemoveList(target, List, refresh = true) {
-    var sender = ChatRoomGetCharacter(target.MemberNumber);
-    if (sender == undefined) return;
-    for (let i = 0; i < List.length; i++) {
-        let res = Object.assign({}, List[i]);
-        InventoryRemove(sender, res.AssetGroup);
-    }
-    if (refresh) {
-        CharacterLoadEffect(sender);
-        ChatRoomCharacterUpdate(sender);
-    }
-}
 
 async function ChatRoomMessageRubberChurch(SenderCharacter, msg, data) {
     if (SenderCharacter.MemberNumber == Player.MemberNumber) {
@@ -1245,12 +1193,10 @@ async function InitmapEvents() {
     }
 }
 
-async function ChatSleep() {
-    await sleep(2000);
-}
+
 
 async function InitBot() {
-    WearList(Player, baseEquips.concat(leftEquips).concat(lv3Hat).concat(EndEquips))
+    WearEquips(Player, baseEquips.concat(leftEquips).concat(lv3Hat).concat(EndEquips))
     ServerSend("ChatRoomCharacterMapDataUpdate", { Pos: { X: 18, Y: 35 } });
     Player.MapData.Pos = { X: 18, Y: 35 };
 
@@ -1396,7 +1342,7 @@ class PlayerInfo{
     get Pos() {
         var result = ChatRoomGetCharacter(this.MemberNumber);
         if (result != undefined) {
-            return ChatRoomGetCharacter(this.MemberNumber);
+            return ChatRoomGetCharacter(this.MemberNumber).MapData.Pos;
         }
         return { X: 0, Y: 0 };
     }
@@ -1487,7 +1433,7 @@ class PlayerInfo{
 
     async Sleep() {
         this.sleeping = true;
-        await WearList(this, SleepEquips);
+        await WearEquips(this, SleepEquips);
         SendText("诞生时的茧再一次覆盖了你的身体，紧勒般的包裹感让你的意识逐渐模糊，但是却无法入眠，于是你在半梦半醒的恍惚中缓缓的消解一天的疲劳", this);
         var lvUpReq = (this.level == 3 && this.role == "journalist") ? 5 : 3;
         if (this.exp >= lvUpReq) {
@@ -1501,7 +1447,7 @@ class PlayerInfo{
             if (this.level == 2) {
                 await this.SetRamdomRole();
             }
-            WearList(this, hatList[this.level - 1]);
+            WearEquips(this, hatList[this.level - 1]);
             
         }
         if (this.role == "believer" && this.daySpend >= 10) {
@@ -1526,7 +1472,7 @@ class PlayerInfo{
         CharacterRefresh(char);
         ChatRoomCharacterUpdate(char);
         SendText("茧又一次随着你的疲惫褪去，又是新的一天", this);
-        RemoveList(this, SleepEquips);
+        RemoveEquips(this, SleepEquips);
 
     }
 
@@ -1773,7 +1719,7 @@ class PlayerInfo{
     async ResetEuqips() {
         await RemoveClothes(ChatRoomGetCharacter(this.MemberNumber));
         await RemoveRestrains(ChatRoomGetCharacter(this.MemberNumber));
-        await WearList(this, baseEquips.concat(this.isLeft ? leftEquips : rightEquips).concat(hatList[this.level - 1]))
+        await WearEquips(this, baseEquips.concat(this.isLeft ? leftEquips : rightEquips).concat(hatList[this.level - 1]))
     }
 
     async StartGame() {
@@ -2035,17 +1981,7 @@ function FindPlayer(sender) {
     return playingPlayer.find((a) => a.MemberNumber == sender || a.MemberNumber == sender.MemberNumber);
 }
 
-async function SendText(text, target, isWait = true) {
-    if (target.MemberNumber == Player.MemberNumber) {
-        ServerSend("ChatRoomChat", { Content: text, Type: "Chat" });
-    }
-    else {
-        ServerSend("ChatRoomChat", { Content: "(" + text + ")", Type: "Whisper", Target: target.MemberNumber });
-    }
-    if (isWait) {
-        await ChatSleep();
-    }
-}
+
 
 async function ShowWelcomeMessage(sender) {
     SendText("在回家路上，你被一个奇怪的人塞了一张传单，上面写着双姊妹修会这个宗教的介绍，以及一些脱离俗世迎来新生的画大饼", sender);
@@ -2066,15 +2002,15 @@ async function PlayerStart(sender) {
         RemoveClothes(sender);
         RemoveRestrains(sender);
         var player = new PlayerInfo(sender);
-        await WearList(player, SleepEquips);
+        await WearEquips(player, SleepEquips);
         await SendText("你意识到你刚刚作了个大死，黑色的黏糊液体迅速将你完全包裹住并硬化，强大的压迫力让你无法挣脱.", sender);
         Teleport(player, 13, 36);
         await SendText("随着一阵失重感和冲击，你似乎掉到了什么地方.", sender);
-        await WearList(player, baseEquips.concat(player.isLeft ? leftEquips : rightEquips).concat(lv1Hat));
+        await WearEquips(player, baseEquips.concat(player.isLeft ? leftEquips : rightEquips).concat(lv1Hat));
         await SendText("就在快要因为这个包裹里缺乏空气快要窒息时，你感到似乎有个面罩贴在了你的脸上，虽然这让你恢复了呼吸能力，但是吸入的气体却让你整个身体都感到燥热.", sender);
         await SendText("虽然是有东西勒在了你的胸前和下体，随着逐渐的勒紧你感到越来越痛苦，但刹那间，痛苦消失了，随之消失的是你对身体的敏感带的感知.", sender);
         await SendText("又有什么东西开始拉动你的手臂到背后折叠起来成了后手观音的姿势，让你的手臂再也无法活动分毫，双腿也被固定在了一块无法分开.", sender);
-        await RemoveList(player, SleepEquips); 
+        await RemoveEquips(player, SleepEquips); 
         await SendText("包裹逐渐收紧，紧贴在你的皮肤上，同时多余的部分聚集在你的脚上，形成了一个圆球.", sender);
         await SendText("你试图挣扎，但就连摔倒都做不到，脚上沉重的圆球起到了不倒翁的配重的作用。你现在除了缓慢的小跳步以外什么都做不到.", sender);
         var timeDiff = new Date().getTime() - globalInfo.lastTime.getTime();
@@ -2124,7 +2060,7 @@ async function ToEnd(player, param) {
     if (list.length >= 4) {
         var out = list.pop();
         Teleport(out, 19, 37);
-        WearList(out, OutEquips);
+        WearEquips(out, OutEquips);
         SendText("从结果上来说，教会倒塌了，物理意义上的。你重新获得了自由，但自由并不包括你的身体，你只能钻进一个斗篷，祈求路人别看到你这奇怪的样子", out)
     }
     var target = { X: 19, Y: 37 };
@@ -2141,7 +2077,7 @@ async function ToEnd(player, param) {
         }
     }
     list.splice(0, 0, player);
-    WearList(player, EndEquips);
+    WearEquips(player, EndEquips);
     Teleport(player, target.X, target.Y);
     ShowEndText(player, param);
     var char = ChatRoomGetCharacter(player.MemberNumber);

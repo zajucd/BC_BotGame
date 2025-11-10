@@ -10,6 +10,10 @@ if (typeof ChatRoomSyncMapDataAdditionDict === 'undefined') {
     ChatRoomSyncMapDataeAdditionDict = {}
 }
 
+if (typeof CharacterPverPosDict === 'undefined') {
+    CharacterPverPosDict = {}
+}
+
 function ChatRoomMessageAdd(data) {
 
     // Make sure the message is valid (needs a Sender and Content)
@@ -30,8 +34,19 @@ function ChatRoomMessageAdd(data) {
             var msg = data.Content;
             while (msg.indexOf("<") > -1) msg = msg.replace("<", "&lt;");
             while (msg.indexOf(">") > -1) msg = msg.replace(">", "&gt;");
-
-
+            if (SenderCharacter.MemberNumber == Player.MemberNumber) {
+                //处理进入信息
+                if ((data.Type == "Action") && (msg.startsWith("ServerEnter"))) {
+                    CharacterPverPosDict[SenderCharacter.MemberNumber] = { X: -1, Y: -1 }
+                }
+                //处理离开信息
+                else if ((msg.startsWith("ServerLeave")) || (msg.startsWith("ServerDisconnect")) || (msg.startsWith("ServerBan")) || (msg.startsWith("ServerKick"))) {
+                    delete CharacterPverPosDict[SenderCharacter.MemberNumber];
+                }
+                if (SenderCharacter.MapData ?? false) {
+                    SenderCharacter.MapData.pverPos = CharacterPverPosDict[SenderCharacter.MemberNumber];
+                }
+            }
             // This part is to append code react to certain message
             for (var key in ChatRoomMessageAdditionDict) {
                 ChatRoomMessageAdditionDict[key](SenderCharacter, msg, data)
@@ -46,9 +61,14 @@ function ChatRoomMapViewSyncMapAdd(data) {
     const char = ChatRoomCharacter.find(c => c.MemberNumber === data.MemberNumber);
     if (!char || char.IsPlayer()) return;
     console.log()
+    if ((CharacterPverPosDict[char.MemberNumber] ?? false) == false) {
+        CharacterPverPosDict[char.MemberNumber] = { X: -1, Y: -1 };
+    }
+    char.MapData.pverPos = CharacterPverPosDict[char.MemberNumber];
     for (var key in ChatRoomSyncMapDataeAdditionDict) {
         ChatRoomSyncMapDataeAdditionDict[key](char)
     }
+    CharacterPverPosDict[char.MemberNumber] = char.MapData.Pos;
 }
 
 function RemoveClothes(sender, refresh = true, removeUnderwear = true, removeCosplay = false) {
@@ -95,34 +115,68 @@ function RemoveClothes(sender, refresh = true, removeUnderwear = true, removeCos
 }
 //移除所有拘束
 function RemoveRestrains(sender, refresh = true) {
+    RemoveRestrainsWithAssetGroup(sender, AssetGroup, refresh);
+    //InventoryRemove(sender, "ItemFeet")
+    //InventoryRemove(sender, "ItemLegs")
+    //InventoryRemove(sender, "ItemVulva")
+    //InventoryRemove(sender, "ItemVulvaPiercings")
+    //InventoryRemove(sender, "ItemButt")
+    //InventoryRemove(sender, "ItemPelvis")
+    //InventoryRemove(sender, "ItemTorso")
+    //InventoryRemove(sender, "ItemTorso2")
+    //InventoryRemove(sender, "ItemNipples")
+    //InventoryRemove(sender, "ItemNipplesPiercings")
+    //InventoryRemove(sender, "ItemBreast")
+    //InventoryRemove(sender, "ItemArms")
+    //InventoryRemove(sender, "ItemHands")
+    //InventoryRemove(sender, "ItemNeck")
+    //InventoryRemove(sender, "ItemNeckAccessories")
+    //InventoryRemove(sender, "ItemNeckRestraints")
+    //InventoryRemove(sender, "ItemMouth")
+    //InventoryRemove(sender, "ItemMouth2")
+    //InventoryRemove(sender, "ItemMouth3")
+    //InventoryRemove(sender, "ItemHead")
+    //InventoryRemove(sender, "ItemNose")
+    //InventoryRemove(sender, "ItemHood")
+    //InventoryRemove(sender, "ItemEars")
+    //InventoryRemove(sender, "ItemDevices")
+    //InventoryRemove(sender, "ItemBoots")
+    //InventoryRemove(sender, "ItemAddon")
+}
 
-    InventoryRemove(sender, "ItemFeet")
-    InventoryRemove(sender, "ItemLegs")
-    InventoryRemove(sender, "ItemVulva")
-    InventoryRemove(sender, "ItemVulvaPiercings")
-    InventoryRemove(sender, "ItemButt")
-    InventoryRemove(sender, "ItemPelvis")
-    InventoryRemove(sender, "ItemTorso")
-    InventoryRemove(sender, "ItemTorso2")
-    InventoryRemove(sender, "ItemNipples")
-    InventoryRemove(sender, "ItemNipplesPiercings")
-    InventoryRemove(sender, "ItemBreast")
-    InventoryRemove(sender, "ItemArms")
-    InventoryRemove(sender, "ItemHands")
-    InventoryRemove(sender, "ItemNeck")
-    InventoryRemove(sender, "ItemMouth")
-    InventoryRemove(sender, "ItemMouth2")
-    InventoryRemove(sender, "ItemMouth3")
-    InventoryRemove(sender, "ItemHead")
-    InventoryRemove(sender, "ItemNose")
-    InventoryRemove(sender, "ItemHood")
-    InventoryRemove(sender, "ItemEars")
-    InventoryRemove(sender, "ItemDevices")
-    InventoryRemove(sender, "ItemBoots")
-    InventoryRemove(sender, "ItemAddon")
+function RemoveRestrainsWithAssetGroup(sender, group, refresh = true) {
+    if (sender == null) return;
+    for (var ag of group) {
+        if ((ag.Name ?? false) == false) {
+            if (ag.startsWith("Item")) {
+                InventoryRemove(sender, ag)
+            }
+        }
+        else {
+            if (ag.Name.startsWith("Item")) {
+                InventoryRemove(sender, ag.Name)
+            }
+        }
+    }
     if (refresh == true) {
         CharacterLoadEffect(sender);
         ChatRoomCharacterUpdate(sender);
+    }
+}
+function GetAllInventory(sender) {
+    for (let ag of AssetGroup) {
+        if (ag.Name.startsWith("Item")) {
+            let geted = InventoryGet(sender, ag.Name);
+            if (geted ?? false) {
+                console.log(geted);
+                if ((geted.Property ?? false) && (geted.Property.TypeRecord ?? false)) {
+                    console.log(geted.Property.TypeRecord)
+                }
+                console.log(geted.Asset.Name);
+                console.log(ag.Name);
+            }
+            
+        }
     }
 }
 
@@ -131,7 +185,7 @@ function sleep(time) {
 }
 
 function GetName(sender) {
-    return str += sender.NickName == "" ? sender.NickName : sender.Name;
+    return sender.Nickname == "" ? sender.Name : sender.Nickname;
 }
 function HoldLeash(sender) {
     const Dictionary = new DictionaryBuilder()
@@ -211,6 +265,119 @@ function SetCharIn40x40String(string, x, y, char) {
     string = strAry.join('');
     return string;
 }
+
+async function WearEquips(target, EquipList, refresh = true, craft = true, difficulty = 1000) {
+    var sender = ChatRoomGetCharacter(target.MemberNumber);
+    if (sender == undefined) return;
+    var pushList = [];
+    for (let i = 0; i < EquipList.length; i++) {
+        let res = Object.assign({}, EquipList[i]);
+        const ID = CharacterAppearanceGetCurrentValue(sender, res.AssetGroup, "ID");
+        if (ID != "None") {
+            sender.Appearance.splice(ID, 1);
+        }
+        let colors = [];
+        if (res.Color != undefined) {
+            //color是数组
+            if (Array.isArray(res.Color)) {
+                colors = Object.assign([], res.Color);
+            }
+            //color是字符串
+            else {
+                colors = res.Color.replace(/\s*/g, "").split(",");
+            }
+        }
+        else {
+            colors = CharacterAppearanceGetCurrentValue(sender, res.AssetGroup, "Color");
+        }
+
+        const A = AssetGet(sender.AssetFamily, res.AssetGroup, res.Item)
+        if (A != null) {
+            let item = {
+                Asset: A,
+                Color: colors,
+                Difficulty: difficulty,
+            }
+            ExtendedItemInit(sender, item, false, false);
+            pushList.push(item);
+        }
+
+    }
+    sender.Appearance.push(...pushList);
+    if (craft) {
+        for (let i of EquipList) {
+            let res = Object.assign({}, i)
+            if (Array.isArray(res.Color)) {
+                var str = "";
+                for (let c of res.Color) {
+                    str += c;
+                    str += ",";
+                }
+                res.Color = str;
+            }
+            InventoryCraft(sender, sender, res.AssetGroup, res, false, true, false);
+            await sleep(100);
+        }
+    }
+
+    if (refresh) {
+        CharacterLoadEffect(sender);
+        ChatRoomCharacterUpdate(sender);
+    }
+
+}
+
+async function RemoveEquips(target, EquipList, refresh = true, removeByItem = false) {
+    var sender = ChatRoomGetCharacter(target.MemberNumber);
+    if (sender == undefined) return;
+    let removed = false;
+    for (let i = 0; i < EquipList.length; i++) {
+        let res = Object.assign({}, EquipList[i]);
+        if (removeByItem) {
+            let inv = InventoryGet(sender, res.AssetGroup);
+            if (inv != null) {
+                if (inv.Asset.Name == res.Item) {
+                    removed = true;
+                    InventoryRemove(sender, res.AssetGroup);
+                }
+            }
+        }
+        else {
+            removed = true;
+            InventoryRemove(sender, res.AssetGroup);
+        }
+        
+    }
+    if (refresh && removed) {
+        CharacterLoadEffect(sender);
+        ChatRoomCharacterUpdate(sender);
+    }
+}
+
+async function SendText(text, target, isWait = true) {
+    if (target.MemberNumber == Player.MemberNumber) {
+        ServerSend("ChatRoomChat", { Content: text, Type: "Chat" });
+    }
+    else {
+        ServerSend("ChatRoomChat", { Content: "(" + text + ")", Type: "Whisper", Target: target.MemberNumber });
+    }
+    if (isWait) {
+        await ChatSleep();
+    }
+}
+
+async function SendTextToAll(text) {
+    for (let char of ChatRoomCharacter) {
+        if (char.MemberNumber != Player.MemberNumber) {
+            SendText(text, char, false);
+            await sleep(100);
+        }
+    }
+}
+async function ChatSleep() {
+    await sleep(2000);
+}
+
 
 
 // -----------------------------------------------------------------------------------------------

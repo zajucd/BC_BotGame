@@ -783,26 +783,26 @@ async function WearFullRestrains(sender) {
     catch {
         ponyItemNeckAccessories.ItemProperty.Text = "Slave";
     }
-    await WearList(sender, ponyMainList, false);
+    await WearEquips(sender, ponyMainList, false);
     switch (winLv) {
         case 1: {
             InventoryRemove(sender, "ItemBoots");
-            await WearList(sender, ponyWinList1, false);
+            await WearEquips(sender, ponyWinList1, false);
         }
             break;
         case 2: {
             InventoryRemove(sender, "ItemArms");
-            await WearList(sender, ponyWinList2, false);
+            await WearEquips(sender, ponyWinList2, false);
         }
             break;
     }
     switch (failLv) {
         case 1: {
-            await WearList(sender, ponyFailList1, false);
+            await WearEquips(sender, ponyFailList1, false);
         }
             break;
         case 2: {
-            await WearList(sender, ponyFailList2, false);
+            await WearEquips(sender, ponyFailList2, false);
         }
             break;
     }
@@ -812,19 +812,19 @@ async function WearFullRestrains(sender) {
     ChatRoomCharacterUpdate(sender);
 }
 
-async function WearList(sender, List, refresh = true) {
-    for (let i = 0; i < List.length; i++) {
-        let res = List[i];
-        InventoryWear(sender, res.Item, res.AssetGroup, null, res.Property === "Decoy" ? -50 : 1000, 7092, Object.assign({}, res), false);
-        InventoryCraft(sender, sender, res.AssetGroup, Object.assign({}, res), false);
-        await sleep(100);
-    }
-    if (refresh) {
-        CharacterLoadEffect(sender);
-        ChatRoomCharacterUpdate(sender);
-    }
+//async function WearEquips(sender, List, refresh = true) {
+//    for (let i = 0; i < List.length; i++) {
+//        let res = List[i];
+//        InventoryWear(sender, res.Item, res.AssetGroup, null, res.Property === "Decoy" ? -50 : 1000, 7092, Object.assign({}, res), false);
+//        InventoryCraft(sender, sender, res.AssetGroup, Object.assign({}, res), false);
+//        await sleep(100);
+//    }
+//    if (refresh) {
+//        CharacterLoadEffect(sender);
+//        ChatRoomCharacterUpdate(sender);
+//    }
     
-}
+//}
 //移除所有衣服
 
 
@@ -1316,7 +1316,7 @@ async function WonPlayer(sender) {
     }
     await sleep(1000);
     
-    await WearList(sender, ponyWinLists[winLv]);
+    await WearEquips(sender, ponyWinLists[winLv]);
 }
 async function FailedPlayer(sender) {
     InventoryRemove(sender, "ItemDevices");
@@ -1339,7 +1339,7 @@ async function FailedPlayer(sender) {
     else {
         failLv = 0
     }
-    await WearList(sender, ponyFailLists[failLv]);
+    await WearEquips(sender, ponyFailLists[failLv]);
 }
 function FindFreeFailPoint() {
     let result = { X: 20, Y: 38 };
