@@ -163,6 +163,14 @@ function RemoveRestrainsWithAssetGroup(sender, group, refresh = true) {
         ChatRoomCharacterUpdate(sender);
     }
 }
+
+function AllAssetGroupName() {
+    let result = []
+    for (let obj of AssetGroup) {
+        result.push(obj.Name);
+    }
+    return result;
+}
 function GetAllInventory(sender) {
     for (let ag of AssetGroup) {
         if (ag.Name.startsWith("Item")) {
@@ -228,6 +236,7 @@ async function Teleport(sender, x, y) {
     }
     catch (e) {
         console.log(e);
+        console.log(sender);
         if (sender.MemberNumber == undefined) {
             throw (e);
         }

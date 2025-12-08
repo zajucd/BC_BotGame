@@ -2010,12 +2010,12 @@ async function PlayerStart(sender) {
         await SendText("就在快要因为这个包裹里缺乏空气快要窒息时，你感到似乎有个面罩贴在了你的脸上，虽然这让你恢复了呼吸能力，但是吸入的气体却让你整个身体都感到燥热.", sender);
         await SendText("虽然是有东西勒在了你的胸前和下体，随着逐渐的勒紧你感到越来越痛苦，但刹那间，痛苦消失了，随之消失的是你对身体的敏感带的感知.", sender);
         await SendText("又有什么东西开始拉动你的手臂到背后折叠起来成了后手观音的姿势，让你的手臂再也无法活动分毫，双腿也被固定在了一块无法分开.", sender);
-        await RemoveEquips(player, SleepEquips); 
+        await RemoveEquips(player, SleepEquips);
         await SendText("包裹逐渐收紧，紧贴在你的皮肤上，同时多余的部分聚集在你的脚上，形成了一个圆球.", sender);
         await SendText("你试图挣扎，但就连摔倒都做不到，脚上沉重的圆球起到了不倒翁的配重的作用。你现在除了缓慢的小跳步以外什么都做不到.", sender);
         var timeDiff = new Date().getTime() - globalInfo.lastTime.getTime();
         var phaseTime = 0;
-        switch (globalInfo.phase) { 
+        switch (globalInfo.phase) {
             //黄昏阶段可加入
             case 0: {
                 player.StartGame();
@@ -2043,9 +2043,11 @@ async function PlayerStart(sender) {
         var time = Math.floor((phaseTime - timeDiff) / 1000);
         await SendText("[请稍等至当前阶段结束即可加入游戏,预计等待" + time + "秒].", sender);
         waitingPlayer.push(player);
-        
-    }
 
+    }
+    else {
+        SendText("需要在房间内黑色地板上使用该指令", sender);
+    }
 }
 async function ToEnd(player, param) {
     

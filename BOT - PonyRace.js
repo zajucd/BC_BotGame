@@ -19,7 +19,7 @@ let checkCount;
 const lineMap = {
     "Type": "Always",
     "Tiles": "ÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒАААААААААААААААААААААААААААААААААААÒÒÒÒÒАð×××××АߤߤАë××××Аð×××××××АА×××ðАë×АÒÒÒÒÒА××××××А××××А×ߤ×××××××АА××××ААААА×АÒÒÒÒÒА××××××××А××ߤ×А××××××××××АА×××××А×АÒÒÒÒÒА×××ААААААААААААААААААААААААААА×××АÒÒÒÒÒА×××АÒÒÒÒÒÒÒÒÒÒÒÒА×××АÒÒÒÒÒÒÒÒА×××АÒÒÒÒÒА×××ААААААААААÒÒÒААА×АÒАААААААА×××АÒÒÒÒÒА××××××××××АëАÒÒÒА×××АÒА××××××××АААÒÒÒÒÒА××××××ААААА×АÒÒÒА×АААÒА×ߤߤ×××××АААÒÒÒÒÒА××××××××××××АÒÒÒА×××АÒА×ߤߤ×××××ААААААÒÒААА×АААААА×××АÒÒÒААА×АÒА×××АААА×××××ðАÒÒА×××А××××А×××АÒÒÒА×××АÒА×ߤߤАÒÒА××××××АÒÒА×××А×АА×А×××АÒÒÒА×АААÒА×ߤ×АÒÒА××××××АÒÒА×××А×АА×А×××АÒÒÒА×××АÒАߤߤ×АÒÒААААААААÒÒА×××А××А×А×××АÒÒÒААА×АÒА×××АÒÒÒÒÒÒÒÒÒÒÒÒА×××АА×А×А×××АААÒА×××АÒА×××АААААААААÒÒÒÒАААААА×А×А××××ðАÒАААААÒА×ߤߤߤ×××ߤ×××АÒÒÒÒА××××××ААА×××××АÒÒÒÒÒÒÒА×××ߤߤߤߤ××ߤ×АÒÒÒÒА××××××А×А×××××АÒÒÒÒÒÒÒА×××××××××ߤ×АÒÒÒÒА××××××АðААА×××ААААААААААААААААА×××АÒÒÒÒАААААААААААА×××АА×××××××ë××××××АА×ААÒÒÒÒА×××А××××××××××АА×АААААААААААА×АА×ААÒÒÒÒА××××××××××××××АА××××××АÒА×××××АА×ААÒÒÒÒА×××А××××××××××ААААААА×АÒА×АААААА×ААÒÒÒÒА×ߤߤАААААААААААААААААА×ААА×ААÒÒАА×ААÒÒÒÒА×ߤߤАААА×××××××ААААА××××××××АÒÒАА×ААÒÒÒÒА××××××××××××××ААААА××××××××АÒÒАА×ААÒÒÒÒА×ߤߤАААА×××××××ААААА××××××××АÒÒАА×ААÒÒÒÒА×ߤߤАААА×××АААААААААААААА×××АÒÒА×××АÒÒÒÒА××××××××××АААААААААААААА×××АÒÒА×××АÒÒÒÒА×ߤߤАААА×××АААААААААААААА×××АÒÒА×××АÒÒÒÒА×ߤߤАААА×××ААААААААААА×××АÒÒА×××АÒÒÒÒА××××××××××ААААААæАæАæААА×××АААА×××АÒÒÒÒА×ߤߤАААА×××АААААæææææææАА××××××××А×АÒÒÒÒА×ߤߤАААА×××АААААæææææææАА×××АААААА×АÒÒÒÒА××××××××××АААААæææææææАА×××××××××ëАÒÒÒÒА××××××××××АААААæææææææАААААААААААААÒÒÒÒА××××××××××АААААæææææææАÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒААААААААААААААААæææææææАÒÒÒÒÒÒÒÒÒÒÒÒÒÒÒ",
-    "Objects": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddʞdddddddddddddddddddddddddddddddddddddddddddddȉddddddddddddddddʔdddȉddddddddddddʞdddddddddddddddddddddʔddddddddddddddddྴdddddddddddddddddddddʔddddddddddddddddddddddddddddddddddddddddʔdddddddddddddddddʔddddddddddddddddddddddʔddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddʔʞʨdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddʔddddddddddddʔddddddddddddddddddddddddddddddddddddddddʔdɶdddddddddddddddddddddddddddddddddddʔdddʔdddddddddddddddddddddddddddddddddddddddddddddddddddʔdddddddddddʔdddddddddddddddddddddddddddddddddddddȈdddddddddddddddddddddddྴdddddddddddddddddddddddddddddddddddddddddddddྴdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddʞddddddddddddddddddddddddddddddddddddddddddddddddddddddddddʨddddddddddddddddddddddddddddddddȉdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddФdddddϲdddʔddddddddddddddddddddddʨddddddФdddddϲdddʔdʞdddddddddddddddddddddddddddФdddddϲdddʔddddddddȉdddddddddddddddddddddddddddddddddddddddddddddddddddddʞdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddʔddddddddddddddddddddddddʔdddddddddddddddddddddddиdddddиdddddddddddddddddddddddddddddddddиdddddиdddddddddddddddddddddddddddddddddиdddddиdddddddddddddddddddddddddddddddddиdddddиdddddddddddddddddddddddddddddddddиddnddиdddddddddddddddddddddddddddddddddиddsddиdddddddddddddddd"
+    "Objects": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddʞdddddddddddddddddddddԛdddddddddddddddddddddԜdȉddddddddddddddddʔdddȉddddddddddddʞdddddddddddddddddddddʔddddddddddddddddྴdddddddddddddddddddddʔddddddddddddddddddddddddddddddddddddddddʔdddddddddddddddddʔddddddddddddddddddddddʔdddddddddddddddddddddddddddԚddddddddddddԝdddddddddddddddddddddddʔʞʨddddddddddddԛdddddddddddddddddddddddddddԛddddddddddddddddddddddddddddʔddddddddddddʔddddddddddddddddddddddddddddddddddddddddʔdɶdddddddddddddddddddddddddddddddddddʔdddʔddddddddddddddԛddddddddddddddddddddddddddddddddddddʔdddddddddddʔdddddddddddddddddddddddddddddddddddddȈdddddddddddddddddddddddྴddddddddddddddddddddddddddԜddddddddddddddddddྴdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddʞddddddddddddddddddddddddddddddddddddddddddddddddddddddddddʨddddddddddddddddddddddddddddddddȉddddddddddddddddddddddddddddddddddddԛddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddФdddddϲdddʔddddddddddddddddԛdԝdddʨdԝddddФdddddϲdddʔdʞdddddddddddddddddddddddddddФdddddϲdddʔddddddddȉdddddddddddddddddddddddddddddddddddddddddddddddԛdԝdddʞdddddddddddddddddddddddddddddddddddddddddԚddddddddddddddddԛddddddԚdddddddddddddddddddddddddddddddddddddddddddddddԛdԝdddʔddddddddddddddddddddddddʔdddddddddddddddddddddddиdddddиdddddddddddddddddddddddddddddddddиdddddиddddddddddddddddddddԝddddddddddddиdddddиdddddddddddddddddddddddddddddddddиdddddиdddddddddddddddddddddddddddddddddиddnddиdddddddddddddddddddddddddddddddddиddsddиdddddddddddddddd"
 }
 const wildMap = {
     "Type": "Always",
@@ -604,8 +604,6 @@ BOT game：PonyRace
 8.胜利或失败三次后有惊喜;
 9.比赛有时间限制，超时后未达到终点的玩家视作失败;
 
-高额无偿悬赏不靠牵绳移动其它玩家位置的方法
-以及查看其它玩家设置的方法
 
 `
     // end of description
@@ -621,16 +619,19 @@ async function ChatRoomMessagePonyRace(SenderCharacter, msg, data) {
         return;
     }
     if ((data.Type == "Action") && (msg.startsWith("ServerEnter"))) {
-        setTimeout(PlayerEnter(SenderCharacter), 1000, SenderCharacter);
+        setTimeout(async () => { PlayerEnter(SenderCharacter); }, 1000, SenderCharacter);
     }
     else if ((msg.startsWith("ServerLeave")) || (msg.startsWith("ServerDisconnect")) || (msg.startsWith("ServerBan")) || (msg.startsWith("ServerKick"))) {
 
         let index;
         index = waitingPlayer.indexOf(SenderCharacter);
         if (index >= 0) {
+            for (player of waitingPlayer) {
+                Teleport(player, 20, 38);
+                ServerSend("ChatRoomChat", { Content: "(等待中玩家离开，请重新进入准备区.)", Type: "Whisper", Target: player.MemberNumber });
+            }
             waitingPlayer = [];
             ServerSend("ChatRoomCharacterMapDataUpdate", { Pos:{ X: 20, Y: 36 }});
-            ServerSend("ChatRoomChat", { Content: "*等待中玩家离开，请重新进入准备区.", Type: "Emote" });
             await resetRoom();
         }
 
@@ -700,7 +701,6 @@ async function PlayerEnter(sender) {
     await sleep(1000);
     ServerSend("ChatRoomCharacterMapDataUpdate", { Pos:{ X: 20, Y: 36 }});
     ServerSend("ChatRoomChat", { Content: "*该bot现已发布至 https://github.com/zajucd/BC_BotGame ", Type: "Emote", Target: sender.MemberNumber });
-    ServerSend("ChatRoomChat", { Content: "*正在测试R118版本更新的传送功能，可能会出现各种情况.", Type: "Emote", Target: sender.MemberNumber });
     if (sender.AllowedInteractions > 2) {
         ServerSend("ChatRoomChat", {
             Content: "*[需要调低 玩家权限 才能游玩.]",
