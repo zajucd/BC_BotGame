@@ -508,7 +508,7 @@ async function SacrificeZoneEnter(player, params, zone) {
                 player.freeSpell[zone.Tag] += 1;
             }
             if (offerings.length >= 3) {
-                SendText(ElementStrings[zone.Tag] + "女神赐予你额外奖励:解除" + BodypartStrings[zone.Tag] + "部位束缚", player, false);
+                SendText(ElementStrings[zone.Tag] + "女神赐予你额外奖励:解除" + bodyPartStrings[zone.Tag] + "部位束缚", player, false);
                 RemoveRestrainsWithAssetGroup(ChatRoomGetCharacter(player.MemberNumber), BodypartAssetGroupStrings[zone.Tag]);
             }
             console.log("Sacrifice:" + ChatRoomGetCharacter(player.MemberNumber).Name);
@@ -1207,13 +1207,13 @@ class SpellInfo {
                 //检查部位是否自由
                 for (var bodyPart of BodypartAssetGroupStrings[this.tag1]) {
                     if (InventoryGet(char, bodyPart) != null) {
-                        SendText(BodypartStrings[this.tag1] + "被束缚，无法释放，浪费了魔力", player, false);
+                        SendText(bodyPartStrings[this.tag1] + "被束缚，无法释放，浪费了魔力", player, false);
                         return;
                     }
                 }
                 for (var bodyPart of BodypartAssetGroupStrings[this.tag2]) {
                     if (InventoryGet(char, bodyPart) != null) {
-                        SendText(BodypartStrings[this.tag2] + "被束缚，无法释放，浪费了魔力", player, false);
+                        SendText(bodyPartStrings[this.tag2] + "被束缚，无法释放，浪费了魔力", player, false);
                         return;
                     }
                 }

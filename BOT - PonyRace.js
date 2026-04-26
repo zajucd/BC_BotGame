@@ -1315,6 +1315,7 @@ async function WonPlayer(sender) {
         await Teleport(sender, 20, 38);
     }
     await sleep(1000);
+    InventoryRemove(sender, "ItemDevices");
     
     await WearEquips(sender, ponyWinLists[winLv]);
 }
@@ -1339,6 +1340,7 @@ async function FailedPlayer(sender) {
     else {
         failLv = 0
     }
+    InventoryRemove(sender, "ItemDevices");
     await WearEquips(sender, ponyFailLists[failLv]);
 }
 function FindFreeFailPoint() {

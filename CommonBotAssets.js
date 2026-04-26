@@ -177,11 +177,14 @@ function GetAllInventory(sender) {
             let geted = InventoryGet(sender, ag.Name);
             if (geted ?? false) {
                 console.log(geted);
+                console.log(geted.Asset.Name);
+                console.log(ag.Name);
+                console.log(geted.Color);
                 if ((geted.Property ?? false) && (geted.Property.TypeRecord ?? false)) {
                     console.log(geted.Property.TypeRecord)
                 }
-                console.log(geted.Asset.Name);
-                console.log(ag.Name);
+
+                console.log("！！！！！！");
             }
             
         }
