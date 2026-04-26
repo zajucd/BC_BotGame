@@ -1,16 +1,4 @@
-﻿// ==UserScript==
-// @name DroneTrainingSystem
-// @namespace https://www.bondageprojects.com/
-// @version 0.2
-// @description A script for bondage-club
-// @author zajucd
-// @license MIT
-// @include /^https:\/\/(www\.)?bondageprojects\.elementfx\.com\/R\d+\/(BondageClub|\d+)\/(\d+\.html)?$/
-// @include /^https:\/\/(www\.)?bondage-europe\.com\/R\d+\/(BondageClub|\d+)\/(\d+\.html)?$/
-// @include /^https:\/\/(www\.)?bondageprojects\.com\/R\d+\/$/
-// @grant none
-// @run-at document-end
-// ==/UserScript==
+﻿
 (function () {
     'use strict';
     var secAfterStart = 0;
