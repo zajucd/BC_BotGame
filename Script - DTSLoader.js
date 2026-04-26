@@ -13,8 +13,8 @@
 // ==/UserScript==
 (function () {
     "use strict";
-    const src = `https://raw.githubusercontent.com/zajucd/BC_BotGame/refs/heads/main/Script%20-%20DroneTrainingSystem.js`;
-    if (typeof AdvancedDroneControlSystem_Loaded === "undefined") {
+    const src = `https://cdn.jsdelivr.net/gh/zajucd/BC_BotGame@main/Script%20-%20DroneTrainingSystem.js`;
+    if (typeof DTSbyZajucd === "undefined") {
         const script = document.createElement("script");
         script.src = src;
         script.type = "text/javascript";
