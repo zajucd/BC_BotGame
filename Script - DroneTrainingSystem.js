@@ -1937,10 +1937,11 @@ function ChatRoomSendChatMessageBefore(msg) {
     }
 }
 
-//WIP在训练设施中失效
+//在训练设施中失效
 function ChatRoomPlayerIsAdminBefore() {
     if (CheckPlayerDroneInfoExistAndIsDrone() == false) return;
-    //return false;
+    if (ChatRoomData?.MapData?.Object?.startsWith("ҴӄӃҶұҳҹ") && ChatRoomData?.Name?.startsWith("DroneFacility")) return false;
+    
 
 }
 
@@ -4136,7 +4137,7 @@ async function WaitEnable() {
         window.DTSbyZajucd = true;
         await waitFor(() => typeof window.Player?.MemberNumber === "number");
         Init();
-        const src = `https://testingcf.jsdelivr.net/gh/zajucd/BC_BotGame@main/Script%20-%20DroneTrainingSystem%20-%20FacilityMapExpend.js`;
+        const src = `https://raw.githack.com/zajucd/BC_BotGame/refs/heads/main/Script%20-%20DroneTrainingSystem.js`;
         const script = document.createElement("script");
         script.src = src;
         script.type = "text/javascript";
