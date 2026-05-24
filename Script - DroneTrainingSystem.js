@@ -3194,7 +3194,7 @@ function MovePlayer(Pos, triggerPlayerMoved = false) {
 }
 class DroneInfo {
     constructor() {
-        this.scriptVersion = 0.2;
+        this.scriptVersion = 1.0;
         this.MemberNumber = Player.MemberNumber;
         this.isDrone = false;
         this.isOwner = false;
