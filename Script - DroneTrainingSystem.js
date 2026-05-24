@@ -1940,7 +1940,7 @@ function ChatRoomSendChatMessageBefore(msg) {
 //在训练设施中失效
 function ChatRoomPlayerIsAdminBefore() {
     if (CheckPlayerDroneInfoExistAndIsDrone() == false) return;
-    if (ChatRoomData?.MapData?.Object?.startsWith("ҴӄӃҶұҳҹ") && ChatRoomData?.Name?.startsWith("DroneFacility")) return false;
+    if (ChatRoomData?.MapData?.Objects?.startsWith("ҴӄӃҶұҳҹ") && ChatRoomData?.Name?.startsWith("DroneFacility")) return false;
     
 
 }
@@ -2665,7 +2665,7 @@ function SetMissionToDrone(info) {
 }
 
 async function GoToFacility() {
-    if (ChatRoomData?.MapData?.Object?.startsWith("ҴӄӃҶұҳҹ") && ChatRoomData?.Name?.startsWith("DroneFacility")) {
+    if (ChatRoomData?.MapData?.Objects?.startsWith("ҴӄӃҶұҳҹ") && ChatRoomData?.Name?.startsWith("DroneFacility")) {
         SendMessageToSelf(`位于训练设施中，无需移动`);
         return;
     }
