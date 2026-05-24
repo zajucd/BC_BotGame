@@ -4137,7 +4137,7 @@ async function WaitEnable() {
         window.DTSbyZajucd = true;
         await waitFor(() => typeof window.Player?.MemberNumber === "number");
         Init();
-        const src = `https://raw.githack.com/zajucd/BC_BotGame/refs/heads/main/Script%20-%20DroneTrainingSystem.js`;
+        const src = `https://raw.githack.com/zajucd/BC_BotGame/refs/heads/main/Script%20-%20DroneTrainingSystem%20-%20FacilityMapExpend.js`;
         const script = document.createElement("script");
         script.src = src;
         script.type = "text/javascript";
