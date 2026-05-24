@@ -1243,7 +1243,7 @@ function ExpendInit() {
 
     //InitMap();
 }
-function InitMapFaci() {
+async function InitMapFaci() {
     ChatRoomData.Name = "DroneFacility";
     ChatRoomData.desc = "[Script]无人机训练设施   需要加载插件，地址：https://greasyfork.org/zh-CN/scripts/574984-dronetrainingsystem"
     ChatRoomData.Limit = 20;
