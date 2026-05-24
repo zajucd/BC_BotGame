@@ -4136,7 +4136,7 @@ async function WaitEnable() {
         window.DTSbyZajucd = true;
         await waitFor(() => typeof window.Player?.MemberNumber === "number");
         Init();
-        const src = `https://cdn.jsdelivr.net/gh/zajucd/BC_BotGame@latest/Script%20-%20DroneTrainingSystem%20-%20FacilityMapExpend.js`;
+        const src = `https://testingcf.jsdelivr.net/gh/zajucd/BC_BotGame@main/Script%20-%20DroneTrainingSystem%20-%20FacilityMapExpend.js`;
         const script = document.createElement("script");
         script.src = src;
         script.type = "text/javascript";
