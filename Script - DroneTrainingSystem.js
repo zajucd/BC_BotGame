@@ -4182,12 +4182,12 @@ async function WaitEnable() {
         window.DTSbyZajucd = true;
         await waitFor(() => typeof window.Player?.MemberNumber === "number");
         Init();
-        //const src = `https://raw.githack.com/zajucd/BC_BotGame/refs/heads/main/Script%20-%20DroneTrainingSystem%20-%20FacilityMapExpend.js?v=${Date.now()}`;
-        //const script = document.createElement("script");
-        //script.src = src;
-        //script.type = "text/javascript";
-        //script.crossOrigin = "anonymous";
-        //document.head.appendChild(script);
+        const src = `https://raw.githack.com/zajucd/BC_BotGame/refs/heads/main/Script%20-%20DroneTrainingSystem%20-%20FacilityMapExpend.js?v=${Date.now()}`;
+        const script = document.createElement("script");
+        script.src = src;
+        script.type = "text/javascript";
+        script.crossOrigin = "anonymous";
+        document.head.appendChild(script);
     }
 
 }
