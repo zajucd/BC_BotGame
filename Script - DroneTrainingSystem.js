@@ -1476,7 +1476,6 @@ function Init() {
     InstallHook("ChatRoomPlayerIsAdmin", null, ChatRoomPlayerIsAdminBefore, null)
     InstallHook("ServerShowBeep", null, ServerShowBeepBefore, null)
     InstallHook("ChatRoomFirstTimeHelp", null, ChatRoomFirstTimeHelpBefore, null)
-    InstallHook("SelfOrgasmed", null, null, function MissionInfoProgressAddOrgasm() { MissionInfo.ProgressAdd("Orgasm");  })
 
     CommandCombine([
         {
@@ -1560,7 +1559,7 @@ function ChatRoomMessageRecived(result, data) {
                         }
                     }
                     if (data.Dictionary[0].SourceCharacter == Player.MemberNumber) {
-                        SelfOrgasmed();
+                        SelfOrgasmed(data.Content.startsWith("OrgasmResist"));
                     }
 
                 }
@@ -1703,8 +1702,22 @@ function GroupActivityRecvied(SourceCharacter, TargetCharacter, FocusGroupName, 
 //var RequireActivity = [
 //]
 
-function SelfOrgasmed() {
-    //MissionInfo.ProgressAdd("Orgasm");
+function SelfOrgasmed(Resist) {
+    if (Resist) {
+        MissionInfo.ProgressAdd("OrgasmResist");
+    }
+    else {
+        MissionInfo.ProgressAdd("Orgasm");
+        var pdi = PlayerDroneInfo();
+        if (CheckPlayerDroneInfoExistAndIsDrone() && pdi.modifys["education2"] == true) {
+            var randindex = Math.floor(Math.random() * 6);
+            var targetnum = pdi.bindStatus[bodyPartStrings[randindex]] + 1;
+            if (targetnum >= 2) {
+                targetnum = 2;
+            }
+            DoSetBodyOrBindStatus(0, randindex, targetnum, { Name : "高潮愧疚程序"})
+        }
+    }
 }
 function PlayerEnterRoom() {
     showedEnterHelp = false;
@@ -1965,6 +1978,7 @@ function ChatRoomFirstTimeHelpBefore() {
     if (!ChatRoomHelpSeen) {
         ShowPlayerEnterHelp();
     }
+
 }
 function ShowPlayerEnterHelp() {
     if (showedEnterHelp) return;
@@ -1974,6 +1988,23 @@ function ShowPlayerEnterHelp() {
     SendMessageToSelf(`与无人机训练系统的链接已建立，${styleButton("显示状态", ShowStatus)} ${styleButton("可用功能", ShowActionButtons)}`, "", true)
     SendDTSMsg(null, new MsgInfo("HeartBeatPack", { recive: true, isDrone : PlayerDroneInfo().isDrone }));
     showedEnterHelp = true;
+
+    var pdi = PlayerDroneInfo();
+    var now = new Date();
+    var date = now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
+    if (date > pdi.lastLoginDate) {
+        if (pdi.isDrone) {
+            SendMessageToSelf("每日登录奖励5配额点数");
+            pdi.coin += 5;
+        }
+        else {
+            SendMessageToSelf("每日登录奖励30配额点数");
+            pdi.coin += 30;
+        }
+        pdi.todaysMission = 0;
+        pdi.todaysWork = 0;
+        pdi.lastLoginDate = date;
+    }
 }
 /**
  * 显示电量求助提示
@@ -2055,6 +2086,7 @@ async function DoOrgasm(showText = true) {
     if (showText) {
         SendMessageToSelf(`执行强制高潮`);
     }
+    ActivityTimerProgress(Player, 10);
     ActivityOrgasmPrepare(Player);
 }
 function ReqDoOrgasm(target) {
@@ -2209,8 +2241,13 @@ async function RefreshBinds(canRefresh = false) {
 
 function ClearOldMessage() {
     ClearMessageByFunc((child) => {
-        var diff = new Date().getTime() - parseInt(child.children[1].dataset.timestamp);
-        return diff > 120 * 1000
+        if (child?.children[1]?.dataset?.timestamp) {
+            var diff = new Date().getTime() - parseInt(child.children[1].dataset.timestamp);
+            return diff > 120 * 1000
+        }
+        else {
+            return false;
+        }
     });
 
     //var elements = document.getElementById('TextAreaChatLog').children;
@@ -2316,7 +2353,7 @@ function ClearMessageByFunc(func) {
     for (let i = elements.length - 1; i >= 0; i--) {
         var remove = false;
         var child = elements[i];
-        if (child?.children[1]?.dataset?.timestamp && child?.children[1]?.dataset?.timestamp != false) {
+        if (child?.children[1]?.dataset?.timestamp != false && child?.children[1]?.dataset?.timestamp != false) {
             if (func(child) == true) {
                 remove = true;
             }
@@ -2793,6 +2830,7 @@ function DoBatteryHelp(target, type) {
             pdi.battery -= diff;
             SendDTSMsg(target, new MsgInfo("BatteryCharge", diff));
             SendDTSMsg(target, new MsgInfo("AddArousal", 10));
+            ActivityTimerProgress(Player, 10);
 
             RefreshBatteryTag();
             RefershPlayerEffect();
@@ -3324,6 +3362,13 @@ class MissionInfo {
         mission.target = 5;
         mission.progress = 0;
         mission.desc = `高潮五次`;
+        return mission;
+    }
+    static OrgasmMission() {
+        var mission = new MissionInfo("OrgasmResist", "忍耐高潮任务", 10);
+        mission.target = 3;
+        mission.progress = 0;
+        mission.desc = `忍耐高潮三次`;
         return mission;
     }
     static SpankMission() {
@@ -4137,12 +4182,12 @@ async function WaitEnable() {
         window.DTSbyZajucd = true;
         await waitFor(() => typeof window.Player?.MemberNumber === "number");
         Init();
-        const src = `https://raw.githack.com/zajucd/BC_BotGame/refs/heads/main/Script%20-%20DroneTrainingSystem%20-%20FacilityMapExpend.js?v=${Date.now()}`;
-        const script = document.createElement("script");
-        script.src = src;
-        script.type = "text/javascript";
-        script.crossOrigin = "anonymous";
-        document.head.appendChild(script);
+        //const src = `https://raw.githack.com/zajucd/BC_BotGame/refs/heads/main/Script%20-%20DroneTrainingSystem%20-%20FacilityMapExpend.js?v=${Date.now()}`;
+        //const script = document.createElement("script");
+        //script.src = src;
+        //script.type = "text/javascript";
+        //script.crossOrigin = "anonymous";
+        //document.head.appendChild(script);
     }
 
 }

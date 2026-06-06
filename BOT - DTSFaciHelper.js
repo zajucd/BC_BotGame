@@ -47,8 +47,8 @@ function ChatRoomMessageDTSFaci(sender, msg, data) {
 function PlayerEnter(sender) {
     ServerSend("ChatRoomChat", { Content: "*该bot现已发布至 https://github.com/zajucd/BC_BotGame ", Type: "Emote", Target: sender.MemberNumber });
     ServerSend("ChatRoomChat", { Content: "*游玩该游戏需要需要插件:https://greasyfork.org/zh-CN/scripts/574984-dronetrainingsystem 且不需要本bot，加载插件后即可游玩", Type: "Emote", Target: sender.MemberNumber });
-    ServerSend("ChatRoomChat", { Content: "*若可以进入入口右侧铜锁门，即代表插件加载成功，启动电梯则需要通过插件内功能成为无人机或操作员", Type: "Emote", Target: sender.MemberNumber });
-    ServerSend("ChatRoomChat", { Content: "*查看bot的bio以获取更多信息，如遇到疑似bug的情况可以通过私语bot反馈", Type: "Emote", Target: sender.MemberNumber });
+    ServerSend("ChatRoomChat", { Content: "*若触摸自身或任意玩家的脖子后弹出状态界面，即代表插件加载成功，启动电梯则需要通过插件内功能成为无人机或操作员", Type: "Emote", Target: sender.MemberNumber });
+    ServerSend("ChatRoomChat", { Content: "*查看bot的bio以获取更多信息，如遇到疑似bug的情况可以通过私聊bot反馈", Type: "Emote", Target: sender.MemberNumber });
 
 }
 
@@ -674,20 +674,32 @@ var map = {
     "Tiles": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҲҲҲҴҴҲҲҲҴҴҴҴҴҴҴ¬yyyyyҴҴҴҳҳҳҴҴҴyyyyтyyyҴҴªªªҴҴªªªтyyyyyyyyyyyyҴҴҳ«««ҳҴтyyyyтyyyҴҴªªªҴҴªªªтyyyyyyyyyyyyҴҴ«ҳ«ҳ«ҴКyyyyтyyyҴҴҴҴҴҴҴҴҴҴтyyyyyyyyyyyyҴҴ«««««ҴҴyyyyтyyyyyyyyyyyyyтyyyyyyyyyyyyҴҴ«ҳ«ҳ«ÇÇyyyyтyyyyyyyyyyyyyтyyyyyyyyyyyyҴҴҳ«««ҴҴтyyyyтyyyyyyyyyyyyyтyyyyyyҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҳ«ҳyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyҳ«ҳ«¬«yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy«¬«ҲҲҴҴҴҲҲҴyyyҴААААҴААААҴААААААҴyyyҴҳҳҳҴҳҳҳªªҴҴҴªªҴyyyҴҴҴҴyyyҴ«««Ҵ«««ªªҴҴҴªªҴyyyҴҴҴҴyyyҴ«¬«Ҵ«¬«¬¬¬¬¬¬¬ҴyyyҴҴҴҴyyyҴ«««Ҵ«««ҲҲҴ¬ҴҴҴҴyyyҴҴҴҴyyyҴҴҴҴҴҴҴҴªªҴ¬¬¬¬ҴyyyҴҴҴҴyyyҴyyyyyyyªªҴ¬¬¬¬ҴyyyҴҴҴЮЮЮЮЮҴҴҴҴҴҳҳҳҳҴyyyҴyyyyyyy¬¬¬¬¬¬¬ÇyyyҴxЮ¬¬¬Юxxxҳ«««ҴyyyÇyyyyyyyҲҲҴ¬ҴҲҲҴyyyҴxЮЮxxxҳ««ҳҳҴyyyҴҳ¬ҳ¬ҳ¬ҳªªҴ¬ҴªªҴyyyҴxxxxxxxxxxxҳ«««ҴyyyҴҴҳҴҳҴҳҴªªҴ¬ҴªªҴyyyҴxxxxxxxxxxxҳ««ҳҳҴyyyҴҴ«Ҵ«Ҵ«Ҵ¬¬¬¬¬¬¬ҴyyyҴxxxxxxxxxxxҳ«««ҴyyyҴҴ«Ҵ«Ҵ«ҴҴҴҴҴҴҴҴҴyyyҴxxxxxxxxxxxҳ««ҳҳҴyyyҴҴҴҴҴҴҴҴҳ«ҳyyyyyyyyҴxxxxxxxxxxxҳ«««Ҵyyyyyyyyҳ«ҳ«¬«yyyyyyyyҴxxxxxxxxxxxҳ««ҳҳҴyyyyyyyy«¬«ҴҴҴҴҴҴҴyyyyҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴyyyyҴҴҴҴҴҴҴyyyyyyҴyyyyyyyyyyyyyyyyyyyyyyyyyyҴyyyyyyyyyyyyҴyyyyyyyyyyyyyyyyyyyyyyyyyyҴyyyyyyyyyyyyҴҳ«ҳyyyyyyyҳ«ҳyyyyyyyyyҳҳҳҳҴyyyyyyyyyyyyҴ«¬«yyyyyyy«¬«yyyyyyyyyҳ«««ҴyyyyyyyyyyyyҴҳ«ҳyyyyyyyҳ«ҳyyyyyyyyyҳ«««ҴyyyyyyyyyyyyҴyyyyyyyyyyyyyyyyyyyyyyÇ«««ҴyyyyyyҴҴҴҴҴҴҴҴҴҴҴҴЮЮЮЮЮҴҴҴҴҴҴҴҴҴҴyҴҴҴҴҴҴҳҳҳҳҳҳææëëëðëëëææҴxxxxxҴҲҲҲҲҳҳҳҳҴҴҴҴҲҲҲҴ««««««ææëëëðëëëææҴxxxxxҴªªªҲ«««ҳ¬¬¬ҴªªªҴ««««««ææëëëëëëëææҴxxxxxҴªªªҲ«««ҳ¬¬¬ҲªªªҴ««««««ææëëëðëëëææÇxxxxxÇªªªҲ«««ҳ¬¬¬ÇªªªҴ««««««ææëëëðëëëææҴxxxxxҴҲҲҲҳҳҳҳҳҳҳҳҴҲҲҲҴ««««««ææëëëëëëëææҴЮЮЮЮЮҴyyұ«ҳ«ҳ«ҳ«ҳyyyyҴ««««««",
     "Objects": "ҴӄӃҶұҳҹddddddddddddddddddddddddddddddddddddddddddddddddddd೥ddddddd೦೧ddd೦೧dddddddƂƂƂƂƂұdddddddddшшшddŀddddшddddшdddҴƂƂƂƂƂdddddddddddddddddddddиddddddddddddddddddƂƂƂƂƂҲdddddddddžſddddƀƁddd೥ྴddd೥ྴdҵƂƂƂƂƂddddddddddшddྴྴdddddddddddddddddddddddddƂƂƂƂƂҳddddddddddddddddddddddddddddҶƂƂƂƂƂdddddddddddddddŀdddddddddddddddddddddddddddddྴdddddddddddྴdddྴddddddddddddྴddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd೦೧ddd೦೧dddddd௪ddddd௪ddddd௪dddddddd೥ddd೥džſdddžſdddddшżdddddżшdшd࠲żdddddddиdшdиdшddddddddddddddːːdːːdddddddːːdddddddddddddddddddddddddddϼdϼdddddddddϼdddddddddddd೦೧ddd೥ddddddࠖࠖdddddࠖࠖdࠖࠖdd˚˚ddddddྴdddྴdžſdddddddddddddŀdŀdddddddddŀdddddddddddddddddddྴddddྶdddddddྶdྶdddddddddྴdddddddddddddddddddїdтdтdтdјdљddїdddddddddddddd೦೧ddd೦೧dddddddࠖࠖࠖࠖࠖdddddddddddddddddddddžſdddžſddddddшdddddŀdddddјddddddddྴdྴdྴddddddddddddddddˤˤˤdżdddddddddddddddddddddddddddddddddddˆˆˆdddddddљddddddddшdшdшdddddddddddddddddddddddddddddddddddddddddddddddddddddƂƂddddd̪dddddњddddddddddddddddddddddddddžſdddddddddddddddddddddddddddddddྴdddddddddddddddྶྐྵdྸdddddddddྴdddddƂƂƂƂƂҷddddddddddddddddddddddddddddҺƂƂƂƂƂddddddddddddddddddddddddddddddddddddddddƂƂƂƂƂҸddddddddddddddddddddddddddddһƂƂƂƂƂddddddddddddddddddddddddddddddddddddddddƂƂƂƂƂҹdddddddddddddddddddddddྸddddҼƂƂƂƂƂddddddddddddddddddddddddddddddddddddddddೋdddddddddೋdddddddddddddddddddddddddddddnsdddddddddddиdddddddddddddྴddddddшшшшшшddddddddddddƀƁddddddddddddddddddddшшшшшшdddddddddddྴdddddྷdddddddddddྐྵddddшшшшшшddddddddddddddddddddddddddddddddddшшшшшшdddddddddddd࠲d࠲d࠲dddddddddddddddddшшшшшшddddddddddddddddddddddddddddddddddшшшшшш"
 }
-function InitMapFaci() {
+async function InitMapFaci() {
     ChatRoomData.Name = "DroneFacility";
-    ChatRoomData.desc = "[Script]无人机训练设施   需要加载插件，地址：https://greasyfork.org/zh-CN/scripts/574984-dronetrainingsystem"
+    ChatRoomData.Description = "[Script]无人机训练设施   需要加载插件，地址：https://greasyfork.org/zh-CN/scripts/574984-dronetrainingsystem"
     ChatRoomData.Limit = 20;
     ChatRoomData.Access = ['All'];
     ChatRoomData.Visibility = ['All'];
-    ChatRoomData.Private = false;
     ChatRoomData.MapData = Object.assign({}, map);
     ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: ChatRoomGetSettings(ChatRoomData), Action: "Update" });
     for (var char of ChatRoomCharacter) {
         ChatRoomMapViewTeleport(char.MemberNumber, { X: 1, Y: 37 });
         await sleep(200);
     }
-    MovePlayer({ X: 1, Y: 37 })
+    MovePlayer({ X: 13, Y: 34 })
+}
+function MovePlayer(Pos, triggerPlayerMoved = false) {
+    if (Pos.X == undefined || Pos.Y == undefined) return;
+    Player.MapData.Pos = Object.assign({}, Pos);
+    ServerSend("ChatRoomCharacterMapDataUpdate", { Pos: Object.assign({}, Pos) });
+    if (triggerPlayerMoved) {
+        if (PlayerMoved) {
+            PlayerMoved();
+        }
+    }
+    else {
+        pverPos = Object.assign({}, Player.MapData.Pos);
+    }
 }
 
 function RemoveRestrainsWithAssetGroup(sender, group, refresh = true) {
@@ -755,11 +767,13 @@ function RemoveClothes(sender, refresh = true, removeUnderwear = true, removeCos
     }
 
 }
-
+function sleep(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}
 function InitBot() {
     RemoveClothes(Player, false);
     RemoveRestrains(Player, false)
-    BasicDroneBinds(Player, Equips,false);
+    WearEquips(Player, BasicDroneBinds, true, true, 1000);
 
     Player.Description = `
 BOT game：DroneFacility
@@ -767,7 +781,25 @@ BOT game：DroneFacility
 原型: https://github.com/keykey5/BC-BOT-repository
 发布地址: https://github.com/zajucd/BC_BotGame
 
-游玩需要插件:https://greasyfork.org/zh-CN/scripts/574984-dronetrainingsystem
+游玩需要插件: https://greasyfork.org/zh-CN/scripts/574984-dronetrainingsystem
+触摸自身或任意玩家的脖子后弹出状态界面则为成功加载
+
+
+设施内功能介绍:
+电梯（地图入口或设施南侧）: 需要注册成为无人机或操作员后可进入
+仓库区域（设施四角）：可拿起或放下货物，用于任务
+工作区域（设施西侧）：可接取任务或处理杂物获取配额点数
+改造区域（设施北侧偏西）：无人机可在此消耗配额点数进行改造，解锁更多功能
+商店区域（设施北侧偏东）：可在此消耗配额点数购买可使用道具
+训练/教育区域（设施东侧）：无人机可接收训练或教育，解锁更多功能
+操作员休息室（设施南侧）：仅操作员可进入，内有哈基米，在内部可呼叫无人机表演（开发中）
+私人房间（操作员休息室内）：仅操作员可进入，在内部可呼叫无人机侍寝
+无人机待机区域（设施南侧偏东）：开发中
+充电桩（设施内角落）：无人机可在此充电，若电量耗尽则无法进行任何活动只能等待救援
+
+改造说明:
+完成五个身体部位改造与当前等级的训练和教育后可解锁升级，升级后可以解锁更多改造、训练和教育
+
 `
     // end of description
     ServerSend("AccountUpdate", { Description: Player.Description });

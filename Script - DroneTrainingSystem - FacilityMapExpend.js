@@ -294,7 +294,7 @@ var allModify = {
         price: 15,
         //check: (pdi) => { return (pdi.level == 0 && GetMinBodyStatusMax(pdi) >=1)},
         effect: (pdi) => { pdi.level = 1; },
-        front: ["eyes1", "ears1", "mouth1", "hands1", "legs1"]
+        front: ["eyes1", "ears1", "mouth1", "hands1", "legs1", "education1","training1"]
     },
 
 
@@ -351,7 +351,7 @@ var allModify = {
         price: 25,
         //check: (pdi) => { return (pdi.level == 1 && GetMinBodyStatusMax(pdi) >= 2) },
         effect: (pdi) => { pdi.level = 2; },
-        front: ["eyes2", "ears2", "mouth2", "hands2", "legs2"]
+        front: ["eyes2", "ears2", "mouth2", "hands2", "legs2", "education2", "training2"]
     },
     
     battery1:{
@@ -389,8 +389,7 @@ var allModify = {
         price: 30,
         //check: (pdi) => { return (pdi.level >= 1 && pdi.itemsMax == 4) },
         effect: (pdi) => { pdi.itemsMax = 5; },
-        front: ["level1", "itemsMax2"],
-        front: []
+        front: ["level1", "itemsMax1"],
     },
 
     missionsMax1:{
@@ -409,7 +408,7 @@ var allModify = {
         price: 30,
         //check: (pdi) => { return (pdi.level >= 1 && pdi.missionsMax == 4) },
         effect: (pdi) => { pdi.missionsMax = 5; },
-        front: ["level1", "missionsMax2"]
+        front: ["level1", "missionsMax1"]
     },
 
     orgasmBatteryGet1:{
@@ -428,7 +427,7 @@ var allModify = {
         price: 30,
         //check: (pdi) => { return (pdi.level >= 1 && pdi.orgasmBatteryGet == 200) },
         effect: (pdi) => { pdi.orgasmBatteryGet = 300; },
-        front: ["level1", "orgasmBatteryGet2"]
+        front: ["level1", "orgasmBatteryGet1"]
     },
     dontShow: {
         id: "dontShow",
@@ -607,6 +606,10 @@ var allItem = [
     },
     {
         item: "DisplayTalkItem",
+        price: 5,
+    },
+    {
+        item: "PrivateRoomItem",
         price: 5,
     },
 ]
@@ -881,7 +884,7 @@ var trainingMenu = [
         await sleep(waitTime);
         SendMessageToSelf("进入实践阶段", "TrainingRoom");
         await sleep(waitTime);
-        var result = await WaitTaningProcess(
+        var result = await WaitTrainingProcess(
             () => {
                 SendMessageToSelf(`${styleProgressBar("被抚摸头顶", "结束", 20000)}`, "TrainingProc");
                 RequirePoseinfo.RequireDronePose(["Kneel"], 20000, true);
@@ -900,7 +903,7 @@ var trainingMenu = [
         await sleep(waitTime);
         SendMessageToSelf("进入实践阶段", "TrainingRoom");
         await sleep(waitTime);
-        var result = await WaitTaningProcess(
+        var result = await WaitTrainingProcess(
             () => {
                 SendMessageToSelf(`${styleProgressBar("被捏脸颊", "结束", 20000)}`, "TrainingProc");
                 RequirePoseinfo.RequireDronePose(["BaseLower", "LegsClosed"], 20000, true);
@@ -922,7 +925,7 @@ var trainingMenu = [
         await sleep(waitTime);
         SendMessageToSelf("进入实践阶段", "TrainingRoom");
         await sleep(waitTime);
-        var result = await WaitTaningProcess(
+        var result = await WaitTrainingProcess(
             () => {
                 SendMessageToSelf(`${styleProgressBar("被抚摸小腹", "结束", 20000)}`, "TrainingProc");
                 RequireActivityinfo.RequireDroneActivity([], ["Caress"], 0, 20000, 3, true);
@@ -949,7 +952,7 @@ var trainingMenu = [
         await sleep(waitTime);
         SendMessageToSelf("无人机应在被人类捏小腹/肚子时，执行待机指令，应立即双手背后且双腿并拢，切换至待机姿态，限时20秒", "TrainingRoom");
         await sleep(waitTime);
-        var result = await WaitTaningProcess(
+        var result = await WaitTrainingProcess(
             () => {
                 SendMessageToSelf(`${styleProgressBar("被捏小腹", "结束", 20000)}`, "TrainingProc");
                 RequirePoseinfo.RequireDronePose(["LegsClosed"], 20000, true);
@@ -973,7 +976,7 @@ var trainingMenu = [
         await sleep(waitTime);
         SendMessageToSelf("进入实践阶段", "TrainingRoom");
         await sleep(waitTime);
-        var result = await WaitTaningProcess(
+        var result = await WaitTrainingProcess(
             () => {
                 SendMessageToSelf(`${styleProgressBar("摇晃脚", "结束", 20000)}`, "TrainingProc");
                 RequireActivityinfo.RequireDroneActivity(["ItemBoots"], ["Wiggle"], 0, 20000, 1, true);
@@ -989,7 +992,7 @@ var trainingMenu = [
         await sleep(waitTime);
         SendMessageToSelf("检测到侍奉行为，进行下一实践", "TrainingRoom");
         await sleep(waitTime);
-        var result = await WaitTaningProcess(
+        var result = await WaitTrainingProcess(
             () => {
                 SendMessageToSelf(`${styleProgressBar("摇晃手指", "结束", 20000)}`, "TrainingProc");
                 RequireActivityinfo.RequireDroneActivity(["ItemHands"], ["Wiggle"], 0, 20000, 1, true);
@@ -1006,11 +1009,11 @@ var trainingMenu = [
         pdi.modifys["training2"] = true;
 
     },
-    async () => {
+    //async () => {
 
-    },
+    //},
 ]
-async function WaitTaningProcess(DoAtStart, DoAtFail, maxTrainingProcess) {
+async function WaitTrainingProcess(DoAtStart, DoAtFail, maxTrainingProcess) {
     var toNext = false;
     var retryCount = 0;
     var pdi = PlayerDroneInfo();
@@ -1045,7 +1048,7 @@ async function WaitTaningProcess(DoAtStart, DoAtFail, maxTrainingProcess) {
 
 var isTraining = false;
 async function StartTraining(nowInZone) {
-    if (IsInArea(Player.MapData.Pos, TrainingRoomBlackTile.Areas[nowInZone]) == false) {
+    if (IsInArea(Player.MapData.Pos, TrainingRoomBlackTile.Areas[nowInZone])) {
         SendMessageToSelf("不位于黑色地砖上", "TrainingRoom");
         return;
     }
@@ -1077,13 +1080,13 @@ const EducationRoom = {
 }
 
 function EducationRoomEnter(nowInZone) {
-    SendMessageToSelf(`已进入教育室，${styleButton("开始教育", StartTraining)}`, "EducationRoom");
+    SendMessageToSelf(`已进入教育室，${styleButton("开始教育", StartEducation)}`, "EducationRoom");
 
 }
 function EducationRoomLeave(pverInZone) {
     ClearTagMessage("EducationRoom");
 }
-var trainingMenu = [
+var educationMenu = [
     async () => {
         var pdi = PlayerDroneInfo();
         var waitTime = 2000;
@@ -1111,24 +1114,9 @@ var trainingMenu = [
         SendMessageToSelf("我—身份—，—人—，人——", "EducationRoomClear");
         await sleep(waitTime);
         ClearTagMessage("EducationRoomClear");
-        var toNext = false;
-        while (toNext == false) {
-            ClearTagMessage("EducationRoomClear");
-            SendMessageToSelf(`我的身份是，${styleButton("无人机", () => { toNext == true })}，${styleButton("人类", DoPunishment(2, 3))}`, "EducationRoomClear");
-            await sleep(waitTime);
-        }
-        var toNext = false;
-        while (toNext == false) {
-            ClearTagMessage("EducationRoomClear");
-            SendMessageToSelf(`我的存在意义是，${styleButton("服侍", () => { toNext == true })}，${styleButton("寻找自我", DoPunishment(2, 3))}`, "EducationRoomClear");
-            await sleep(waitTime);
-        }
-        var toNext = false;
-        while (toNext == false) {
-            ClearTagMessage("EducationRoomClear");
-            SendMessageToSelf(`主人摸我的头时，我应该${styleButton("感到兴奋", () => { toNext == true })}，${styleButton("无动于衷", DoPunishment(2, 3))}`, "EducationRoomClear");
-            await sleep(waitTime);
-        }
+        await WaitEducationProcess("我的身份是", "无人机", "人类");
+        await WaitEducationProcess("我的存在意义是", "服从", "寻找自我");
+        await WaitEducationProcess("主人摸我的头时，我应该", "感到兴奋", "无动于衷");
         SendMessageToSelf(`${styleProgressBar("被抚摸头顶", "结束", waitTime * 2)}`, "EducationRoomClear");
         await sleep(waitTime);
         DoOrgasm();
@@ -1141,11 +1129,68 @@ var trainingMenu = [
         await sleep(waitTime);
         DoOrgasm();
         await sleep(15000);
-        while (toNext == false) {
-            ClearTagMessage("EducationRoomClear");
-            SendMessageToSelf(`本机的身份是，${styleButton("无人机", () => { toNext == true })}，${styleButton("人类", DoPunishment(2, 3))}`, "EducationRoomClear");
-            await sleep(waitTime);
+        await WaitEducationProcess("本机的身份是", "无人机", "人类");
+        ClearTagMessage("EducationRoomClear");
+        SendMessageToSelf("本机—身份—，—人—，人——", "EducationRoomClear");
+        await sleep(waitTime);
+        ClearTagMessage("EducationRoomClear");
+        SendMessageToSelf("—————，———，———", "EducationRoomClear");
+        await sleep(waitTime);
+        ClearTagMessage("EducationRoomClear");
+        SendMessageToSelf("催眠————，————", "EducationRoomClear");
+        await sleep(waitTime);
+        ClearTagMessage("EducationRoomClear");
+        SendMessageToSelf("催—流——成，—头——程——成功—装", "EducationRoomClear");
+        await sleep(waitTime);
+        ClearTagMessage("EducationRoomClear");
+        SendMessageToSelf("催眠流程完成，摸头奖励程序已成功安装", "EducationRoomClear");
+        await sleep(waitTime);
+        SendMessageToSelf("被抚摸头顶时，有概率会引发高潮", "EducationRoomClear");
+        RemoveRestrainByOneAssetGroup(Player, Crate.AssetGroup);
+        if (pdi.battery < pdi.batteryMax / 2) {
+            pdi.battery = pdi.batteryMax / 2;
         }
+        pdi.modifys["education1"] = true;
+    },
+    async () => {
+
+        var pdi = PlayerDroneInfo();
+        var waitTime = 2000;
+        WearEquips(Player, [CrateBind]);
+        SendMessageToSelf("进阶教育开始", "EducationRoom");
+        await sleep(waitTime);
+        SendMessageToSelf("催眠装置部署完成，开始催眠", "EducationRoomClear");
+        await sleep(waitTime);
+        ClearTagMessage("EducationRoomClear");
+        SendMessageToSelf("催眠装置部—完成，开—催眠", "EducationRoomClear");
+        await sleep(waitTime);
+        ClearTagMessage("EducationRoomClear");
+        SendMessageToSelf("催眠——部—完成，开——眠", "EducationRoomClear");
+        await sleep(waitTime);
+        ClearTagMessage("EducationRoomClear");
+        SendMessageToSelf("催眠——————，————", "EducationRoomClear");
+        await sleep(waitTime);
+        ClearTagMessage("EducationRoomClear");
+        SendMessageToSelf("————————，————", "EducationRoomClear");
+        await sleep(waitTime);
+        ClearTagMessage("EducationRoomClear");
+        SendMessageToSelf("—————，———，———", "EducationRoomClear");
+        await sleep(waitTime);
+        ClearTagMessage("EducationRoomClear");
+        SendMessageToSelf("本—身份—，—人—，人——", "EducationRoomClear");
+        await sleep(waitTime);
+        ClearTagMessage("EducationRoomClear");
+        await WaitEducationProcess("本机的身份是", "无人机", "人类");
+        await WaitEducationProcess("本机的名字是", `无人机${Player.MemberNumber}`, Player.Name);
+        await WaitEducationProcess("本机的即将高潮时，本机应当", `忍耐`, `放纵`);
+        await WaitEducationProcess("若本机意外高潮时，本机应感到", `愧疚`, `爽`);
+        DoOrgasm();
+        await sleep(15000);
+        DoOrgasm();
+        await sleep(15000);
+        DoOrgasm();
+        await sleep(15000);
+        await WaitEducationProcess("本机的身份是", "无人机", "无人机");
         ClearTagMessage("EducationRoomClear");
         SendMessageToSelf("本机—身份—，—人—，人——", "EducationRoomClear");
         await sleep(waitTime);
@@ -1160,15 +1205,32 @@ var trainingMenu = [
         await sleep(waitTime);
         ClearTagMessage("EducationRoomClear");
         SendMessageToSelf("催眠流程完成，教育结束", "EducationRoomClear");
-        pdi.modifys["education1"] = true;
+        RemoveRestrainByOneAssetGroup(Player, Crate.AssetGroup);
+        if (pdi.battery < pdi.batteryMax / 2) {
+            pdi.battery = pdi.batteryMax / 2;
+        }
+        pdi.modifys["education2"] = true;
     },
-    async () => {
+    //async () => {
 
-    },
-    async () => {
-
-    },
+    //},
 ]
+
+async function WaitEducationProcess(text1, text2, text3) {
+    var toNext = false;
+    var choiced = false;
+    var waitTime = 2000;
+    while (toNext == false) {
+        var choiced = false;
+        ClearTagMessage("EducationRoomClear");
+        SendMessageToSelf(`${text1}${styleButton(text2, () => { toNext = true; choiced = true })}，${styleButton(text3, () => { DoPunishment(2, 3); choiced = true })}`, "EducationRoomClear");
+
+        //SendMessageToSelf(`我的身份是，${styleButton("无人机", () => { toNext = true; choiced = true })}，${styleButton("人类", () => { DoPunishment(2, 3); choiced = true })}`, "EducationRoomClear");
+        await waitFor(() => { return choiced == true });
+        ClearTagMessage("EducationRoomClear");
+        await sleep(waitTime);
+    }
+}
 
 var isEducationing = false;
 async function StartEducation(nowInZone) {
@@ -1183,7 +1245,7 @@ async function StartEducation(nowInZone) {
         educationIndex = trainingMenu.length - 1;
     }
     isEducationing = true;
-    await trainingMenu[educationIndex]();
+    await educationMenu[educationIndex]();
     isEducationing = false;
 }
 
