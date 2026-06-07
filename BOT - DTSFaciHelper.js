@@ -46,7 +46,7 @@ function ChatRoomMessageDTSFaci(sender, msg, data) {
 
 function PlayerEnter(sender) {
     ServerSend("ChatRoomChat", { Content: "*该bot现已发布至 https://github.com/zajucd/BC_BotGame ", Type: "Emote", Target: sender.MemberNumber });
-    ServerSend("ChatRoomChat", { Content: "*游玩该游戏需要需要插件:https://greasyfork.org/zh-CN/scripts/574984-dronetrainingsystem 且不需要本bot，加载插件后即可游玩", Type: "Emote", Target: sender.MemberNumber });
+    ServerSend("ChatRoomChat", { Content: "*游玩该游戏需要需要插件:https://greasyfork.org/zh-CN/scripts/574984-dronetrainingsystem 且不需要本bot，加载插件后刷新页面即可游玩", Type: "Emote", Target: sender.MemberNumber });
     ServerSend("ChatRoomChat", { Content: "*若触摸自身或任意玩家的脖子后弹出状态界面，即代表插件加载成功，启动电梯则需要通过插件内功能成为无人机或操作员", Type: "Emote", Target: sender.MemberNumber });
     ServerSend("ChatRoomChat", { Content: "*查看bot的bio以获取更多信息，如遇到疑似bug的情况可以通过私聊bot反馈", Type: "Emote", Target: sender.MemberNumber });
 
@@ -686,6 +686,7 @@ async function InitMapFaci() {
     //    ChatRoomMapViewTeleport(char.MemberNumber, { X: 1, Y: 37 });
     //    await sleep(200);
     //}
+    //await sleep(200);
     //MovePlayer({ X: 13, Y: 34 })
 }
 function MovePlayer(Pos, triggerPlayerMoved = false) {
@@ -781,7 +782,7 @@ BOT game：DroneFacility
 原型: https://github.com/keykey5/BC-BOT-repository
 发布地址: https://github.com/zajucd/BC_BotGame
 
-游玩需要插件: https://greasyfork.org/zh-CN/scripts/574984-dronetrainingsystem
+游玩需要插件: https://greasyfork.org/zh-CN/scripts/574984-dronetrainingsystem加载插件后刷新页面即可游玩
 触摸自身或任意玩家的脖子后弹出状态界面则为成功加载
 
 已知该插件会与LSCG插件的诅咒功能产生冲突，若已加载了LSCG插件则需谨慎使用

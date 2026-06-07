@@ -6,6 +6,12 @@ var showedEnterHelp = false;
 var showChangeLog = false;
 var changeLog =
     `更新日志
+——————V1.2——————
+1.修复了基础训练无法完成的问题
+2.补充了被打屁股和被摸头任务缺失的文本
+3.增加了完成基础与进阶教育后的额外效果
+4.暗改了周围玩家高潮时补充的电量，不影响自己高潮时的补充量
+5.增加了降低显示屏发言的改造项目
 ——————V1.1——————
 1.修复了触发惩罚时文本错误的问题
 2.修复了处理杂物每日奖励上限丢失的问题
@@ -1561,7 +1567,7 @@ function ChatRoomMessageRecived(result, data) {
                         }
                         else {
                             SendMessageToSelf("通过附近个体的高潮为电源补充了少许能量");
-                            MsgCmds["BatteryCharge"].Command(null, pdi.orgasmBatteryGet * 0.5)
+                            MsgCmds["BatteryCharge"].Command(null, pdi.orgasmBatteryGet * 0.1)
                         }
                     }
                     if (data.Dictionary[0].SourceCharacter == Player.MemberNumber) {
@@ -1595,7 +1601,7 @@ function ChatRoomMessageRecived(result, data) {
 var ActivityFunc = {
     ItemButtSpank: (param, SourceCharacter, TargetCharacter, FocusGroupName, ActivityName) => {
         if (param == 1) {
-            if (charaterInstalledScript_isDrone[SourceCharacter] == false) {
+            if (charaterInstalledScript_isDrone[SourceCharacter] == undefined || charaterInstalledScript_isDrone[SourceCharacter] == false) {
                 MissionInfo.ProgressAdd("Spank");
             }
         }
@@ -1948,6 +1954,9 @@ function ChatRoomSendChatMessageBefore(msg) {
             SendActionText("无人机" + Player.MemberNumber + "的指示灯闪烁，尝试发言但失败了");
         }
         else {
+            if (pdi.modifys["education1"]) {
+                msg.replace(/我|俺|咱|咱家/g, "本机");
+            }
             SendActionText("无人机" + Player.MemberNumber + "的显示器显示：" + msg);
             //ChatRoomSendEmote("无人机" + Player.MemberNumber + "的显示器显示：" + msg);
             pdi.battery -= pdi.chatBatteryCost;
@@ -2142,7 +2151,14 @@ function DoPer10Sec() {
     }
     ServerPlayerExtensionSettingsSync("DTSbyZajucd");
     SendDTSMsg(null, new MsgInfo("HeartBeatPack", { recive: true, isDrone : PlayerDroneInfo().isDrone }));
-
+    var pdi = PlayerDroneInfo();
+    if (pdi.modifys["education2"]) {
+        var name = `无人机${Player.MemberNumber}`;
+        if (Player.Nickname != name) {
+            Player.Nickname = name;
+            ServerAccountUpdate.QueueData({ Nickname: name });
+        }
+    }
 }
 function DoPerMin() {
     var pdi = PlayerDroneInfo();
@@ -3256,7 +3272,7 @@ function MovePlayer(Pos, triggerPlayerMoved = false) {
 }
 class DroneInfo {
     constructor() {
-        this.scriptVersion = 1.1;
+        this.scriptVersion = 1.2;
         this.MemberNumber = Player.MemberNumber;
         this.isDrone = false;
         this.isOwner = false;
@@ -3398,7 +3414,7 @@ class MissionInfo {
         var mission = new MissionInfo("Spank", "被打屁股任务", 10);
         mission.target = 3;
         mission.progress = 0;
-        mission.desc = `被打屁股三次`;
+        mission.desc = `被管理员或游客打屁股三次`;
         return mission;
     }
     static OwnerSpankMission() {
@@ -3412,7 +3428,7 @@ class MissionInfo {
         var mission = new MissionInfo("PetHead", "被摸头任务", 10);
         mission.target = 3;
         mission.progress = 0;
-        mission.desc = `被摸头三次`;
+        mission.desc = `被管理员或游客摸头三次`;
         return mission;
     }
     static OwnerPetHeadMission() {

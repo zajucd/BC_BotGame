@@ -429,12 +429,28 @@ var allModify = {
         effect: (pdi) => { pdi.orgasmBatteryGet = 300; },
         front: ["level1", "orgasmBatteryGet1"]
     },
+
+    displayTalkCost1: {
+        id: "displayTalkCost1",
+        name: "更换高性能显示屏",
+        desc: "降低显示屏发言的消耗",
+        price: 20,
+        effect: (pdi) => { pdi.chatBatteryCost = 30; },
+        front: []
+    },
+    displayTalkCost2: {
+        id: "displayTalkCost2",
+        name: "更换顶级显示屏",
+        desc: "进一步降低显示屏发言的消耗",
+        price: 30,
+        effect: (pdi) => { pdi.chatBatteryCost = 15; },
+        front: ["level1", "displayTalkCost1"]
+    },
     dontShow: {
         id: "dontShow",
         name: "不显示，仅作注释使用",
         desc: "训练室可获得：training1，training2，training3，education1，education2，education3",
         price: 30,
-        //check: (pdi) => { return (pdi.level >= 1 && pdi.orgasmBatteryGet == 200) },
         effect: (pdi) => { },
         front: ["dontShow"]
     }
@@ -746,7 +762,7 @@ function DoWork() {
     if (resultIndex == 3) {
         string += styleButton(result.toString(), () => {
             var pdi = PlayerDroneInfo();
-            var reword = pdi.todaysWork >= pdi.workMax ? 2 : 0;
+            var reword = pdi.todaysWork >= pdi.workMax ? 0 : 2;
             pdi.todaysWork += reword;
             SendMessageToSelf(`答案正确，获得${reword}配额点数${reword == 0 ? "，已达到每日上限": ""}`, "WorkRoom");
             ClearTagMessage("WorkRoomWork");
@@ -935,7 +951,8 @@ var trainingMenu = [
             () => {
                 SendMessageToSelf("未检测到自检行为，退回至上一步", "TrainingRoom");
             },
-            2
+            1
+            
         )
         if (result == false) {
             return;
