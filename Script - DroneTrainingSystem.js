@@ -6,6 +6,8 @@ var showedEnterHelp = false;
 var showChangeLog = false;
 var changeLog =
     `更新日志
+——————V1.3——————
+1.修复了部分道具使用后无法消耗的问题
 ——————V1.2——————
 1.修复了基础训练无法完成的问题
 2.补充了被打屁股和被摸头任务缺失的文本
@@ -3665,17 +3667,18 @@ class ItemInfo {
         if (pdi.isDrone) {
             var pdi = PlayerDroneInfo();
             if (pdi.bodyStatus[bodyPartStrings[part]] == 2 ? 2 : pdi.bodyStatus[bodyPartStrings[part]] + 1 > pdi.bodyStatusMax[bodyPartStrings[part]]) {
-                pdi.coin += 10;
+                pdi.coin += 5;
                 SendActionText(`无人机${pdi.MemberNumber}用机能限制芯片在项圈上扫了一下，但该部位未接受改造手术机能无法被限制，所以芯片被回收为了5配额点数`)
-                return;
             }
-            SendActionText(`无人机${pdi.MemberNumber}用机能限制芯片在项圈上扫了一下，${bodyPartDisplayStrings[part]}的机能被限制了`)
-            DoSetBodyOrBindStatus(
-                1,
-                part,
-                pdi.bindStatus[bodyPartStrings[part]] == 2 ? 2 : pdi.bindStatus[bodyPartStrings[part]] + 1,
-                { Name: "机能限制芯片" }
-            );
+            else {
+                SendActionText(`无人机${pdi.MemberNumber}用机能限制芯片在项圈上扫了一下，${bodyPartDisplayStrings[part]}的机能被限制了`)
+                DoSetBodyOrBindStatus(
+                    1,
+                    part,
+                    pdi.bindStatus[bodyPartStrings[part]] == 2 ? 2 : pdi.bindStatus[bodyPartStrings[part]] + 1,
+                    { Name: "机能限制芯片" }
+                );
+            }
         }
         else {
             pdi.coin += 10;

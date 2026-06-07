@@ -48,7 +48,7 @@ function PlayerEnter(sender) {
     ServerSend("ChatRoomChat", { Content: "*该bot现已发布至 https://github.com/zajucd/BC_BotGame ", Type: "Emote", Target: sender.MemberNumber });
     ServerSend("ChatRoomChat", { Content: "*游玩该游戏需要需要插件:https://greasyfork.org/zh-CN/scripts/574984-dronetrainingsystem 且不需要本bot，加载插件后刷新页面即可游玩", Type: "Emote", Target: sender.MemberNumber });
     ServerSend("ChatRoomChat", { Content: "*若触摸自身或任意玩家的脖子后弹出状态界面，即代表插件加载成功，启动电梯则需要通过插件内功能成为无人机或操作员", Type: "Emote", Target: sender.MemberNumber });
-    ServerSend("ChatRoomChat", { Content: "*查看bot的bio以获取更多信息，如遇到疑似bug的情况可以通过私聊bot反馈", Type: "Emote", Target: sender.MemberNumber });
+    ServerSend("ChatRoomChat", { Content: "*查看bot的bio以获取更多信息，如遇到疑似bug的情况可以通过私聊bot反馈，无人机设计大赛堂堂开赛，详细信息也在bot的bio里", Type: "Emote", Target: sender.MemberNumber });
 
 }
 
@@ -786,6 +786,12 @@ BOT game：DroneFacility
 触摸自身或任意玩家的脖子后弹出状态界面则为成功加载
 
 已知该插件会与LSCG插件的诅咒功能产生冲突，若已加载了LSCG插件则需谨慎使用
+
+因为作者在设计无人机多个形态时没活了
+所以无人机设计大赛堂堂开赛
+带着穿着你设计的无人机套装的受害者到BOT这里参赛罢，你设计的装备将有机会（几乎必定）会被采用进插件
+可以额外设置 眼部 耳部 口部 手臂 腿脚 身体 共六个部位拘束状态由松到紧三个状态的差分变化
+（记得让受害者关掉DroneTrainingSystem插件，不然会发生前功尽弃的惨状，使用了ECHO插件里的装备的话记得提醒一下BOT）
 
 设施内功能介绍:
 电梯（地图入口或设施南侧）: 需要注册成为无人机或操作员后可进入
