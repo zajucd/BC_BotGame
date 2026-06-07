@@ -161,7 +161,7 @@ async function ElevatorEnter(nowInZone) {
             }
             else if (pdi.isDrone) {
                 SendMessageToSelf("无人机无权使用操作员电梯，执行惩罚", "Elevator");
-                DoPunishment(3, 3);
+                DoPunishment(2, 3);
             }
             else {
                 SendMessageToSelf("游客不具备进入设施权限，请注册为无人机或操作员后再尝试进入", "Elevator");
@@ -532,7 +532,7 @@ function ModifyTileEnter(nowInZone, paid = false) {
     if (paid == false) {
         if (allModify[selectModify].price > pdi.coin) {
             SendMessageToSelf(`配额点数不足无法进行改造，执行惩罚`, "ModifyRoom");
-            DoPunishment(3, 3);
+            DoPunishment(2, 3);
             return;
         }
         else {
@@ -733,7 +733,8 @@ function DoWork() {
                 var pdi = PlayerDroneInfo();
                 var reword = pdi.todaysWork >= pdi.workMax ? 0 : 2;
                 pdi.coin += reword;
-                SendMessageToSelf(`答案正确，获得${reword}配额点数`, "WorkRoom");
+                pdi.todaysWork += reword;
+                SendMessageToSelf(`答案正确，获得${reword}配额点数${reword == 0 ? "，已达到每日上限" : ""}`, "WorkRoom");
                 ClearTagMessage("WorkRoomWork");
             });
         }
@@ -746,7 +747,8 @@ function DoWork() {
         string += styleButton(result.toString(), () => {
             var pdi = PlayerDroneInfo();
             var reword = pdi.todaysWork >= pdi.workMax ? 2 : 0;
-            SendMessageToSelf(`答案正确，获得${reword}配额点数`, "WorkRoom");
+            pdi.todaysWork += reword;
+            SendMessageToSelf(`答案正确，获得${reword}配额点数${reword == 0 ? "，已达到每日上限": ""}`, "WorkRoom");
             ClearTagMessage("WorkRoomWork");
         });
     }
@@ -880,7 +882,7 @@ var trainingMenu = [
         await sleep(waitTime);
         SendMessageToSelf("第一项训练，服从训练", "TrainingRoom");
         await sleep(waitTime);
-        SendMessageToSelf("无人机应在被人类抚摸头顶时，执行服从指令，应立即下跪，向其表示服从，限时20秒", "TrainingRoom");
+        SendMessageToSelf("无人机应在被操作员抚摸头顶时，执行服从指令，应立即下跪，切换至服从姿态，限时20秒", "TrainingRoom");
         await sleep(waitTime);
         SendMessageToSelf("进入实践阶段", "TrainingRoom");
         await sleep(waitTime);
@@ -899,7 +901,7 @@ var trainingMenu = [
         }
         SendMessageToSelf("第二项训练，复位训练", "TrainingRoom");
         await sleep(waitTime);
-        SendMessageToSelf("无人机应在被人类捏脸颊时，执行复位指令，应立即站起并将手放在身前，完成姿态复位，限时20秒", "TrainingRoom");
+        SendMessageToSelf("无人机应在被操作员捏脸颊时，执行复位指令，应立即站起并将手放在身前，完成姿态复位，限时20秒", "TrainingRoom");
         await sleep(waitTime);
         SendMessageToSelf("进入实践阶段", "TrainingRoom");
         await sleep(waitTime);
@@ -921,7 +923,7 @@ var trainingMenu = [
         await sleep(waitTime);
         SendMessageToSelf("第三项训练，自检训练", "TrainingRoom");
         await sleep(waitTime);
-        SendMessageToSelf("无人机应在被人类抚摸小腹/肚子时，执行自检指令，应立即抚摸自身任意部位三次，以完成自检流程，限时20秒", "TrainingRoom");
+        SendMessageToSelf("无人机应在被操作员抚摸小腹/肚子时，执行自检指令，应立即抚摸自身任意部位三次，以完成自检流程，限时20秒", "TrainingRoom");
         await sleep(waitTime);
         SendMessageToSelf("进入实践阶段", "TrainingRoom");
         await sleep(waitTime);
@@ -950,7 +952,7 @@ var trainingMenu = [
         await sleep(waitTime);
         SendMessageToSelf("第一项训练，待机训练", "TrainingRoom");
         await sleep(waitTime);
-        SendMessageToSelf("无人机应在被人类捏小腹/肚子时，执行待机指令，应立即双手背后且双腿并拢，切换至待机姿态，限时20秒", "TrainingRoom");
+        SendMessageToSelf("无人机应在被操作员捏小腹/肚子时，执行待机指令，应立即双手背后且双腿并拢，切换至待机姿态，限时20秒", "TrainingRoom");
         await sleep(waitTime);
         var result = await WaitTrainingProcess(
             () => {
@@ -970,7 +972,7 @@ var trainingMenu = [
         await sleep(waitTime);
         SendMessageToSelf("第二项训练，侍奉训练", "TrainingRoom");
         await sleep(waitTime);
-        SendMessageToSelf("无人机应在附近的人类摇晃自己身体的任意部位时时，执行侍奉指令，应用口塞亲吻对应部位，以完成侍奉流程，限时20秒，检测范围3*3格", "TrainingRoom");
+        SendMessageToSelf("无人机应在附近的操作员摇晃自己身体的任意部位时时，执行侍奉指令，应用口塞亲吻对应部位，以完成侍奉流程，限时20秒，检测范围3*3格", "TrainingRoom");
         await sleep(waitTime);
         SendMessageToSelf("在本次训练中，以摇晃对应部位代替用口塞亲吻", "TrainingRoom");
         await sleep(waitTime);
@@ -1048,7 +1050,7 @@ async function WaitTrainingProcess(DoAtStart, DoAtFail, maxTrainingProcess) {
 
 var isTraining = false;
 async function StartTraining(nowInZone) {
-    if (IsInArea(Player.MapData.Pos, TrainingRoomBlackTile.Areas[nowInZone])) {
+    if (IsInArea(Player.MapData.Pos, TrainingRoomBlackTile.Areas[nowInZone]) == false) {
         SendMessageToSelf("不位于黑色地砖上", "TrainingRoom");
         return;
     }
@@ -1140,10 +1142,10 @@ var educationMenu = [
         SendMessageToSelf("催眠————，————", "EducationRoomClear");
         await sleep(waitTime);
         ClearTagMessage("EducationRoomClear");
-        SendMessageToSelf("催—流——成，—头——程——成功—装", "EducationRoomClear");
+        SendMessageToSelf("催—流——成，——程——成功—装", "EducationRoomClear");
         await sleep(waitTime);
         ClearTagMessage("EducationRoomClear");
-        SendMessageToSelf("催眠流程完成，摸头奖励程序已成功安装", "EducationRoomClear");
+        SendMessageToSelf("催眠流程完成，奖励程序已成功安装", "EducationRoomClear");
         await sleep(waitTime);
         SendMessageToSelf("被抚摸头顶时，有概率会引发高潮", "EducationRoomClear");
         RemoveRestrainByOneAssetGroup(Player, Crate.AssetGroup);
@@ -1201,10 +1203,12 @@ var educationMenu = [
         SendMessageToSelf("催眠————，————", "EducationRoomClear");
         await sleep(waitTime);
         ClearTagMessage("EducationRoomClear");
-        SendMessageToSelf("催—流——成，教——束", "EducationRoomClear");
+        SendMessageToSelf("催—流——成，——程——成功—装", "EducationRoomClear");
         await sleep(waitTime);
         ClearTagMessage("EducationRoomClear");
-        SendMessageToSelf("催眠流程完成，教育结束", "EducationRoomClear");
+        SendMessageToSelf("催眠流程完成，愧疚程序已成功安装", "EducationRoomClear");
+        await sleep(waitTime);
+        SendMessageToSelf("未能忍耐高潮时，随机部位拘束上升1", "EducationRoomClear");
         RemoveRestrainByOneAssetGroup(Player, Crate.AssetGroup);
         if (pdi.battery < pdi.batteryMax / 2) {
             pdi.battery = pdi.batteryMax / 2;

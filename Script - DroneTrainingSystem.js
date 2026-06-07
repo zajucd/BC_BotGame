@@ -6,6 +6,12 @@ var showedEnterHelp = false;
 var showChangeLog = false;
 var changeLog =
     `更新日志
+——————V1.1——————
+1.修复了触发惩罚时文本错误的问题
+2.修复了处理杂物每日奖励上限丢失的问题
+3.优化了训练与教育的部分文本
+4.增加了无人机状态信息里的可用程序显示，显示接受教育与训练后的效果
+5.修复了获取控制权、手动对无人机充电、点击开始训练时的判定错误
 ——————V1.0——————
 1.增加了任务系统，道具系统
 2.增加了训练设施地图
@@ -2414,6 +2420,22 @@ function ShowStatus(info = null) {
     }
     var ShowString = ""
     if (info.isDrone) {
+        var exString = ``;
+        if (info.modifys["training1"]) {
+            exString += `\n服从指令:被操作员摸头时，会切换至服从姿态`
+            exString += `\n复位指令:被操作员捏脸颊时，会进行姿态复位`
+            exString += `\n自检指令:被操作员抚摸小腹/肚子时，会进行自检流程`
+        }
+        if (info.modifys["training2"]) {
+            exString += `\n待机指令:被操作员捏小腹/肚子时，会切换至待机姿态`
+            exString += `\n侍奉指令:操作员摇晃需侍奉的身体部位时，会用口塞亲吻操作员对应部位`
+        }
+        if (info.modifys["education1"]) {
+            exString += `\n奖励程序:被摸头时，有概率会引发高潮`
+        }
+        if (info.modifys["education2"]) {
+            exString += `\n愧疚程序:未能忍耐高潮时，随机部位拘束上升1`
+        }
         ShowString =
             `——————基础信息——————
 无人机ID:${info.MemberNumber}
@@ -2440,7 +2462,7 @@ function ShowStatus(info = null) {
 口腔机能:${bodyLevelStrings[info.bodyStatus.mouth]} ${playerIsOwner ? styleButton("调整", SetStatusHint, info, 1, 2) : ""}
 手臂机能:${bodyLevelStrings[info.bodyStatus.hands]} ${playerIsOwner ? styleButton("调整", SetStatusHint, info, 1, 4) : ""}
 腿脚机能:${bodyLevelStrings[info.bodyStatus.legs]} ${playerIsOwner ? styleButton("调整", SetStatusHint, info, 1, 5) : ""}
-————————————————
+——————可用程序——————${exString}
 ${styleButton("可用功能", ShowActionButtons, info)}`
     }
     else if (info.isOwner) {
@@ -2614,7 +2636,7 @@ function ShowStringsToOther(index, info) {
 设置显示屏发言:${styleButton("执行", SetDisplayTalk, info)}
 要求控制权限:${styleButton("执行", SetIdentityHint, info, true, false)}
 清除控制权限:${styleButton("执行", SetIdentityHint, info, true, true)}
-废弃该无人机:${styleButton("执行")}
+废弃该无人机:${styleButton("执行", () => { SendMessageToSelf("开发中") })}
 再次显示该界面:${styleButton("执行", ShowActionButtons, info)}`;
         case 4: // 游客对无人机
             return `对该单位可用功能:
@@ -2699,6 +2721,7 @@ function SendMissionHelp(info) {
 //WIP
 function SetMissionToDrone(info) {
     SendDTSMsg(info, new MsgInfo("PutMission", null));
+    SendMessageToSelf("已发送任务设置指令");
 }
 
 async function GoToFacility() {
@@ -2815,7 +2838,7 @@ function DoBatteryHelp(target, type) {
         SendMessageToSelf("目标已丢失");
         return;
     }
-    if (ChatRoomIsViewActive("Map") && ChatRoomMapViewCharacterOnInteractionRange(char)) {
+    if (ChatRoomIsViewActive("Map") && !ChatRoomMapViewCharacterOnInteractionRange(char)) {
         SendMessageToSelf("与目标距离过远");
         return;
     }
@@ -2868,12 +2891,12 @@ function SetIdentityHint(target, isSetDrone, isUndo) {
     var pdi = PlayerDroneInfo();
     if (target.MemberNumber == Player.MemberNumber && isSetDrone && isUndo && pdi.isDrone) {
         SendMessageToSelf("无人机无权注销自身身份，执行惩罚");
-        DoPunishment(3, 3);
+        DoPunishment(2, 3);
         return;
     }
     if (pdi.ownerId != -1 && pdi.ownerId != target.MemberNumber) {
         SendMessageToSelf("无人机无权自主更改操作员，执行惩罚");
-        DoPunishment(3, 3);
+        DoPunishment(2, 3);
         return;
     }
     if (target.MemberNumber == Player.MemberNumber) {
@@ -2891,7 +2914,7 @@ function SetIdentityHint(target, isSetDrone, isUndo) {
         }
     }
     else {
-        if (target.ownerId == -1 && target.ownerId != Player.MemberNumber) {
+        if (target.ownerId == -1 || target.ownerId == Player.MemberNumber) {
             if (isSetDrone && !isUndo && target.isDrone) {
                 SendMessageToSelf(`即将向其要求控制权限，点击按钮以${styleButton("确认", SetToDrone, target, isUndo)}`);
                 return;
@@ -3233,7 +3256,7 @@ function MovePlayer(Pos, triggerPlayerMoved = false) {
 }
 class DroneInfo {
     constructor() {
-        this.scriptVersion = 1.0;
+        this.scriptVersion = 1.1;
         this.MemberNumber = Player.MemberNumber;
         this.isDrone = false;
         this.isOwner = false;

@@ -682,11 +682,11 @@ async function InitMapFaci() {
     ChatRoomData.Visibility = ['All'];
     ChatRoomData.MapData = Object.assign({}, map);
     ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: ChatRoomGetSettings(ChatRoomData), Action: "Update" });
-    for (var char of ChatRoomCharacter) {
-        ChatRoomMapViewTeleport(char.MemberNumber, { X: 1, Y: 37 });
-        await sleep(200);
-    }
-    MovePlayer({ X: 13, Y: 34 })
+    //for (var char of ChatRoomCharacter) {
+    //    ChatRoomMapViewTeleport(char.MemberNumber, { X: 1, Y: 37 });
+    //    await sleep(200);
+    //}
+    //MovePlayer({ X: 13, Y: 34 })
 }
 function MovePlayer(Pos, triggerPlayerMoved = false) {
     if (Pos.X == undefined || Pos.Y == undefined) return;
@@ -784,6 +784,7 @@ BOT game：DroneFacility
 游玩需要插件: https://greasyfork.org/zh-CN/scripts/574984-dronetrainingsystem
 触摸自身或任意玩家的脖子后弹出状态界面则为成功加载
 
+已知该插件会与LSCG插件的诅咒功能产生冲突，若已加载了LSCG插件则需谨慎使用
 
 设施内功能介绍:
 电梯（地图入口或设施南侧）: 需要注册成为无人机或操作员后可进入
