@@ -6,6 +6,9 @@ var showedEnterHelp = false;
 var showChangeLog = false;
 var changeLog =
     `更新日志
+——————V1.4——————
+1.修复了高潮失败时被判定为高潮的问题
+2.增加了呼叫救援脱困的功能以防因掉线等原因卡死
 ——————V1.3——————
 1.修复了部分道具使用后无法消耗的问题
 ——————V1.2——————
@@ -1573,7 +1576,7 @@ function ChatRoomMessageRecived(result, data) {
                         }
                     }
                     if (data.Dictionary[0].SourceCharacter == Player.MemberNumber) {
-                        SelfOrgasmed(data.Content.startsWith("OrgasmResist"));
+                        SelfOrgasmed(data.Content.startsWith("OrgasmResist") || data.Content.startsWith("OrgasmFail"));
                     }
 
                 }
@@ -1729,7 +1732,7 @@ function SelfOrgasmed(Resist) {
             if (targetnum >= 2) {
                 targetnum = 2;
             }
-            DoSetBodyOrBindStatus(0, randindex, targetnum, { Name : "高潮愧疚程序"})
+            DoSetBodyOrBindStatus(0, randindex, targetnum, { Name : "愧疚程序"})
         }
     }
 }
@@ -1958,6 +1961,7 @@ function ChatRoomSendChatMessageBefore(msg) {
         else {
             if (pdi.modifys["education1"]) {
                 msg.replace(/我|俺|咱|咱家/g, "本机");
+                msg.replace(Player.Name, `无人机${Player.MemberNumber}`);
             }
             SendActionText("无人机" + Player.MemberNumber + "的显示器显示：" + msg);
             //ChatRoomSendEmote("无人机" + Player.MemberNumber + "的显示器显示：" + msg);
@@ -2438,22 +2442,7 @@ function ShowStatus(info = null) {
     }
     var ShowString = ""
     if (info.isDrone) {
-        var exString = ``;
-        if (info.modifys["training1"]) {
-            exString += `\n服从指令:被操作员摸头时，会切换至服从姿态`
-            exString += `\n复位指令:被操作员捏脸颊时，会进行姿态复位`
-            exString += `\n自检指令:被操作员抚摸小腹/肚子时，会进行自检流程`
-        }
-        if (info.modifys["training2"]) {
-            exString += `\n待机指令:被操作员捏小腹/肚子时，会切换至待机姿态`
-            exString += `\n侍奉指令:操作员摇晃需侍奉的身体部位时，会用口塞亲吻操作员对应部位`
-        }
-        if (info.modifys["education1"]) {
-            exString += `\n奖励程序:被摸头时，有概率会引发高潮`
-        }
-        if (info.modifys["education2"]) {
-            exString += `\n愧疚程序:未能忍耐高潮时，随机部位拘束上升1`
-        }
+        var exString = GetExString(info);
         ShowString =
             `——————基础信息——————
 无人机ID:${info.MemberNumber}
@@ -2461,6 +2450,7 @@ function ShowStatus(info = null) {
 配额点数:${info.coin}
 剩余电量:${info.battery}/${info.batteryMax}
 操作员ID:${info.ownerId == -1 ? '无操作员' : info.ownerId}
+系统版本:${info.scriptVersion}
 ——————生理信息——————
 心率:${bpm}BPM
 体温:${temp}℃
@@ -2489,6 +2479,7 @@ ${styleButton("可用功能", ShowActionButtons, info)}`
 操作员ID:${info.MemberNumber}
 操作员权限等级:${info.level}
 配额点数:${info.coin}
+系统版本:${info.scriptVersion}
 ——————生理信息——————
 心率:${bpm}BPM
 体温:${temp}℃
@@ -2500,6 +2491,7 @@ ${styleButton("可用功能", ShowActionButtons, info)}`
             `——————基础信息——————
 游客ID:${info.MemberNumber}
 配额点数:${info.coin}
+系统版本:${info.scriptVersion}
 ——————生理信息——————
 心率:${bpm}BPM
 体温:${temp}℃
@@ -2509,6 +2501,27 @@ ${styleButton("可用功能", ShowActionButtons, info)}`
     SendMessageToSelf(ShowString,"status");
 }
 
+function GetExString(info) {
+
+    var exString = ``;
+    if (info.modifys["training1"]) {
+        exString += `\n服从指令:被操作员摸头时，会切换至服从姿态`
+        exString += `\n复位指令:被操作员捏脸颊时，会进行姿态复位`
+        exString += `\n自检指令:被操作员抚摸小腹/肚子时，会进行自检流程`
+    }
+    if (info.modifys["training2"]) {
+        exString += `\n待机指令:被操作员捏小腹/肚子时，会切换至待机姿态`
+        exString += `\n侍奉指令:操作员摇晃需侍奉的身体部位时，会用口塞亲吻操作员对应部位`
+    }
+    if (info.modifys["education1"]) {
+        exString += `\n奖励程序:被摸头时，有概率会引发高潮`
+    }
+    if (info.modifys["education2"]) {
+        exString += `\n愧疚程序:未能忍耐高潮时，随机部位拘束上升1`
+    }
+    return exString;
+}
+
 function GetStatusAndVoiceCmdString() {
     info = PlayerDroneInfo();
     var playerIsOwner = ((info.ownerId == -1 && info.MemberNumber != Player.MemberNumber) || info.ownerId == Player.MemberNumber)
@@ -2516,6 +2529,7 @@ function GetStatusAndVoiceCmdString() {
     var { bpm, breathing, temp } = InventoryItemBreastFuturisticBraUpdate(char);
     var progress = 0
     var temp = 37;
+    var exString = GetExString(info);
     if (char.ArousalSettings && char.ArousalSettings.Progress > 0) {
         temp += (char.ArousalSettings.Progress / 100) * 3;
         progress = char.ArousalSettings.Progress
@@ -2526,6 +2540,7 @@ function GetStatusAndVoiceCmdString() {
 配额点数:${info.coin}
 剩余电量:${info.battery}/${info.batteryMax}
 操作员ID:${info.ownerId == -1 ? '无操作员' : info.ownerId}
+系统版本:${info.scriptVersion}
 ——————生理信息——————
 心率:${bpm}BPM
 体温:${temp}℃
@@ -2556,6 +2571,7 @@ function GetStatusAndVoiceCmdString() {
 无人机${info.MemberNumber} 电击惩罚
 无人机${info.MemberNumber} 弹出充电曲柄
 注意:如果无人机不具备听力(如耳部机能限制或电量低于20的情况)的话无法正常使用语音指令，可尝试发送 *指令内容 或 (指令内容) 来绕过听力限制
+——————可用程序——————${exString}
 `
 
 }
@@ -2601,6 +2617,7 @@ function ShowStringsToSelf(index, info) {
 显示任务进度:${styleButton("执行", ShowMissionProcess)}
 发送充电求助:${styleButton("执行", SendBatteryHelp)}
 移动至训练设施:${styleButton("执行", GoToFacility)}
+呼叫救援脱困:${styleButton("执行", ExitFromStack)}
 再次显示该界面:${styleButton("执行", ShowActionButtons)}`;
         case 1:
             return `操作员可用功能:
@@ -2610,6 +2627,7 @@ function ShowStringsToSelf(index, info) {
 显示任务进度:${styleButton("执行", ShowMissionProcess)}
 注销操作员身份:${styleButton("执行", SetIdentityHint, info, false, true)}
 移动至训练设施:${styleButton("执行", GoToFacility)}
+呼叫救援脱困:${styleButton("执行", ExitFromStack)}
 再次显示该界面:${styleButton("执行", ShowActionButtons)}`;
         case 2:
             return `游客可用功能:
@@ -2618,6 +2636,7 @@ function ShowStringsToSelf(index, info) {
 注册成为无人机:${styleButton("执行", SetIdentityHint, info, true, false)}
 注册成为操作员:${styleButton("执行", SetIdentityHint, info, false, false)}
 移动至训练设施:${styleButton("执行", GoToFacility)}
+呼叫救援脱困:${styleButton("执行", ExitFromStack)}
 再次显示该界面:${styleButton("执行", ShowActionButtons)}`;
         default:
             return "";
@@ -2781,6 +2800,32 @@ async function GoToFacility() {
     
     
 }
+
+async function ExitFromStack() {
+    var pdi = PlayerDroneInfo();
+    if (pdi.isDrone) {
+        SendMessageToSelf(`无人机呼叫救援需要20信用配额，不足20会扣至负数，${styleButton("执行", DoExitFromStack,20)}`);
+    }
+    else {
+        SendMessageToSelf(`呼叫救援需要5信用配额，不足5会扣至负数，${styleButton("执行", DoExitFromStack,20)}`);
+    }
+}
+
+async function DoExitFromStack(price) {
+    var pdi = PlayerDroneInfo();
+    SendMessageToSelf(styleProgressBar("呼叫中", "已完成", 120 * 1000, async () =>
+    {
+        RemoveRestrains(Player);
+        await sleep(1000);
+        await RefreshBinds(true);
+        await sleep(1000);
+        if (ChatRoomData?.MapData?.Objects?.startsWith("ҴӄӃҶұҳҹ")) {
+            MovePlayer({ X: 1, Y: 37 });
+        }
+        pdi.coin -= price;
+    }))
+}
+
 async function JoinRoom(RoomName) {
     await ChatRoomAttemptLeave();
     await sleep(1000);
@@ -3274,7 +3319,7 @@ function MovePlayer(Pos, triggerPlayerMoved = false) {
 }
 class DroneInfo {
     constructor() {
-        this.scriptVersion = 1.2;
+        this.scriptVersion = 1.4;
         this.MemberNumber = Player.MemberNumber;
         this.isDrone = false;
         this.isOwner = false;
