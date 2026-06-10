@@ -10,6 +10,7 @@ var changeLog =
 ——————V1.5——————
 1.修复了操作员无法在仓库区互动的问题
 2.增加了无人机休眠区域，位于设施南侧偏东
+3.修复了部分道具回收价格大于售价的问题
 ——————V1.4——————
 1.修复了高潮失败时被判定为高潮的问题
 2.增加了呼叫救援脱困的功能以防因掉线等原因卡死
@@ -3641,8 +3642,8 @@ class ItemInfo {
             );
         }
         else {
-            pdi.coin += 10;
-            SendActionText(`${Player.Name}使用了拘束收紧芯片，但无法对非无人机使用，所以被回收为了10配额点数`)
+            pdi.coin += 5;
+            SendActionText(`${Player.Name}使用了拘束收紧芯片，但无法对非无人机使用，所以被回收为了5配额点数`)
         }
         ItemInfo.RemoveThis(item);
     }
@@ -3739,8 +3740,8 @@ class ItemInfo {
             }
         }
         else {
-            pdi.coin += 10;
-            SendActionText(`${Player.Name}使用了机能限制芯片，但无法对非无人机使用，所以被回收为了10配额点数`)
+            pdi.coin += 5;
+            SendActionText(`${Player.Name}使用了机能限制芯片，但无法对非无人机使用，所以被回收为了5配额点数`)
         }
         ItemInfo.RemoveThis(item);
     }
@@ -3815,8 +3816,8 @@ class ItemInfo {
             );
         }
         else {
-            pdi.coin += 10;
-            SendActionText(`${Player.Name}使用了高潮限制器，但无法对非无人机使用，所以被回收为了10配额点数`)
+            pdi.coin += 5;
+            SendActionText(`${Player.Name}使用了高潮限制器，但无法对非无人机使用，所以被回收为了5配额点数`)
         }
         ItemInfo.RemoveThis(item);
 
@@ -3845,8 +3846,8 @@ class ItemInfo {
             pdi.disPlayTalk = level == 1;
         }
         else {
-            pdi.coin += 10;
-            SendActionText(`${Player.Name}使用了显示器开关，但无法对非无人机使用，所以被回收为了10配额点数`)
+            pdi.coin += 5;
+            SendActionText(`${Player.Name}使用了显示器开关，但无法对非无人机使用，所以被回收为了5配额点数`)
         }
         ItemInfo.RemoveThis(item);
     }
