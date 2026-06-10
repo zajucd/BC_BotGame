@@ -1,4 +1,4 @@
-﻿//DTS基础插件_
+﻿//DTS基础插件
 var secAfterStart = 0;
 var timeEventInterval = -1;
 var charaterInstalledScript_isDrone = new Map();
