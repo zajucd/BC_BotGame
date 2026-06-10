@@ -682,12 +682,12 @@ async function InitMapFaci() {
     ChatRoomData.Visibility = ['All'];
     ChatRoomData.MapData = Object.assign({}, map);
     ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: ChatRoomGetSettings(ChatRoomData), Action: "Update" });
-    //for (var char of ChatRoomCharacter) {
-    //    ChatRoomMapViewTeleport(char.MemberNumber, { X: 1, Y: 37 });
-    //    await sleep(200);
-    //}
-    //await sleep(200);
-    //MovePlayer({ X: 13, Y: 34 })
+    for (var char of ChatRoomCharacter) {
+        ChatRoomMapViewTeleport(char.MemberNumber, { X: 1, Y: 37 });
+        await sleep(200);
+    }
+    await sleep(200);
+    MovePlayer({ X: 13, Y: 34 })
 }
 function MovePlayer(Pos, triggerPlayerMoved = false) {
     if (Pos.X == undefined || Pos.Y == undefined) return;
