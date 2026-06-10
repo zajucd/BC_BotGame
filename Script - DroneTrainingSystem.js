@@ -7,6 +7,9 @@ var showChangeLog = false;
 var initComplete = false;
 var changeLog =
     `更新日志
+——————V1.5——————
+1.修复了操作员无法在仓库区互动的问题
+2.增加了无人机休眠区域，位于设施南侧偏东
 ——————V1.4——————
 1.修复了高潮失败时被判定为高潮的问题
 2.增加了呼叫救援脱困的功能以防因掉线等原因卡死
@@ -2442,6 +2445,12 @@ function ShowStatus(info = null) {
         temp += (char.ArousalSettings.Progress / 100) * 3;
         progress = char.ArousalSettings.Progress
     }
+    var sleepString = ""
+    if (info.sleepUntil != null) {
+        sleepString +="\n休眠至:"
+        sleepString += new Date(info.sleepUntil).toLocaleString();
+    }
+
     var ShowString = ""
     if (info.isDrone) {
         var exString = GetExString(info);
@@ -2452,7 +2461,7 @@ function ShowStatus(info = null) {
 配额点数:${info.coin}
 剩余电量:${info.battery}/${info.batteryMax}
 操作员ID:${info.ownerId == -1 ? '无操作员' : info.ownerId}
-系统版本:${info.scriptVersion}
+系统版本:${info.scriptVersion}${sleepString}
 ——————生理信息——————
 心率:${bpm}BPM
 体温:${temp}℃
@@ -3321,7 +3330,7 @@ function MovePlayer(Pos, triggerPlayerMoved = false) {
 }
 class DroneInfo {
     constructor() {
-        this.scriptVersion = 1.4;
+        this.scriptVersion = 1.5;
         this.MemberNumber = Player.MemberNumber;
         this.isDrone = false;
         this.isOwner = false;
@@ -3384,6 +3393,8 @@ class DroneInfo {
         this.todaysMission = 0;
         this.todaysWork = 0
         this.workMax = 30;
+
+        this.sleepUntil = null;
     }
     FromPlayerSetting() {
         if (Player.ExtensionSettings["DTSbyZajucd"] != undefined) {

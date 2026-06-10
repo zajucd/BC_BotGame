@@ -15,12 +15,8 @@ const StockRoom = {
 }
 
 function StockRoomEnter() {
-    if (CheckPlayerDroneInfoExistAndIsDrone()) {
-        SendMessageToSelf(`已进入仓库区，可在柜子处${styleButton("拿起", StockRoomAction, true)}或${styleButton("放下", StockRoomAction, false)}货物`, "StockRoom")
-    }
-    else {
-        SendMessageToSelf(`已进入仓库区`,"StockRoom")
-    }
+    SendMessageToSelf(`已进入仓库区，可在柜子处${styleButton("拿起", StockRoomAction, true)}或${styleButton("放下", StockRoomAction, false)}货物`, "StockRoom")
+
 }
 function StockRoomLeave() {
     ClearTagMessage("StockRoom");
@@ -205,6 +201,60 @@ async function ElevatorEnter(nowInZone) {
 
 function ElevatorLeave() {
     ClearTagMessage("Elevator");
+}
+
+const SleepEnterZone = {
+    Areas: [
+        { leftUp: { X: 24, Y: 18 }, rightDown: { X: 27, Y: 25 } },
+    ],
+    Exclude: [
+    ],
+    Enter: window["SleepEnterZoneEnter"],
+    Leave: window["SleepEnterZoneLeave"]
+}
+
+const SleepEnterTiles = {
+    Areas: [
+        { X: 27, Y: 18 },
+        { X: 27, Y: 20 },
+        { X: 27, Y: 22 },
+        { X: 27, Y: 24 },
+    ],
+    Exclude: [
+    ],
+}
+
+function SleepEnterZoneEnter() {
+    SendMessageToSelf(`已进入无人机休眠区，可内侧软垫处${styleButton("休眠", SleepEnterZoneDoSleep, true)}以获取配额点数`, "SleepEnterZone")
+
+}
+
+function SleepEnterZoneLeave() {
+    ClearTagMessage("SleepEnterZone");
+}
+
+function SleepEnterZoneDoSleep() {
+    var i = IsInZone(Player.MapData.Pos, SleepEnterTiles);
+    if (i === false) {
+        SendMessageToSelf("不位于软垫上", "SleepEnterZone");
+        return;
+    }
+    var index = Number.parseInt(i);
+    SendMessageToSelf(`即将开始休眠${(index + 1) * 6}个小时，下线后依旧计算时间，${styleButton("开始休眠", async (index) => {
+        ClearTagMessage("SleepEnterZone");
+        SendMessageToSelf(`休眠开始，获得${(index + 1) * 10}配额点数`);
+        var pdi = PlayerDroneInfo();
+        pdi.coin += (index + 1) * 10;
+        await sleep(1000);
+        WearEquips(Player, [Crate]);
+        SendMessageToSelf(`休眠仓部署完成，即将转移至待命区开始休眠`);
+        await sleep(2000);
+        MovePlayer(RandomPosOfArea(SleepRoom.Areas[0]), true);
+        pdi.sleepUntil = Date.now() + (index + 1) * 6 * 3600 * 1000;
+        ServerPlayerExtensionSettingsSync("DTSbyZajucd");
+
+    }, index)}`, "SleepEnterZone");
+    
 }
 
 const SleepRoom = {
@@ -1310,11 +1360,11 @@ function ChargeComplete() {
 }
 
 
-var AllZoneList = [StockRoom, Elevator, SleepRoom, ModifyRoom, ModifyTile, ShopRoom, ShopInnerRoom, WorkRoom, WorkInnerRoom, OperRoom, Cat, DancerRoom, PrivateRoom, TrainingRoom, EducationRoom, ChargeRoom]
+var AllZoneList = [StockRoom, Elevator, SleepRoom, ModifyRoom, ModifyTile, ShopRoom, ShopInnerRoom, WorkRoom, WorkInnerRoom, OperRoom, Cat, DancerRoom, PrivateRoom, TrainingRoom, EducationRoom, ChargeRoom, SleepEnterZone, SleepEnterTiles]
 var map = {
     "Type": "Always",
     "Tiles": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҲҲҲҴҴҲҲҲҴҴҴҴҴҴҴ¬yyyyyҴҴҴҳҳҳҴҴҴyyyyтyyyҴҴªªªҴҴªªªтyyyyyyyyyyyyҴҴҳ«««ҳҴтyyyyтyyyҴҴªªªҴҴªªªтyyyyyyyyyyyyҴҴ«ҳ«ҳ«ҴКyyyyтyyyҴҴҴҴҴҴҴҴҴҴтyyyyyyyyyyyyҴҴ«««««ҴҴyyyyтyyyyyyyyyyyyyтyyyyyyyyyyyyҴҴ«ҳ«ҳ«ÇÇyyyyтyyyyyyyyyyyyyтyyyyyyyyyyyyҴҴҳ«««ҴҴтyyyyтyyyyyyyyyyyyyтyyyyyyҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҳ«ҳyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyҳ«ҳ«¬«yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy«¬«ҲҲҴҴҴҲҲҴyyyҴААААҴААААҴААААААҴyyyҴҳҳҳҴҳҳҳªªҴҴҴªªҴyyyҴҴҴҴyyyҴ«««Ҵ«««ªªҴҴҴªªҴyyyҴҴҴҴyyyҴ«¬«Ҵ«¬«¬¬¬¬¬¬¬ҴyyyҴҴҴҴyyyҴ«««Ҵ«««ҲҲҴ¬ҴҴҴҴyyyҴҴҴҴyyyҴҴҴҴҴҴҴҴªªҴ¬¬¬¬ҴyyyҴҴҴҴyyyҴyyyyyyyªªҴ¬¬¬¬ҴyyyҴҴҴЮЮЮЮЮҴҴҴҴҴҳҳҳҳҴyyyҴyyyyyyy¬¬¬¬¬¬¬ÇyyyҴxЮ¬¬¬Юxxxҳ«««ҴyyyÇyyyyyyyҲҲҴ¬ҴҲҲҴyyyҴxЮЮxxxҳ««ҳҳҴyyyҴҳ¬ҳ¬ҳ¬ҳªªҴ¬ҴªªҴyyyҴxxxxxxxxxxxҳ«««ҴyyyҴҴҳҴҳҴҳҴªªҴ¬ҴªªҴyyyҴxxxxxxxxxxxҳ««ҳҳҴyyyҴҴ«Ҵ«Ҵ«Ҵ¬¬¬¬¬¬¬ҴyyyҴxxxxxxxxxxxҳ«««ҴyyyҴҴ«Ҵ«Ҵ«ҴҴҴҴҴҴҴҴҴyyyҴxxxxxxxxxxxҳ««ҳҳҴyyyҴҴҴҴҴҴҴҴҳ«ҳyyyyyyyyҴxxxxxxxxxxxҳ«««Ҵyyyyyyyyҳ«ҳ«¬«yyyyyyyyҴxxxxxxxxxxxҳ««ҳҳҴyyyyyyyy«¬«ҴҴҴҴҴҴҴyyyyҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴҴyyyyҴҴҴҴҴҴҴyyyyyyҴyyyyyyyyyyyyyyyyyyyyyyyyyyҴyyyyyyyyyyyyҴyyyyyyyyyyyyyyyyyyyyyyyyyyҴyyyyyyyyyyyyҴҳ«ҳyyyyyyyҳ«ҳyyyyyyyyyҳҳҳҳҴyyyyyyyyyyyyҴ«¬«yyyyyyy«¬«yyyyyyyyyҳ«««ҴyyyyyyyyyyyyҴҳ«ҳyyyyyyyҳ«ҳyyyyyyyyyҳ«««ҴyyyyyyyyyyyyҴyyyyyyyyyyyyyyyyyyyyyyÇ«««ҴyyyyyyҴҴҴҴҴҴҴҴҴҴҴҴЮЮЮЮЮҴҴҴҴҴҴҴҴҴҴyҴҴҴҴҴҴҳҳҳҳҳҳææëëëðëëëææҴxxxxxҴҲҲҲҲҳҳҳҳҴҴҴҴҲҲҲҴ««««««ææëëëðëëëææҴxxxxxҴªªªҲ«««ҳ¬¬¬ҴªªªҴ««««««ææëëëëëëëææҴxxxxxҴªªªҲ«««ҳ¬¬¬ҲªªªҴ««««««ææëëëðëëëææÇxxxxxÇªªªҲ«««ҳ¬¬¬ÇªªªҴ««««««ææëëëðëëëææҴxxxxxҴҲҲҲҳҳҳҳҳҳҳҳҴҲҲҲҴ««««««ææëëëëëëëææҴЮЮЮЮЮҴyyұ«ҳ«ҳ«ҳ«ҳyyyyҴ««««««",
-    "Objects": "ҴӄӃҶұҳҹddddddddddddddddddddddddddddddddddddddddddddddddddd೥ddddddd೦೧ddd೦೧dddddddƂƂƂƂƂұdddddddddшшшddŀddddшddddшdddҴƂƂƂƂƂdddddddddddddddddddddиddddddddddddddddddƂƂƂƂƂҲdddddddddžſddddƀƁddd೥ྴddd೥ྴdҵƂƂƂƂƂddddddddddшddྴྴdddddddddddddddddddddddddƂƂƂƂƂҳddddddddddddddddddddddddddddҶƂƂƂƂƂdddddddddddddddŀdddddddddddddddddddddddddddddྴdddddddddddྴdddྴddddddddddddྴddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd೦೧ddd೦೧dddddd௪ddddd௪ddddd௪dddddddd೥ddd೥džſdddžſdddddшżdddddżшdшd࠲żdddddddиdшdиdшddddddddddddddːːdːːdddddddːːdddddddddddddddddddddddddddϼdϼdddddddddϼdddddddddddd೦೧ddd೥ddddddࠖࠖdddddࠖࠖdࠖࠖdd˚˚ddddddྴdddྴdžſdddddddddddddŀdŀdddddddddŀdddddddddddddddddddྴddddྶdddddddྶdྶdddddddddྴdddddddddddddddddddїdтdтdтdјdљddїdddddddddddddd೦೧ddd೦೧dddddddࠖࠖࠖࠖࠖdddddddddddddddddddddžſdddžſddddddшdddddŀdddddјddddddddྴdྴdྴddddddddddddddddˤˤˤdżdddddddddddddddddddddddddddddddddddˆˆˆdddddddљddddddddшdшdшdddddddddddddddddddddddddddddddddddddddddddddddddddddƂƂddddd̪dddddњddddddddddddddddddddddddddžſdddddddddddddddddddddddddddddddྴdddddddddddddddྶྐྵdྸdddddddddྴdddddƂƂƂƂƂҷddddddddddddddddddddddddddddҺƂƂƂƂƂddddddddddddddddddddddddddddddddddddddddƂƂƂƂƂҸddddddddddddddddddddddddddddһƂƂƂƂƂddddddddddddddddddddddddddddddddddddddddƂƂƂƂƂҹdddddddddddddddddddddddྸddddҼƂƂƂƂƂddddddddddddddddddddddddddddddddddddddddೋdddddddddೋdddddddddddddddddddddddddddddnsdddddddddddиdddddddddddddྴddddddшшшшшшddddddddddddƀƁddddddddddddddddddddшшшшшшdddddddddddྴdddddྷdddddddddddྐྵddddшшшшшшddddddddddddddddddddddddddddddddddшшшшшшdddddddddddd࠲d࠲d࠲dddddddddddddddddшшшшшшddddddddddddddddddddddddddddddddddшшшшшш"
+    "Objects": "ҴӄӃҶұҳҹddddddddddddddddddddddddddddddddddddddddddddddddddd೥ddddddd೦೧ddd೦೧dddddddƂƂƂƂƂұdddddddddшшшddŀddddшddddшdddҴƂƂƂƂƂdddddddddddddddddddddиddddddddddddddddddƂƂƂƂƂҲdddddddddžſddddƀƁddd೥ྴddd೥ྴdҵƂƂƂƂƂddddddddddшddྴྴdddddddddddddddddddddddddƂƂƂƂƂҳddddddddddddddddddddddddddddҶƂƂƂƂƂdddddddddddddddŀdddddddddddddddddddddddddddddྴdddddddddddྴdddྴddddddddddddྴddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd೦೧ddd೦೧dddddd௪ddddd௪ddddd௪dddddddd೥ddd೥džſdddžſdddddшżdddddżшdшd࠲żdddddddиdшdиdшddddddddddddddːːdːːdddddddːːdddddddddddddddddddddddddddϼdϼdddddddddϼdddddddddddd೦೧ddd೥ddddddࠖࠖdddddࠖࠖdࠖࠖdd˚˚ddddddྴdddྴdžſdddddddddddddŀdŀdddddddddŀdddddddddddddddddddྴddddྶdddddddྶdྶdddddddddྴdddddddddddddddddddїdтdтdтdјdљdіќdddddddddddddd೦೧ddd೦೧dddddddࠖࠖࠖࠖࠖdddddddddddddddddddddžſdddžſddddddшdddddŀddddїјddddddddྴdྴdྴddddddddddddddddˤˤˤdżdddddddddddddddddddddddddddddddddddˆˆˆddddddїўddddddddшdшdшdddddddddddddddddddddddddddddddddddddddddddddddddddddƂƂddddd̪ddddјњddddddddddddddddddddddddddžſdddddddddddddddddddddddddddddddྴdddddddddddddddྶྐྵdྸdddddddddྴdddddƂƂƂƂƂҷddddddddddddddddddddddddddddҺƂƂƂƂƂddddddddddddddddddddddddddddddddddddddddƂƂƂƂƂҸddddddddddddddddddddddddddddһƂƂƂƂƂddddddddddddddddddddddddddddddddddddddddƂƂƂƂƂҹdddddddddddddddddddddddྸddddҼƂƂƂƂƂddddddddddddddddddddddddddddddddddddddddೋdddddddddೋdddddddddddddddddddddddddddddnsdddddddddddиdddddddddddddྴddddddшшшшшшddddddddddddƀƁddddddddddddddddddddшшшшшшdddddddddddྴdddddྷdddddddddddྐྵddddшшшшшшddddddddddddddddddddddddddddddddddшшшшшшdddddddddddd࠲d࠲d࠲dddddddddddddddddшшшшшшddddddddddddddddddddddddddddddddddшшшшшш"
 }
 
 
@@ -1324,7 +1374,7 @@ async function ExpendInit() {
     await waitFor(() => initComplete == true)
     InstallHook("PlayerMoved", null, null, PlayerMovedFaci)
     InstallHook("ChargeComplete", null, null, function MissionInfoProgressAddChargeComplete() { MissionInfo.ProgressAdd("Charge"); })
-
+    InstallHook("DoPer10Sec", null, null, CheckSleepUntil);
     //InitMap();
 }
 async function InitMapFaci() {
@@ -1374,6 +1424,24 @@ async function PlayerMovedFaci() {
         }
     }
     pverPos = Object.assign({}, Player.MapData.Pos);
+}
+
+async function CheckSleepUntil() {
+    if (ChatRoomData.MapData.Objects.startsWith("ҴӄӃҶұҳҹ") == false) return;
+    var pdi = PlayerDroneInfo();
+    if (pdi.sleepUntil == null) return;
+    if (pdi.sleepUntil < Date.now()) {
+        pdi.sleepUntil = null;
+        SendMessageToSelf(`休眠完成，即将移动至设施主要区域`);
+        await sleep(2000);
+        MovePlayer(RandomPosOfArea(Elevator.Areas[3]));
+        RemoveRestrainByOneAssetGroup(Player, Crate.AssetGroup);
+        return;
+    }
+    if (IsInZone(Player.MapData.Pos, SleepRoom) === false) {
+        WearEquips(Player, [Crate]);
+        MovePlayer(RandomPosOfArea(SleepRoom.Areas[0]), true);
+    }
 }
 
 
