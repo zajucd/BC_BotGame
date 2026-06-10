@@ -4,6 +4,7 @@ var timeEventInterval = -1;
 var charaterInstalledScript_isDrone = new Map();
 var showedEnterHelp = false;
 var showChangeLog = false;
+var initComplete = false;
 var changeLog =
     `更新日志
 ——————V1.4——————
@@ -1517,6 +1518,7 @@ function Init() {
         }
     }, 1000);
     PlayerDroneInfo();
+    initComplete = true
 }
 function ChatRoomMessageRecived(result, data) {
     // Make sure the message is valid (needs a Sender and Content)

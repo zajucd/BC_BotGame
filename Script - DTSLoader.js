@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name DroneTrainingSystem
 // @namespace https://www.bondageprojects.com/
-// @version 0.4
+// @version 0.5
 // @description A script for bondage-club
 // @author zajucd
 // @license MIT
@@ -11,8 +11,11 @@
 // @grant none
 // @run-at document-end
 // ==/UserScript==
-(function () {
+(async function () {
     "use strict";
+    function sleep(time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
     if (typeof DTSbyZajucd === "undefined") {
         const src = `https://raw.githack.com/zajucd/BC_BotGame/refs/heads/main/Script%20-%20DroneTrainingSystem.js?v=${Date.now()}`;
         const src2 = `https://raw.githack.com/zajucd/BC_BotGame/refs/heads/main/Script%20-%20DroneTrainingSystem%20-%20FacilityMapExpend.js?v=${Date.now()}`;
@@ -24,6 +27,7 @@
         script.crossOrigin = "anonymous";
         document.head.appendChild(script);
 
+        await sleep(1000);
         const script2 = document.createElement("script");
         script2.src = src2;
         script2.type = "text/javascript";
