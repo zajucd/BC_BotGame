@@ -1320,8 +1320,8 @@ var map = {
 
 var pverPos = null;
 
-function ExpendInit() {
-    waitFor(() => initComplete == true)
+async function ExpendInit() {
+    await waitFor(() => initComplete == true)
     InstallHook("PlayerMoved", null, null, PlayerMovedFaci)
     InstallHook("ChargeComplete", null, null, function MissionInfoProgressAddChargeComplete() { MissionInfo.ProgressAdd("Charge"); })
 
