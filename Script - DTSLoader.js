@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name DroneTrainingSystem
 // @namespace https://www.bondageprojects.com/
-// @version 0.3
+// @version 0.4
 // @description A script for bondage-club
 // @author zajucd
 // @license MIT
@@ -13,26 +13,9 @@
 // ==/UserScript==
 (function () {
     "use strict";
-    async function purgeCache(originalUrl) {
-        try {
-            const purgeUrl = originalUrl.replace('cdn.jsdelivr.net', 'purge.jsdelivr.net');
-            const response = await fetch(purgeUrl);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const result = await response.json();
-            console.log('Purge successful:', result);
-            
-            return result;
-        } catch (error) {
-            console.error('Purge request failed:', error);
-        }
-    }
     if (typeof DTSbyZajucd === "undefined") {
-        const src = `https://cdn.jsdelivr.net/gh/zajucd/BC_BotGame@main/Script%20-%20DroneTrainingSystem.js?v=${Date.now()}`;
-        const src2 = `https://cdn.jsdelivr.net/gh/zajucd/BC_BotGame@main/Script%20-%20DroneTrainingSystem%20-%20FacilityMapExpend.js?v=${Date.now()}`;
+        const src = `https://raw.githack.com/zajucd/BC_BotGame/refs/heads/main/Script%20-%20DroneTrainingSystem.js?v=${Date.now()}`;
+        const src2 = `https://raw.githack.com/zajucd/BC_BotGame/refs/heads/main/Script%20-%20DroneTrainingSystem%20-%20FacilityMapExpend.js?v=${Date.now()}`;
         //await purgeCache(src);
         //await purgeCache(src2);
         const script = document.createElement("script");
