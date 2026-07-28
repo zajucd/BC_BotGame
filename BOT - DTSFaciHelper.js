@@ -45,10 +45,10 @@ function ChatRoomMessageDTSFaci(sender, msg, data) {
 }
 
 function PlayerEnter(sender) {
-    ServerSend("ChatRoomChat", { Content: "*该bot现已发布至 https://github.com/zajucd/BC_BotGame ", Type: "Emote", Target: sender.MemberNumber });
-    ServerSend("ChatRoomChat", { Content: "*游玩该游戏需要需要插件:https://greasyfork.org/zh-CN/scripts/574984-dronetrainingsystem 且不需要本bot，加载插件后刷新页面即可游玩", Type: "Emote", Target: sender.MemberNumber });
-    ServerSend("ChatRoomChat", { Content: "*若触摸自身或任意玩家的脖子后弹出状态界面，即代表插件加载成功，启动电梯则需要通过插件内功能成为无人机或操作员", Type: "Emote", Target: sender.MemberNumber });
-    ServerSend("ChatRoomChat", { Content: "*查看bot的bio以获取更多信息，如遇到疑似bug的情况可以通过私聊bot反馈，无人机设计大赛堂堂开赛，详细信息也在bot的bio里", Type: "Emote", Target: sender.MemberNumber });
+    ServerSend("ChatRoomChat", { Content: "(该bot现已发布至 https://github.com/zajucd/BC_BotGame)", Type: "Emote", Target: sender.MemberNumber });
+    ServerSend("ChatRoomChat", { Content: "(游玩该游戏需要需要插件:https://greasyfork.org/zh-CN/scripts/574984-dronetrainingsystem 且不需要本bot，加载插件后刷新页面即可游玩)", Type: "Emote", Target: sender.MemberNumber });
+    ServerSend("ChatRoomChat", { Content: "(若触摸自身或任意玩家的脖子后弹出状态界面，即代表插件加载成功，启动电梯则需要通过插件内功能成为无人机或操作员\n当前版本为1.5，如果与状态界面内的系统版本不匹配，可以尝试 ctrl + F5 进行强制刷新)", Type: "Emote", Target: sender.MemberNumber });
+    ServerSend("ChatRoomChat", { Content: "(查看bot的bio以获取更多信息，如遇到疑似bug的情况可以通过私聊bot反馈，无人机设计大赛堂堂开赛，详细信息也在bot的bio里)", Type: "Emote", Target: sender.MemberNumber });
 
 }
 
@@ -770,6 +770,61 @@ function RemoveClothes(sender, refresh = true, removeUnderwear = true, removeCos
 }
 function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+function GetAllInventory(sender) {
+    var result = ""
+    for (let inv of sender.Appearance) {
+
+        var cache = [];
+        var Craft = JSON.stringify(inv.Craft, function (key, value) {
+            if (typeof value === 'object' && value !== null) {
+                if (cache.indexOf(value) !== -1) {
+                    // 如果发现循环引用，则忽略该值
+                    return;
+                }
+                cache.push(value);
+            }
+            return value;
+        });
+        cache = []; // 释放cache
+        var Property = JSON.stringify(inv.Property, function (key, value) {
+            if (typeof value === 'object' && value !== null) {
+                if (cache.indexOf(value) !== -1) {
+                    // 如果发现循环引用，则忽略该值
+                    return;
+                }
+                cache.push(value);
+            }
+            return value;
+        });
+        cache = []; // 释放cache
+        var colors = "";
+        if (inv.Color) {
+            if (Array.isArray(inv.Color)) {
+                colors += "[";
+                for (var c of inv.Color) {
+                    colors += `"${c}",`;
+                }
+                colors += "]";
+            }
+            else {
+                colors += `["${inv.Color}"]`;
+            }
+        }
+        else {
+            colors = "[]";
+        }
+        result += `{
+            "AssetGroup":"${inv.Asset.Group.Name}",
+            "Item":"${inv.Asset.Name}",
+            "Color":${colors},
+            "Property":${Property},
+            "Craft":${Craft}
+        },
+        `
+    }
+    return result;
 }
 function InitBot() {
     RemoveClothes(Player, false);

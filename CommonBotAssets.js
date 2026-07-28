@@ -172,23 +172,58 @@ function AllAssetGroupName() {
     return result;
 }
 function GetAllInventory(sender) {
-    for (let ag of AssetGroup) {
-        if (ag.Name.startsWith("Item")) {
-            let geted = InventoryGet(sender, ag.Name);
-            if (geted ?? false) {
-                console.log(geted);
-                console.log(geted.Asset.Name);
-                console.log(ag.Name);
-                console.log(geted.Color);
-                if ((geted.Property ?? false) && (geted.Property.TypeRecord ?? false)) {
-                    console.log(geted.Property.TypeRecord)
-                }
+    var result = ""
+    for (let inv of sender.Appearance) {
 
-                console.log("——————");
+        var cache = [];
+        var Craft = JSON.stringify(inv.Craft, function (key, value) {
+            if (typeof value === 'object' && value !== null) {
+                if (cache.indexOf(value) !== -1) {
+                    // 如果发现循环引用，则忽略该值
+                    return;
+                }
+                cache.push(value);
             }
-            
+            return value;
+        });
+        cache = []; // 释放cache
+        var Property = JSON.stringify(inv.Property, function (key, value) {
+            if (typeof value === 'object' && value !== null) {
+                if (cache.indexOf(value) !== -1) {
+                    // 如果发现循环引用，则忽略该值
+                    return;
+                }
+                cache.push(value);
+            }
+            return value;
+        });
+        cache = []; // 释放cache
+        var colors = "";
+        if (inv.Color) {
+            if (Array.isArray(inv.Color)) {
+                colors += "[";
+                for (var c of inv.Color) {
+                    colors += `"${c}",`;
+                }
+                colors += "]";
+            }
+            else {
+                colors += `["${inv.Color}"]`;
+            }
         }
+        else {
+            colors = "[]";
+        }
+        result += `{
+            "AssetGroup":"${inv.Asset.Group.Name}",
+            "Item":"${inv.Asset.Name}",
+            "Color":${colors},
+            "Property":${Property},
+            "Craft":${Craft}
+        },
+        `
     }
+    return result;
 }
 
 function sleep(time) {

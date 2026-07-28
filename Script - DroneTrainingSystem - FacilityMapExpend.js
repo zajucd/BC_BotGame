@@ -503,8 +503,49 @@ var allModify = {
         price: 30,
         effect: (pdi) => { },
         front: ["dontShow"]
-    }
+    },
 
+
+    BasicDrone: {
+        id: "BasicDrone",
+        name: "改装为基础型无人机",
+        desc: "基础型无人机无特殊功能",
+        price: 30,
+        canRepeat: true,
+        coolDown: {Name:"TypeChange",Time: 7 * 24 * 3600 * 1000},
+        effect: (pdi) => { pdi.type = "BasicDrone" },
+        front: ["level2"]
+    },
+    MaidDrone: {
+        id: "MaidDrone",
+        name: "改装为维护型无人机",
+        desc: "维护型无人机",
+        price: 30,
+        canRepeat: true,
+        coolDown: { Name: "TypeChange", Time: 7 * 24 * 3600 * 1000 },
+        effect: (pdi) => { pdi.type = "MaidDrone" },
+        front: ["level2"]
+    },
+    PonyDrone: {
+        id: "PonyDrone",
+        name: "改装为搬运型无人机",
+        desc: "搬运型无人机在同一位置停留超过十秒钟会受到惩罚",
+        price: 30,
+        canRepeat: true,
+        coolDown: { Name: "TypeChange", Time: 7 * 24 * 3600 * 1000 },
+        effect: (pdi) => { pdi.type = "PonyDrone" },
+        front: ["level2"]
+    },
+    DogDrone: {
+        id: "DogDrone",
+        name: "改装为安保型无人机",
+        desc: "安保型无人机所有发言会被替换为汪",
+        price: 30,
+        canRepeat: true,
+        coolDown: { Name: "TypeChange", Time: 7 * 24 * 3600 * 1000 },
+        effect: (pdi) => { pdi.type = "DogDrone" },
+        front: ["level2"]
+    },
 
 }
 

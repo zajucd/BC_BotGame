@@ -7,6 +7,10 @@ var showChangeLog = false;
 var initComplete = false;
 var changeLog =
     `更新日志
+——————V1.6——————
+1.修复了操作员也会扣除电量的问题
+2.增加了显示屏发言一些文本替换，更有人机感
+3.增加了几种无人机型号，等级2后可在改造工坊更换型号
 ——————V1.5——————
 1.修复了操作员无法在仓库区互动的问题
 2.增加了无人机休眠区域，位于设施南侧偏东
@@ -196,11 +200,13 @@ var BasicDroneBinds = [
         "MemberNumber": 7092
     },
     {
-        "Item": "HighSecurityHarness",
-        "AssetGroup": "ItemTorso2",
+        "Item": "FuturisticHarness",
+        "AssetGroup": "ItemTorso",
         "Color": [
-            "#444444",
-            "Default"
+            "#666666",
+            "#7A7A7A",
+            "#393939",
+            "#FFFFFF"
         ],
         "Lock": "HighSecurityPadlock",
         "Private": false,
@@ -815,12 +821,20 @@ var BasicDronebody = [
 var BasicDronehands = [
     [
         {
-            "Item": "FuturisticCuffs",
+            "Item": "FuturisticArmbinder",
             "AssetGroup": "ItemArms",
+            "Color": ['#202020', '#555555', '#777777', 'Default', 'Default'],
             "TypeRecord": {
                 "typed": 0
             },
         },
+        //{
+        //    "Item": "FuturisticCuffs",
+        //    "AssetGroup": "ItemArms",
+        //    "TypeRecord": {
+        //        "typed": 0
+        //    },
+        //},
         {
             "Item": "FuturisticMittens",
             "AssetGroup": "ItemHands",
@@ -924,6 +938,9 @@ var BasicDroneSet = {
 }
 var AllEquipSets = {
     BasicDrone: BasicDroneSet,
+    MaidDrone: MaidDroneSet,
+    PonyDrone: PonyDroneSet,
+    DogDrone: DogDroneSet
 }
 const shockItems = [
     {
@@ -1315,6 +1332,10 @@ async function WearEquips(target, EquipList, refresh = true, craft = true, diffi
         if (ID != "None") {
             sender.Appearance.splice(ID, 1);
         }
+        //若物品名为UnEquip，则仅脱下对应位置的装备
+        if (res.Item == "UnEquip") {
+            continue;
+        }
         let colors = [];
         if (res.Color != undefined) {
             //color是数组
@@ -1355,6 +1376,32 @@ async function WearEquips(target, EquipList, refresh = true, craft = true, diffi
                     str += ",";
                 }
                 res.Color = str;
+            }
+
+            var hairColor = "#dddddd";
+            try {
+                var hairC = InventoryGet(sender, "HairFront").Color;
+                if (Array.isArray(hairC)) {
+                    hairColor = hairC[0];
+                }
+                else {
+                    hairColor = hairC;
+                }
+            }
+            catch {
+
+            }
+            if (res.Color != undefined) {
+                if (Array.isArray(res.Color)) {
+                    for (var c of res.Color) {
+                        if (c == "HairFront") {
+                            c = c.replace("HairFront", hairColor)
+                        }
+                    }
+                }
+                else {
+                    res.Color = res.Color.replace("HairFront", hairColor)
+                }
             }
             InventoryCraft(sender, sender, AssetGroup, res, false, true, false);
             await sleep(100);
@@ -1966,8 +2013,10 @@ function ChatRoomSendChatMessageBefore(msg) {
         }
         else {
             if (pdi.modifys["education1"]) {
-                msg.replace(/我|俺|咱|咱家/g, "本机");
-                msg.replace(Player.Name, `无人机${Player.MemberNumber}`);
+                msg = msg.replace(/我|俺|咱|咱家/g, "本机");
+                msg = msg.replace(/[啊哦嗯欸诶嗷喵咦唔啦吗]/g, "_");
+                msg = msg.replace(/[!！？。，,~]/g, "_");
+                msg = msg.replace(Player.Name, `无人机${Player.MemberNumber}`);
             }
             SendActionText("无人机" + Player.MemberNumber + "的显示器显示：" + msg);
             //ChatRoomSendEmote("无人机" + Player.MemberNumber + "的显示器显示：" + msg);
@@ -2174,7 +2223,9 @@ function DoPer10Sec() {
 }
 function DoPerMin() {
     var pdi = PlayerDroneInfo();
-    pdi.battery -= pdi.miniteBatteryCost;
+    if (CheckPlayerDroneInfoExistAndIsDrone()) {
+        pdi.battery -= pdi.miniteBatteryCost;
+    }
     ClearOldMessage();
 }
 function DoPer10Min() {
@@ -2184,8 +2235,9 @@ function DoPerHour() {
 
 }
 function RefreshBatteryTag() {
-    if (CheckPlayerDroneInfoExistAndIsDrone() == false) return;
     var pdi = PlayerDroneInfo();
+    if (pdi.battery < 0) pdi.battery = 0;
+    if (CheckPlayerDroneInfoExistAndIsDrone() == false) return;
     var tag = InventoryGet(Player, "ItemNeckAccessories");
     if (tag?.Property?.Text != undefined) {
         var percent = Math.floor((pdi.battery * 100 / pdi.batteryMax));
@@ -2203,6 +2255,7 @@ function RefreshBatteryTag() {
 }
 
 function SendBatteryWarning() {
+    if (CheckPlayerDroneInfoExistAndIsDrone() == false) return;
     var pdi = PlayerDroneInfo();
     if (lastBattery == null) {
         lastBattery = pdi.battery;
@@ -2238,9 +2291,45 @@ async function RefreshBinds(canRefresh = false) {
         var binds = Object.assign([], AllEquipSets[type].Binds);
         var toWear = [];
         if (!binds) var binds = Object.assign([], AllEquipSets["BasicDrone"].Binds);
+
+        //替换主要装备为对应束缚等级的装备
+        for (var part of bodyPartStrings) {
+            var settings = Object.assign({}, AllEquipSets[type][part]);
+            if (!settings) continue;
+            var level = pdi.bindStatus[part];
+            var usingSeeting = Object.assign([], settings[level]);;
+            for (var b of usingSeeting) {
+                var bind = Object.assign({}, b);
+                var found = binds.find((v) => { return v.AssetGroup == bind.AssetGroup });
+                if (found == undefined) {
+                    binds.push(bind);
+                }
+                else {
+                    Object.assign(found, bind);
+                }
+            }
+        }
+
+
+
         for (var bind of binds) {
             var geted = InventoryGet(Player, bind.AssetGroup);
-            if (geted == null || geted.Asset.Name != bind.Item || geted.Craft == undefined) {
+            var isGetedInvRight = true;
+
+            if (bind.Item != "UnEquip") {
+                if (geted == null ||
+                    geted.Asset.Name != bind.Item ||
+                    geted.Craft == undefined) {
+                    isGetedInvRight = false;
+                }
+            }
+            else {
+                if (geted != null) {
+                    isGetedInvRight = false;
+                }
+            }
+
+            if (isGetedInvRight == false) {
                 toWear.push(bind);
                 refresh = true;
             }
@@ -2252,15 +2341,21 @@ async function RefreshBinds(canRefresh = false) {
             var settings = Object.assign({}, AllEquipSets[type][part]);
             if (!settings) continue;
             var level = pdi.bindStatus[part];
-            var usingSeeting = Object.assign([], settings[level]);;
+            var usingSeeting = Object.assign([], settings[level]);
             for (var bind of usingSeeting) {
-                var geted = InventoryGet(Player, bind.AssetGroup);
-                var tr = Object.assign({}, geted.Property.TypeRecord)
-                for (var typed in bind.TypeRecord) {
-                    tr[typed] = bind.TypeRecord[typed];
+                try {
+                    if (bind.Item == "UnEquip") continue;
+                    var geted = InventoryGet(Player, bind.AssetGroup);
+                    var tr = Object.assign({}, geted.Property.TypeRecord)
+                    for (var typed in bind.TypeRecord) {
+                        tr[typed] = bind.TypeRecord[typed];
+                    }
+                    ExtendedItemSetOptionByRecord(Player, geted, tr);
+                    await sleep(100);
                 }
-                ExtendedItemSetOptionByRecord(Player, geted, tr);
-                await sleep(100);
+                catch {
+
+                }
             }
         }
         if (refresh || canRefresh) {
