@@ -71,7 +71,8 @@ function ChatRoomMapViewSyncMapAdd(data) {
     CharacterPverPosDict[char.MemberNumber] = char.MapData.Pos;
 }
 
-function RemoveClothes(sender, refresh = true, removeUnderwear = true, removeCosplay = false) {
+async function RemoveClothes(target, refresh = true, removeUnderwear = true, removeCosplay = false) {
+    var sender = ChatRoomGetCharacter(target.MemberNumber);
     CharacterNaked(sender)
     //InventoryRemove(sender, "Cloth")
     //InventoryRemove(sender, "ClothAccessory")
@@ -114,8 +115,9 @@ function RemoveClothes(sender, refresh = true, removeUnderwear = true, removeCos
 
 }
 //移除所有拘束
-function RemoveRestrains(sender, refresh = true) {
-    RemoveRestrainsWithAssetGroup(sender, AssetGroup, refresh);
+async function RemoveRestrains(target, refresh = true) {
+    var sender = ChatRoomGetCharacter(target.MemberNumber);
+    await RemoveRestrainsWithAssetGroup(sender, AssetGroup, refresh);
     //InventoryRemove(sender, "ItemFeet")
     //InventoryRemove(sender, "ItemLegs")
     //InventoryRemove(sender, "ItemVulva")
@@ -144,17 +146,21 @@ function RemoveRestrains(sender, refresh = true) {
     //InventoryRemove(sender, "ItemAddon")
 }
 
-function RemoveRestrainsWithAssetGroup(sender, group, refresh = true) {
+
+async function RemoveRestrainsWithAssetGroup(sender, group, refresh = true) {
     if (sender == null) return;
+    var options = {
+        refresh: true,
+    }
     for (var ag of group) {
         if ((ag.Name ?? false) == false) {
             if (ag.startsWith("Item")) {
-                InventoryRemove(sender, ag)
+                InventoryRemove(sender, ag, options)
             }
         }
         else {
             if (ag.Name.startsWith("Item")) {
-                InventoryRemove(sender, ag.Name)
+                InventoryRemove(sender, ag.Name, options)
             }
         }
     }
@@ -319,9 +325,14 @@ async function WearEquips(target, EquipList, refresh = true, craft = true, diffi
     var pushList = [];
     for (let i = 0; i < EquipList.length; i++) {
         let res = Object.assign({}, EquipList[i]);
+        res.Partial = false;                 // 给 res 增加 Partial: false
         const ID = CharacterAppearanceGetCurrentValue(sender, res.AssetGroup, "ID");
         if (ID != "None") {
             sender.Appearance.splice(ID, 1);
+        }
+        //若物品名为UnEquip，则仅脱下对应位置的装备
+        if (res.Item == "UnEquip") {
+            continue;
         }
         let colors = [];
         if (res.Color != undefined) {
@@ -354,6 +365,9 @@ async function WearEquips(target, EquipList, refresh = true, craft = true, diffi
     if (craft) {
         for (let i of EquipList) {
             let res = Object.assign({}, i)
+            res.Partial = false;                 // 给 res 增加 Partial: false
+            let AssetGroup = res["AssetGroup"];
+            delete res.AssetGroup;
             if (Array.isArray(res.Color)) {
                 var str = "";
                 for (let c of res.Color) {
@@ -362,7 +376,33 @@ async function WearEquips(target, EquipList, refresh = true, craft = true, diffi
                 }
                 res.Color = str;
             }
-            InventoryCraft(sender, sender, res.AssetGroup, res, false, true, false);
+
+            var hairColor = "#dddddd";
+            try {
+                var hairC = InventoryGet(sender, "HairFront").Color;
+                if (Array.isArray(hairC)) {
+                    hairColor = hairC[0];
+                }
+                else {
+                    hairColor = hairC;
+                }
+            }
+            catch {
+
+            }
+            if (res.Color != undefined) {
+                if (Array.isArray(res.Color)) {
+                    for (var c of res.Color) {
+                        if (c == "HairFront") {
+                            c = c.replace("HairFront", hairColor)
+                        }
+                    }
+                }
+                else {
+                    res.Color = res.Color.replace("HairFront", hairColor)
+                }
+            }
+            InventoryCraft(sender, sender, AssetGroup, res, false, true, false);
             await sleep(100);
         }
     }

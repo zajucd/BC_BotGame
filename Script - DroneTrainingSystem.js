@@ -1277,7 +1277,7 @@ function RemoveRestrainByOneAssetGroup(sender, assetGroup, refresh = true) {
     RemoveRestrainsWithAssetGroup(sender, [assetGroup], refresh)
 }
 
-function RemoveRestrainsWithAssetGroup(sender, group, refresh = true) {
+async function RemoveRestrainsWithAssetGroup(sender, group, refresh = true) {
     if (sender == null) return;
     for (var ag of group) {
         if ((ag.Name ?? false) == false) {
@@ -1290,6 +1290,7 @@ function RemoveRestrainsWithAssetGroup(sender, group, refresh = true) {
                 InventoryRemove(sender, ag.Name)
             }
         }
+        await sleep(100);
     }
     if (refresh == true) {
         CharacterLoadEffect(sender);
